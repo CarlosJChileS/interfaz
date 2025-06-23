@@ -1,0 +1,119 @@
+.mapa-root {
+  background: #ececec;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+.mapa-header {
+  background: #2988f7;
+  color: #fff;
+  padding: 18px 36px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 0 0 12px 12px;
+  position: relative;
+}
+.mapa-btn {
+  background: #fff;
+  color: #2988f7;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 18px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.99rem;
+  transition: 0.2s;
+}
+.mapa-btn.right {
+  margin-left: auto;
+}
+.breadcrumb {
+  color: #c3e3ff;
+  font-size: 0.97rem;
+  margin-right: 7px;
+}
+.mapa-main {
+  display: flex;
+  margin-top: 0;
+}
+.mapa-sidebar {
+  background: #fff;
+  width: 280px;
+  min-width: 230px;
+  border-radius: 0 0 0 15px;
+  box-shadow: 0 2px 8px rgba(44, 146, 82, 0.04);
+  padding: 18px 16px;
+}
+.mapa-filtros {
+  margin-bottom: 32px;
+}
+.filtro-item {
+  background: #f1f1f1;
+  color: #176e38;
+  padding: 8px 13px;
+  border-radius: 10px;
+  margin-top: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.filtro-item.selected {
+  background: #e4ffe6;
+  font-weight: bold;
+}
+.mapa-cercanos {
+  margin-top: 18px;
+}
+.cercano-card {
+  background: #f6fdf6;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 1rem;
+}
+.cercano-card.disponible {
+  border-left: 6px solid #4de05d;
+}
+.cercano-card.medio {
+  border-left: 6px solid #ffe07a;
+}
+.badge {
+  background: #e4ffe6;
+  color: #219150;
+  border-radius: 9px;
+  padding: 3px 10px;
+  font-size: 0.93rem;
+  font-weight: 500;
+}
+.badge.verde {
+  background: #e4ffe6;
+  color: #219150;
+}
+.badge.naranja {
+  background: #fff3e1;
+  color: #fd7b1f;
+}
+.badge.rojo {
+  background: #ffe6e6;
+  color: #de1f1f;
+}
+.mapa-mapa {
+  background: #f6fdf6;
+  border-radius: 0 0 15px 0;
+  flex: 1;
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mapa-mapa-placeholder {
+  text-align: center;
+  color: #7fb891;
+  margin-top: 90px;
+}

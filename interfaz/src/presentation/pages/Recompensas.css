@@ -1,0 +1,137 @@
+.recompensas-root {
+  background: #ececec;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+.recompensas-header {
+  background: #fd7b1f;
+  color: #fff;
+  padding: 20px 36px;
+  font-size: 1.16rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 16px 16px;
+}
+.recompensas-puntos {
+  background: #fff;
+  color: #fd7b1f;
+  padding: 7px 18px;
+  border-radius: 18px;
+  font-weight: bold;
+  font-size: 1.04rem;
+}
+.recompensas-content {
+  margin: 32px auto 0 auto;
+  max-width: 1100px;
+  padding: 0 16px;
+}
+.recompensas-categorias {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.categoria {
+  background: #fff4e1;
+  color: #fd7b1f;
+  border-radius: 18px;
+  padding: 7px 19px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1.03rem;
+  transition: 0.2s;
+}
+.categoria.selected {
+  background: #fd7b1f;
+  color: #fff;
+}
+.recompensas-mas-populares h3 {
+  color: #fd7b1f;
+  margin-bottom: 12px;
+}
+.populares-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.pop-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(44, 146, 82, 0.06);
+  flex: 1;
+  min-width: 220px;
+  max-width: 270px;
+  padding: 22px 18px;
+  text-align: center;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pop-card.cafe .pop-icon { color: #fd7b1f; }
+.pop-card.libros .pop-icon { color: #34a5fd; }
+.pop-card.eco .pop-icon { color: #33b44e; }
+.pop-card.almuerzo .pop-icon { color: #bb62e6; }
+.pop-icon {
+  font-size: 2.2rem;
+  margin-bottom: 7px;
+}
+.pop-card h4 {
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.pop-sub {
+  color: #bbb;
+  font-size: 0.97rem;
+  margin-bottom: 8px;
+}
+.pop-card .puntos {
+  color: #fd7b1f;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.pop-btn {
+  background: #fd7b1f;
+  color: #fff;
+  border: none;
+  border-radius: 19px;
+  padding: 7px 20px;
+  font-size: 1rem;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.pop-btn:hover {
+  background: #ff9443;
+}
+.recompensas-recientes {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(44, 146, 82, 0.04);
+}
+.recompensas-recientes h4 {
+  color: #fd7b1f;
+  margin-bottom: 8px;
+}
+.canje-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.canje-pts.neg {
+  color: #e45745;
+  font-weight: 700;
+}
+.canje-detalle {
+  color: #888;
+  font-size: 0.94rem;
+}
+.canje-tipo.cafe { color: #fd7b1f; }
+.canje-tipo.libros { color: #34a5fd; }

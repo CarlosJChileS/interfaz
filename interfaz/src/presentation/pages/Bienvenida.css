@@ -1,0 +1,134 @@
+.bienvenida-container {
+  background: #ececec;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+.bienvenida-hero {
+  background: linear-gradient(135deg, #49c255 0%, #279944 100%);
+  color: #fff;
+  padding: 48px 16px 40px 16px;
+  text-align: center;
+  border-radius: 0 0 30px 30px;
+}
+.bienvenida-main-icon {
+  font-size: 56px;
+  margin-bottom: 8px;
+}
+.bienvenida-hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+.bienvenida-subtitle {
+  font-weight: 500;
+  color: #c9ffd7;
+  font-size: 1.1rem;
+}
+.bienvenida-desc {
+  font-size: 1rem;
+  margin: 12px 0 24px 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.bienvenida-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.primary-btn {
+  background: #fff;
+  color: #219150;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(34,139,34,0.07);
+}
+.primary-btn:hover {
+  background: #e4ffe6;
+}
+.outline-btn {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 32px;
+  padding: 10px 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.outline-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+.bienvenida-steps-section {
+  background: #fff;
+  margin: 0;
+  padding: 36px 0 36px 0;
+  text-align: center;
+}
+.bienvenida-steps-section h2 {
+  color: #279944;
+  margin-bottom: 6px;
+}
+.steps-desc {
+  color: #666;
+  font-size: 1.06rem;
+  margin-bottom: 26px;
+}
+.bienvenida-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+.bienvenida-step {
+  background: #f6fdf6;
+  border-radius: 14px;
+  padding: 22px 24px;
+  max-width: 270px;
+  min-width: 210px;
+  flex: 1;
+  box-shadow: 0 2px 8px rgba(44, 146, 82, 0.03);
+  text-align: center;
+}
+.bienvenida-step h3 {
+  color: #219150;
+  font-size: 1.13rem;
+  margin: 12px 0 10px 0;
+}
+.bienvenida-step:nth-child(3) h3 {
+  color: #fd7b1f;
+}
+.step-icon {
+  font-size: 2.2rem;
+  color: #219150;
+}
+.bienvenida-step:nth-child(3) .step-icon {
+  color: #fd7b1f;
+}
+.bienvenida-bottom {
+  background: #219150;
+  color: #fff;
+  padding: 22px 0 36px 0;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+}
+.green-btn {
+  background: #7ce469;
+  color: #116432;
+  border: none;
+  padding: 12px 30px;
+  font-weight: bold;
+  border-radius: 32px;
+  font-size: 1.07rem;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.green-btn:hover {
+  background: #5ccb46;
+}
