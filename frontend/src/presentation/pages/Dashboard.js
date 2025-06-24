@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaRecycle, FaGift, FaMapMarkerAlt } from "react-icons/fa";
 import "./Dashboard.css";
 
@@ -8,9 +9,9 @@ export default function Dashboard() {
       <nav className="dashboard-navbar">
         <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
         <ul>
-          <li>Mapa</li>
-          <li>Recompensas</li>
-          <li>Mi Perfil</li>
+          <li><Link to="/puntos">Mapa</Link></li>
+          <li><Link to="/recompensas">Recompensas</Link></li>
+          <li><Link to="/">Inicio</Link></li>
         </ul>
         <div className="dashboard-userinfo">
           <span className="dashboard-points">1,250 pts</span>
@@ -35,9 +36,9 @@ export default function Dashboard() {
               <span className="badge">12 cercanos</span>
             </div>
             <p>Encuentra los puntos de reciclaje más cercanos a tu ubicación en el campus universitario</p>
-            <button className="blue-btn">
+            <Link className="blue-btn" to="/puntos">
               <FaMapMarkerAlt /> Mapa Interactivo
-            </button>
+            </Link>
           </div>
           <div className="dashboard-panel rewards">
             <div className="panel-header">
@@ -45,9 +46,9 @@ export default function Dashboard() {
               <span className="badge orange">23 disponibles</span>
             </div>
             <p>Canjea tus puntos por descuentos en cafeterías, papelería, libros y productos sostenibles</p>
-            <button className="orange-btn">
+            <Link className="orange-btn" to="/recompensas">
               <FaGift /> Explorar Premios
-            </button>
+            </Link>
           </div>
         </div>
         <div className="dashboard-activity">
