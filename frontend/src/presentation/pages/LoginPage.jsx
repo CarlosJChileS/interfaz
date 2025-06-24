@@ -1,12 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';
+import { createClient } from '@supabase/supabase-js';
 import styles from './LoginPage.module.css';
+
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    console.log('Login attempt:', { email, password });
+    const response = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    console.log('Login response:', response);
+    if (response.error) {
+      setError(response.error.message);
+    } else if (response.data?.session) {
+      navigate('/dashboard');
+    } else {
+      setError('No session returned. ¿Confirmaste tu correo?');
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -39,13 +63,20 @@ export default function LoginPage() {
       <div className={styles.rightPanel}>
         <h2 className={styles.loginTitle}>Iniciar Sesión</h2>
         <p className={styles.loginDesc}>Ingresa tus credenciales para acceder</p>
-        <form onSubmit={e => { e.preventDefault(); login(); navigate('/dashboard'); }}>
+        <form onSubmit={handleSubmit}>
           <label className={styles.label}>Correo Electrónico *</label>
           <div className={styles.inputIcon}>
             <span className={styles.icon}>
               <svg width="18" height="18" fill="none"><path d="M2 4h14v10H2z" stroke="#888" strokeWidth="1.5"/><path d="M2 4l7 6 7-6" stroke="#888" strokeWidth="1.5"/></svg>
             </span>
-            <input className={styles.input} type="email" placeholder="tu.correo@unal.edu.co" />
+            <input
+              className={styles.input}
+              type="email"
+              placeholder="tu.correo@unal.edu.co"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
           </div>
           <label className={styles.label}>Contraseña *</label>
           <div className={styles.inputIcon}>
@@ -56,6 +87,9 @@ export default function LoginPage() {
               className={styles.input}
               type={showPassword ? 'text' : 'password'}
               placeholder="********"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
             />
             <span
               className={styles.iconEye}
@@ -76,7 +110,10 @@ export default function LoginPage() {
             </label>
             <a href="#" className={styles.forgot}>¿Olvidaste tu contraseña?</a>
           </div>
-          <button type="submit" className={styles.loginBtn}>Iniciar Sesión</button>
+          {error && <div style={{ color: "red" }}>{error}</div>}
+          <button type="submit" className={styles.loginBtn} disabled={loading}>
+            {loading ? 'Ingresando...' : 'Iniciar Sesión'}
+          </button>
         </form>
         <div className={styles.registerRow}>
           <span>¿No tienes cuenta?</span>
