@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaRecycle, FaMapMarkerAlt, FaGift } from "react-icons/fa";
 import "./Bienvenida.css";
 
@@ -15,8 +16,8 @@ export default function Bienvenida() {
           canjea increíbles recompensas.
         </p>
         <div className="bienvenida-buttons">
-          <button className="primary-btn">Comenzar Ahora</button>
-          <button className="outline-btn">Ver Puntos</button>
+          <Link className="primary-btn" to="/dashboard">Comenzar Ahora</Link>
+          <Link className="outline-btn" to="/puntos">Ver Puntos</Link>
         </div>
       </div>
       <div className="bienvenida-steps-section">
@@ -44,7 +45,7 @@ export default function Bienvenida() {
       </div>
       <div className="bienvenida-bottom">
         <h3>¿Listo para hacer la diferencia?</h3>
-        <button className="green-btn">Crear Cuenta Gratis</button>
+        <Link className="green-btn" to="/dashboard">Crear Cuenta Gratis</Link>
       </div>
     </div>
   );
