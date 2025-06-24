@@ -21,6 +21,7 @@ const puntos = [
   { position: [-0.9515, -80.746], label: "Bote 3" },
 ];
 
+=======
 export default function MapaPuntos() {
   return (
     <div className="mapa-root">

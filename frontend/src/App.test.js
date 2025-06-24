@@ -8,7 +8,6 @@ jest.mock('react-leaflet', () => ({
   Marker: () => null,
   Popup: ({ children }) => <div>{children}</div>,
 }));
-
 test('renders EcoGestor title', () => {
   render(<App />);
   const titleElement = screen.getByText(/EcoGestor Universitario/i);
