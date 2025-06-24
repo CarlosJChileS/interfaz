@@ -16,7 +16,7 @@ export default function Bienvenida() {
           canjea increíbles recompensas.
         </p>
         <div className="bienvenida-buttons">
-          <Link className="primary-btn" to="/dashboard">Comenzar Ahora</Link>
+          <Link className="primary-btn" to="/login">Comenzar Ahora</Link>
           <Link className="outline-btn" to="/puntos">Ver Puntos</Link>
         </div>
       </div>
@@ -45,7 +45,7 @@ export default function Bienvenida() {
       </div>
       <div className="bienvenida-bottom">
         <h3>¿Listo para hacer la diferencia?</h3>
-        <Link className="green-btn" to="/dashboard">Crear Cuenta Gratis</Link>
+        <Link className="green-btn" to="/register">Crear Cuenta Gratis</Link>
       </div>
     </div>
   );

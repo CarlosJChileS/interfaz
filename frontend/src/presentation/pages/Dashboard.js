@@ -39,10 +39,6 @@ export default function Dashboard() {
             <Link className="blue-btn" to="/puntos">
               <FaMapMarkerAlt /> Mapa Interactivo
             </Link>
-            <button className="blue-btn">
-              <FaMapMarkerAlt /> Mapa Interactivo
-            </button>
-
           </div>
           <div className="dashboard-panel rewards">
             <div className="panel-header">
@@ -53,9 +49,6 @@ export default function Dashboard() {
             <Link className="orange-btn" to="/recompensas">
               <FaGift /> Explorar Premios
             </Link>
-            <button className="orange-btn">
-              <FaGift /> Explorar Premios
-            </button>
           </div>
         </div>
         <div className="dashboard-activity">

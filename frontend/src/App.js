@@ -4,17 +4,39 @@ import Bienvenida from './presentation/pages/Bienvenida';
 import Dashboard from './presentation/pages/Dashboard';
 import MapaPuntos from './presentation/pages/MapaPuntos';
 import Recompensas from './presentation/pages/Recompensas';
+import LoginPage from './presentation/pages/LoginPage';
+import RegisterPage from './presentation/pages/RegisterPage';
+import ProtectedRoute from './ProtectedRoute';
+import { AuthProvider } from './AuthContext';
 
 function App() {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
-      <Routes>
-        <Route path="/" element={<Bienvenida />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/puntos" element={<MapaPuntos />} />
-        <Route path="/recompensas" element={<Recompensas />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path="/" element={<Bienvenida />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/puntos" element={<MapaPuntos />} />
+          <Route
+            path="/recompensas"
+            element={
+              <ProtectedRoute>
+                <Recompensas />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

@@ -1,0 +1,186 @@
+.container {
+  display: flex;
+  width: 900px;
+  margin: 40px auto;
+  box-shadow: 0 2px 24px #0002;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 530px;
+}
+
+.leftPanel {
+  background: linear-gradient(135deg, #379e47 0%, #6dd19b 100%);
+  color: #fff;
+  flex: 1;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoCircle {
+  background: #fff;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.welcome {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.desc {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.statsRow {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+}
+
+.statsNumber {
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+}
+
+.statsLabel {
+  font-size: 0.9rem;
+  display: block;
+  opacity: 0.85;
+  text-align: center;
+}
+
+.rightPanel {
+  flex: 1;
+  background: #fff;
+  padding: 40px 40px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid #e0e0e0;
+}
+
+.loginTitle {
+  color: #228c39;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.loginDesc {
+  color: #555;
+  margin-bottom: 26px;
+  font-size: 1rem;
+}
+
+.form {
+  width: 100%;
+}
+
+.label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.inputIcon {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 36px 10px 36px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #bcbcbc;
+  outline: none;
+  margin-left: 0;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+}
+
+.iconEye {
+  position: absolute;
+  right: 10px;
+}
+
+.optionsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0 20px 0;
+  font-size: 0.98rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.forgot {
+  color: #23aa5c;
+  text-decoration: none;
+  font-size: 0.97rem;
+}
+
+.loginBtn {
+  width: 100%;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 18px;
+  transition: background 0.2s;
+}
+
+.loginBtn:hover {
+  background: #379e47;
+}
+
+.registerRow {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.registerLink {
+  color: #23aa5c;
+  margin-left: 7px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.terms {
+  font-size: 0.78rem;
+  color: #888;
+  text-align: center;
+}
