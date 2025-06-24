@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { FaRecycle, FaGift, FaMapMarkerAlt } from "react-icons/fa";
 import "./Dashboard.css";
 
 export default function Dashboard() {
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <div className="dashboard-root">
       <nav className="dashboard-navbar">
         <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
         <ul>
-          <li>Mapa</li>
-          <li>Recompensas</li>
-          <li>Mi Perfil</li>
+          <li><Link to="/puntos">Mapa</Link></li>
+          <li><Link to="/recompensas">Recompensas</Link></li>
+          <li><Link to="/">Inicio</Link></li>
         </ul>
         <div className="dashboard-userinfo">
           <span className="dashboard-points">1,250 pts</span>
-          <span className="dashboard-avatar">AM</span>
+          <span
+            className="dashboard-avatar"
+            onClick={() => setShowMenu(m => !m)}
+            style={{ cursor: 'pointer' }}
+          >
+            AM
+          </span>
+          {showMenu && (
+            <div className="avatar-menu">
+              <Link to="/perfil">Mi Perfil</Link>
+              <Link to="/historial">Historial</Link>
+            </div>
+          )}
         </div>
       </nav>
       <div className="dashboard-content">
@@ -35,9 +49,18 @@ export default function Dashboard() {
               <span className="badge">12 cercanos</span>
             </div>
             <p>Encuentra los puntos de reciclaje más cercanos a tu ubicación en el campus universitario</p>
-            <button className="blue-btn">
+            <Link className="blue-btn" to="/puntos">
               <FaMapMarkerAlt /> Mapa Interactivo
-            </button>
+            </Link>
+          </div>
+          <div className="dashboard-panel register">
+            <div className="panel-header">
+              <span>Registrar Reciclaje</span>
+            </div>
+            <p>Registra los materiales reciclados para sumar puntos a tu cuenta</p>
+            <Link className="green-btn" to="/registrar">
+              <FaRecycle /> Registrar
+            </Link>
           </div>
           <div className="dashboard-panel rewards">
             <div className="panel-header">
@@ -45,9 +68,9 @@ export default function Dashboard() {
               <span className="badge orange">23 disponibles</span>
             </div>
             <p>Canjea tus puntos por descuentos en cafeterías, papelería, libros y productos sostenibles</p>
-            <button className="orange-btn">
+            <Link className="orange-btn" to="/recompensas">
               <FaGift /> Explorar Premios
-            </button>
+            </Link>
           </div>
         </div>
         <div className="dashboard-activity">

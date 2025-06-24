@@ -108,12 +108,9 @@
   border-radius: 0 0 15px 0;
   flex: 1;
   min-height: 440px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.mapa-mapa-placeholder {
-  text-align: center;
-  color: #7fb891;
-  margin-top: 90px;
+
+.mapa-mapa .leaflet-container {
+  height: 100%;
+  border-radius: 0 0 15px 0;
 }
