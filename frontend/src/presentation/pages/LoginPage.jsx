@@ -8,6 +8,10 @@ const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function LoginPage() {
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetMsg, setResetMsg] = useState('');
+  const [resetLoading, setResetLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,20 +19,35 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // Login handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    console.log('Login attempt:', { email, password });
     const response = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
-    console.log('Login response:', response);
     if (response.error) {
       setError(response.error.message);
     } else if (response.data?.session) {
       navigate('/dashboard');
     } else {
       setError('No session returned. ¿Confirmaste tu correo?');
+    }
+  };
+
+  // Forgot password handler
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setResetMsg('');
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: window.location.origin + '/reset-password',
+    });
+    setResetLoading(false);
+    if (error) {
+      setResetMsg(error.message);
+    } else {
+      setResetMsg('Revisa tu correo electrónico para restablecer tu contraseña.');
     }
   };
 
@@ -108,7 +127,14 @@ export default function LoginPage() {
             <label className={styles.checkboxLabel}>
               <input type="checkbox" /> Recordarme
             </label>
-            <a href="#" className={styles.forgot}>¿Olvidaste tu contraseña?</a>
+            <button
+              type="button"
+              className={styles.forgot}
+              style={{ background: 'none', border: 'none', color: '#2196f3', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
+              onClick={() => setShowResetModal(true)}
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
           </div>
           {error && <div style={{ color: "red" }}>{error}</div>}
           <button type="submit" className={styles.loginBtn} disabled={loading}>
@@ -123,6 +149,55 @@ export default function LoginPage() {
           Al iniciar sesión aceptas nuestros Términos y Condiciones
         </p>
       </div>
+      {/* --- POPUP RECUPERAR CONTRASEÑA --- */}
+      {showResetModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <button
+              onClick={() => {
+                setShowResetModal(false);
+                setResetEmail('');
+                setResetMsg('');
+              }}
+              className={styles.modalClose}
+              aria-label="Cerrar"
+            >×</button>
+            <h3 style={{ marginTop: 0 }}>Restablecer Contraseña</h3>
+            <form onSubmit={handleResetPassword}>
+              <input
+                className={styles.input}
+                type="email"
+                placeholder="Tu correo institucional"
+                value={resetEmail}
+                onChange={e => setResetEmail(e.target.value)}
+                required
+                style={{ marginBottom: 8, width: '100%' }}
+              />
+              <button
+                type="submit"
+                className={styles.loginBtn}
+                disabled={resetLoading}
+                style={{ marginTop: 8, width: '100%' }}
+              >
+                {resetLoading ? 'Enviando...' : 'Enviar enlace'}
+              </button>
+              <button
+                type="button"
+                className={styles.loginBtn}
+                style={{ background: '#bbb', marginTop: 8, width: '100%' }}
+                onClick={() => setShowResetModal(false)}
+              >
+                Cancelar
+              </button>
+            </form>
+            {resetMsg && (
+              <div style={{ marginTop: 8, color: resetMsg.includes('Revisa') ? 'green' : 'red', textAlign: 'center' }}>
+                {resetMsg}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
