@@ -19,6 +19,10 @@ npm install
 npm start
 ```
 
+El mapa interactivo usa **React Leaflet**. Si instalas las dependencias
+por primera vez, asegúrate de que `leaflet` y `react-leaflet` estén
+incluidos ejecutando nuevamente `npm install` en la carpeta `frontend`.
+
 ## Base de datos
 
 Dentro de la carpeta `backend` se incluye el archivo `schema.sql` con las tablas necesarias para EcoGestor. Puedes ejecutarlo en tu servidor PostgreSQL de la siguiente manera:

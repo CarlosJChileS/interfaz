@@ -1,7 +1,27 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "./MapaPuntos.css";
 
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+const puntos = [
+  { position: [-0.952, -80.744], label: "Bote 1" },
+  { position: [-0.9535, -80.745], label: "Bote 2" },
+  { position: [-0.9515, -80.746], label: "Bote 3" },
+];
+
+=======
 export default function MapaPuntos() {
   return (
     <div className="mapa-root">
@@ -37,15 +57,17 @@ export default function MapaPuntos() {
           </div>
         </div>
         <div className="mapa-mapa">
-          <div className="mapa-mapa-placeholder">
-            <FaMapMarkerAlt size={60} color="#b3e1bc" />
-            <p>Mapa Interactivo del Campus<br /><small>Aquí se mostrará el mapa con los puntos limpios marcados</small></p>
-            <div style={{marginTop: 10}}>
-              <span className="badge verde">Disponible</span> &nbsp;
-              <span className="badge naranja">Parcialmente lleno</span> &nbsp;
-              <span className="badge rojo">Lleno</span>
-            </div>
-          </div>
+          <MapContainer center={[-0.9526, -80.7454]} zoom={17} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {puntos.map((p, idx) => (
+              <Marker position={p.position} key={idx}>
+                <Popup>{p.label}</Popup>
+              </Marker>
+            ))}
+          </MapContainer>
         </div>
       </div>
     </div>
