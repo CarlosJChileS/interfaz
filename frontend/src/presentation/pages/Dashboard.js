@@ -1,9 +1,11 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaRecycle, FaGift, FaMapMarkerAlt } from "react-icons/fa";
 import "./Dashboard.css";
 
 export default function Dashboard() {
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <div className="dashboard-root">
       <nav className="dashboard-navbar">
@@ -15,7 +17,19 @@ export default function Dashboard() {
         </ul>
         <div className="dashboard-userinfo">
           <span className="dashboard-points">1,250 pts</span>
-          <span className="dashboard-avatar">AM</span>
+          <span
+            className="dashboard-avatar"
+            onClick={() => setShowMenu(m => !m)}
+            style={{ cursor: 'pointer' }}
+          >
+            AM
+          </span>
+          {showMenu && (
+            <div className="avatar-menu">
+              <Link to="/perfil">Mi Perfil</Link>
+              <Link to="/historial">Historial</Link>
+            </div>
+          )}
         </div>
       </nav>
       <div className="dashboard-content">
@@ -38,6 +52,15 @@ export default function Dashboard() {
             <p>Encuentra los puntos de reciclaje más cercanos a tu ubicación en el campus universitario</p>
             <Link className="blue-btn" to="/puntos">
               <FaMapMarkerAlt /> Mapa Interactivo
+            </Link>
+          </div>
+          <div className="dashboard-panel register">
+            <div className="panel-header">
+              <span>Registrar Reciclaje</span>
+            </div>
+            <p>Registra los materiales reciclados para sumar puntos a tu cuenta</p>
+            <Link className="green-btn" to="/registrar">
+              <FaRecycle /> Registrar
             </Link>
           </div>
           <div className="dashboard-panel rewards">

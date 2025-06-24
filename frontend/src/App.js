@@ -6,6 +6,9 @@ import MapaPuntos from './presentation/pages/MapaPuntos';
 import Recompensas from './presentation/pages/Recompensas';
 import LoginPage from './presentation/pages/LoginPage';
 import RegisterPage from './presentation/pages/RegisterPage';
+import RegisterRecyclePage from './presentation/pages/RegisterRecyclePage';
+import ProfilePage from './presentation/pages/ProfilePage';
+import HistoryPage from './presentation/pages/HistoryPage';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 
@@ -31,6 +34,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <Recompensas />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/registrar"
+            element={
+              <ProtectedRoute>
+                <RegisterRecyclePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/historial"
+            element={
+              <ProtectedRoute>
+                <HistoryPage />
               </ProtectedRoute>
             }
           />

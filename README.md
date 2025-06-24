@@ -18,3 +18,13 @@ cd ../frontend
 npm install
 npm start
 ```
+
+## Base de datos
+
+Dentro de la carpeta `backend` se incluye el archivo `schema.sql` con las tablas necesarias para EcoGestor. Puedes ejecutarlo en tu servidor PostgreSQL de la siguiente manera:
+
+```bash
+psql -U tu_usuario -d tu_basedatos -f backend/schema.sql
+```
+
+Estas tablas cubren usuarios, perfiles, puntos limpios, solicitudes, recompensas y más.
