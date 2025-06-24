@@ -1,6 +1,6 @@
 import React from "react";
 import { FaCoffee, FaBook, FaLeaf, FaPercent } from "react-icons/fa";
-import "./Recompensas.css";
+import "../styles/Recompensas.css";
 
 export default function Recompensas() {
   return (

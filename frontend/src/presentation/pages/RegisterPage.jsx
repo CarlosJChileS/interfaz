@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
-import styles from './RegisterPage.module.css';
+import styles from '../styles/RegisterPage.module.css';
 
 // Configura tu Supabase aquí
 const supabaseUrl =process.env.REACT_APP_SUPABASE_URL;

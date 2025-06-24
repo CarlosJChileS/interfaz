@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./RegisterRecyclePage.module.css";
+import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "./ConfirmModal";
 
 const pointsPerMaterial = {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaRecycle, FaMapMarkerAlt, FaGift } from "react-icons/fa";
-import "./Bienvenida.css";
+import "../styles/Bienvenida.css";
 
 export default function Bienvenida() {
   return (
