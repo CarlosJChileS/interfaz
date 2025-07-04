@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaRecycle, FaGift, FaMapMarkerAlt } from "react-icons/fa";
+import { FaRecycle, FaGift, FaMapMarkerAlt, FaBell } from "react-icons/fa";
+import FeedbackModal from "../components/FeedbackModal";
 import { supabase } from "../../utils/supabase";
 import { useLang } from "../../LanguageContext";
 import "../styles/Dashboard.css";
@@ -29,6 +30,8 @@ export default function Dashboard() {
   const [points, setPoints] = useState(0);
   const [userName, setUserName] = useState("");
   const [search, setSearch] = useState("");
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [alertCount, setAlertCount] = useState(0);
   const { lang, toggleLang } = useLang();
   const t = translations[lang];
 
@@ -44,6 +47,13 @@ export default function Dashboard() {
           .eq("usuario_id", user.id)
           .single();
         if (data && data.puntos) setPoints(data.puntos);
+
+        const { data: alerts } = await supabase
+          .from("alertas")
+          .select("id")
+          .eq("usuario_id", user.id)
+          .is("leido", false);
+        if (alerts) setAlertCount(alerts.length);
       }
     }
     loadData();
@@ -60,15 +70,31 @@ export default function Dashboard() {
           <li tabIndex="0"><Link to="/recompensas">{t.rewards}</Link></li>
           <li tabIndex="0"><Link to="/">{t.home}</Link></li>
           <li tabIndex="0"><Link to="/ayuda">{t.help}</Link></li>
-          <li tabIndex="0"><Link to="/feedback">{t.feedback}</Link></li>
+          <li tabIndex="0">
+            <button onClick={() => setShowFeedback(true)} className="link-btn">
+              {t.feedback}
+            </button>
+          </li>
           <li>
             <button onClick={toggleLang} className="lang-btn">
               {t.langBtn}
             </button>
           </li>
         </ul>
+        <input
+          className="dashboard-search-input"
+          placeholder="Buscar secciones"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
         <div className="dashboard-userinfo">
           <span className="dashboard-points">{points} pts</span>
+          <span className="notif-bell" title="Notificaciones">
+            <FaBell />
+            {alertCount > 0 && (
+              <span className="notif-count">{alertCount}</span>
+            )}
+          </span>
           <span
             className="dashboard-avatar"
             onClick={() => setShowMenu(m => !m)}
@@ -102,12 +128,6 @@ export default function Dashboard() {
             <small>¡Estás en el top 10% de estudiantes más activos!</small>
           </div>
         </div>
-        <input
-          className="dashboard-search"
-          placeholder="Buscar secciones"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
         <div className="dashboard-main-panels">
           {"puntos limpios".includes(searchLower) && (
           <div className="dashboard-panel clean-points">
@@ -185,6 +205,9 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      {showFeedback && (
+        <FeedbackModal onClose={() => setShowFeedback(false)} />
+      )}
     </div>
   );
 }

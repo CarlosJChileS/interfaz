@@ -11,7 +11,6 @@ import ProfilePage from './presentation/pages/ProfilePage';
 import HistoryPage from './presentation/pages/HistoryPage';
 import AdminPage from './presentation/pages/AdminPage';
 import HelpPage from './presentation/pages/HelpPage';
-import FeedbackPage from './presentation/pages/FeedbackPage';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
@@ -75,7 +74,6 @@ function App() {
               }
             />
             <Route path="/ayuda" element={<HelpPage />} />
-            <Route path="/feedback" element={<FeedbackPage />} />
           </Routes>
         </Router>
       </LanguageProvider>

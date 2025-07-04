@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   padding: 12px 32px;
   border-radius: 0 0 12px 12px;
 }
@@ -42,6 +43,13 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.link-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
 .dashboard-userinfo {
   display: flex;
   align-items: center;
@@ -55,6 +63,21 @@
   border-radius: 16px;
   font-weight: 700;
   font-size: 1rem;
+}
+.notif-bell {
+  position: relative;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.notif-count {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #e53e3e;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 5px;
+  font-size: 0.65rem;
 }
 .dashboard-avatar {
   background: #93e1ad;
@@ -265,13 +288,14 @@
   margin-top: 26px;
   justify-content: center;
 }
-.dashboard-search {
-  width: 100%;
-  padding: 8px 12px;
-  margin: 12px 0 20px 0;
-  border: 1px solid #ddd;
+.dashboard-search-input {
+  flex: 1;
+  margin: 0 20px;
+  padding: 6px 10px;
+  border: 1px solid #fff;
   border-radius: 6px;
   font-size: 1rem;
+  max-width: 300px;
 }
 .stat {
   background: #fff;
