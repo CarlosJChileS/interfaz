@@ -2,14 +2,35 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaRecycle, FaGift, FaMapMarkerAlt } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
+import { useLang } from "../../LanguageContext";
 import "../styles/Dashboard.css";
+
+const translations = {
+  es: {
+    map: "Mapa",
+    rewards: "Recompensas",
+    home: "Inicio",
+    help: "Ayuda",
+    feedback: "Retroalimentación",
+    langBtn: "EN",
+  },
+  en: {
+    map: "Map",
+    rewards: "Rewards",
+    home: "Home",
+    help: "Help",
+    feedback: "Feedback",
+    langBtn: "ES",
+  },
+};
 
 export default function Dashboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [points, setPoints] = useState(0);
   const [userName, setUserName] = useState("");
   const [search, setSearch] = useState("");
-
+  const { lang, toggleLang } = useLang();
+  const t = translations[lang];
   useEffect(() => {
     async function loadData() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -34,15 +55,24 @@ export default function Dashboard() {
       <nav className="dashboard-navbar">
         <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
         <ul>
-          <li><Link to="/puntos">Mapa</Link></li>
-          <li><Link to="/recompensas">Recompensas</Link></li>
-          <li><Link to="/">Inicio</Link></li>
+          <li tabIndex="0"><Link to="/puntos">{t.map}</Link></li>
+          <li tabIndex="0"><Link to="/recompensas">{t.rewards}</Link></li>
+          <li tabIndex="0"><Link to="/">{t.home}</Link></li>
+          <li tabIndex="0"><Link to="/ayuda">{t.help}</Link></li>
+          <li tabIndex="0"><Link to="/feedback">{t.feedback}</Link></li>
+          <li>
+            <button onClick={toggleLang} className="lang-btn">
+              {t.langBtn}
+            </button>
+          </li>
         </ul>
         <div className="dashboard-userinfo">
           <span className="dashboard-points">{points} pts</span>
           <span
             className="dashboard-avatar"
             onClick={() => setShowMenu(m => !m)}
+            onKeyDown={e => e.key === 'Enter' && setShowMenu(m => !m)}
+            tabIndex="0"
             style={{ cursor: 'pointer' }}
           >
             {userName

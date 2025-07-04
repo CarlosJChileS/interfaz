@@ -10,14 +10,18 @@ import RegisterRecyclePage from './presentation/pages/RegisterRecyclePage';
 import ProfilePage from './presentation/pages/ProfilePage';
 import HistoryPage from './presentation/pages/HistoryPage';
 import AdminPage from './presentation/pages/AdminPage';
+import HelpPage from './presentation/pages/HelpPage';
+import FeedbackPage from './presentation/pages/FeedbackPage';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
+import { LanguageProvider } from './LanguageContext';
 
 function App() {
   return (
     <AuthProvider>
-      <Router basename={process.env.PUBLIC_URL}>
-        <Routes>
+      <LanguageProvider>
+        <Router basename={process.env.PUBLIC_URL}>
+          <Routes>
           <Route path="/" element={<Bienvenida />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -62,16 +66,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/administrador"
-            element={
-              <ProtectedRoute>
-                <AdminPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
+            <Route
+              path="/administrador"
+              element={
+                <ProtectedRoute>
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/ayuda" element={<HelpPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
+          </Routes>
+        </Router>
+      </LanguageProvider>
     </AuthProvider>
   );
 }

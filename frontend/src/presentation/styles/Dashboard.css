@@ -34,6 +34,14 @@
 .dashboard-navbar li:hover {
   color: #aff6c4;
 }
+.lang-btn {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .dashboard-userinfo {
   display: flex;
   align-items: center;
