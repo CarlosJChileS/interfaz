@@ -34,7 +34,6 @@ export default function Dashboard() {
   const [alertCount, setAlertCount] = useState(0);
   const { lang, toggleLang } = useLang();
   const t = translations[lang];
-
   useEffect(() => {
     async function loadData() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -128,6 +127,12 @@ export default function Dashboard() {
             <small>¡Estás en el top 10% de estudiantes más activos!</small>
           </div>
         </div>
+        <input
+          className="dashboard-search"
+          placeholder="Buscar secciones"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
         <div className="dashboard-main-panels">
           {"puntos limpios".includes(searchLower) && (
           <div className="dashboard-panel clean-points">
