@@ -34,6 +34,14 @@
 .dashboard-navbar li:hover {
   color: #aff6c4;
 }
+.lang-btn {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .dashboard-userinfo {
   display: flex;
   align-items: center;
@@ -256,6 +264,14 @@
   gap: 20px;
   margin-top: 26px;
   justify-content: center;
+}
+.dashboard-search {
+  width: 100%;
+  padding: 8px 12px;
+  margin: 12px 0 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
 }
 .stat {
   background: #fff;

@@ -1,0 +1,138 @@
+.recycle-bg {
+  background: #6f6767;
+  min-height: 100vh;
+  padding: 24px 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.recycle-container {
+  width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  padding: 24px 32px 12px 32px;
+}
+
+.recycle-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #295942;
+  margin-bottom: 16px;
+}
+
+.summary-cards {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  flex: 1;
+  border-radius: 10px;
+  padding: 16px 0;
+  text-align: center;
+  color: #fff;
+}
+
+.summary-green { background: #c6f0d5; color: #22723e; }
+.summary-orange { background: #ffe7c6; color: #e6900b; }
+.summary-blue { background: #d5eafd; color: #1976d2; }
+.summary-purple { background: #ebd6fa; color: #9535bb; }
+
+.summary-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.summary-label {
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+.summary-desc {
+  font-size: 0.88rem;
+  color: inherit;
+}
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 28px 0 8px 0;
+}
+
+.records-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.record-item {
+  display: flex;
+  align-items: flex-start;
+  background: #f8faf9;
+  border-radius: 8px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  gap: 16px;
+  position: relative;
+}
+.record-icon {
+  font-size: 1.8rem;
+  margin-top: 3px;
+  color: #48a03f;
+}
+.record-info {
+  flex: 1;
+}
+.record-date {
+  font-size: 1rem;
+  color: #22442c;
+  margin-bottom: 2px;
+}
+.record-time {
+  font-size: 0.93rem;
+  color: #9a9a9a;
+  margin-left: 10px;
+}
+.record-place {
+  font-size: 1rem;
+  color: #484848;
+  margin-bottom: 1px;
+}
+.record-materials {
+  font-size: 0.96rem;
+  color: #357b47;
+  margin-top: 2px;
+}
+.record-points {
+  background: #e7f7eb;
+  color: #2bb447;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 1rem;
+  align-self: center;
+}
+
+.recycle-footer {
+  width: 800px;
+  margin: 0 auto;
+  background: #48a03f;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 32px;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+.footer-title {
+  font-size: 1.09rem;
+  font-weight: 500;
+}
