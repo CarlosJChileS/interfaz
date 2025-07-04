@@ -31,7 +31,6 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const { lang, toggleLang } = useLang();
   const t = translations[lang];
-
   useEffect(() => {
     async function loadData() {
       const { data: { user } } = await supabase.auth.getUser();
