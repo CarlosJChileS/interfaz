@@ -9,6 +9,7 @@ import RegisterPage from './presentation/pages/RegisterPage';
 import RegisterRecyclePage from './presentation/pages/RegisterRecyclePage';
 import ProfilePage from './presentation/pages/ProfilePage';
 import HistoryPage from './presentation/pages/HistoryPage';
+import AdminPage from './presentation/pages/AdminPage';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 
@@ -58,6 +59,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <HistoryPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/administrador"
+            element={
+              <ProtectedRoute>
+                <AdminPage />
               </ProtectedRoute>
             }
           />

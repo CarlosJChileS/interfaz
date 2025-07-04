@@ -257,6 +257,14 @@
   margin-top: 26px;
   justify-content: center;
 }
+.dashboard-search {
+  width: 100%;
+  padding: 8px 12px;
+  margin: 12px 0 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
 .stat {
   background: #fff;
   border-radius: 13px;
