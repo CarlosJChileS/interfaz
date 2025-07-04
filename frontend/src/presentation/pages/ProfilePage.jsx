@@ -1,10 +1,6 @@
 import React from 'react';
+import UserProfile from '../components/UserProfile';
 
 export default function ProfilePage() {
-  return (
-    <div style={{ padding: '20px' }}>
-      <h2>Perfil</h2>
-      <p>Aquí podrás ver y editar los datos de tu cuenta.</p>
-    </div>
-  );
+  return <UserProfile />;
 }
