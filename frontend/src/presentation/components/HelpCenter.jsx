@@ -1,4 +1,20 @@
 import React, { useState } from "react";
+import {
+  FaBook,
+  FaSearch,
+  FaQuestionCircle,
+  FaPhone,
+  FaExclamationTriangle,
+  FaBookOpen,
+  FaPaperclip,
+  FaClock,
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaWhatsapp,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
 import "../styles/HelpCenter.css";
 
 const faqList = [
@@ -34,17 +50,20 @@ export default function HelpCenter() {
         {/* Header */}
         <header className="help-header">
           <div className="help-header__left">
-            <span className="help-header__icon">📘</span>
+            <FaBook className="help-header__icon" />
             <span className="help-header__title">
               Centro de Ayuda y Contacto
             </span>
           </div>
           <div className="help-header__right">
-            <input
-              type="text"
-              className="help-search"
-              placeholder="🔍 Buscar en ayuda..."
-            />
+            <div className="help-search-wrapper">
+              <FaSearch className="help-search-icon" />
+              <input
+                type="text"
+                className="help-search"
+                placeholder="Buscar en ayuda..."
+              />
+            </div>
           </div>
         </header>
 
@@ -52,7 +71,7 @@ export default function HelpCenter() {
           <h2 className="help-title">¿Cómo podemos ayudarte?</h2>
           <div className="help-cards">
             <div className="help-card faq">
-              <div className="help-card__icon">📄</div>
+              <FaQuestionCircle className="help-card__icon" />
               <div className="help-card__text">
                 <div className="help-card__title">Preguntas Frecuentes</div>
                 <div className="help-card__desc">
@@ -61,7 +80,7 @@ export default function HelpCenter() {
               </div>
             </div>
             <div className="help-card contact">
-              <div className="help-card__icon">📞</div>
+              <FaPhone className="help-card__icon" />
               <div className="help-card__text">
                 <div className="help-card__title">Contacto Directo</div>
                 <div className="help-card__desc">
@@ -71,7 +90,7 @@ export default function HelpCenter() {
               <button className="help-card__button contact">Contactar</button>
             </div>
             <div className="help-card report">
-              <div className="help-card__icon">⚠️</div>
+              <FaExclamationTriangle className="help-card__icon" />
               <div className="help-card__text">
                 <div className="help-card__title">Reportar Problema</div>
                 <div className="help-card__desc">
@@ -81,7 +100,7 @@ export default function HelpCenter() {
               <button className="help-card__button report">Reportar</button>
             </div>
             <div className="help-card guides">
-              <div className="help-card__icon">📚</div>
+              <FaBookOpen className="help-card__icon" />
               <div className="help-card__text">
                 <div className="help-card__title">Guías y Tutoriales</div>
                 <div className="help-card__desc">
@@ -107,7 +126,11 @@ export default function HelpCenter() {
                   >
                     {faq.question}
                     <span className="help-faq-arrow">
-                      {openFaq === idx ? "▲" : "▼"}
+                      {openFaq === idx ? (
+                        <FaChevronUp />
+                      ) : (
+                        <FaChevronDown />
+                      )}
                     </span>
                   </button>
                   {openFaq === idx && faq.answer && (
@@ -154,7 +177,7 @@ export default function HelpCenter() {
                 </label>
                 <div className="help-form-actions">
                   <label className="help-form-upload">
-                    <span>📎 Adjuntar archivo</span>
+                    <span><FaPaperclip /> Adjuntar archivo</span>
                     <input type="file" style={{ display: "none" }} />
                     <span className="help-form-upload-hint">
                       Opcional: capturas de pantalla, documentos
@@ -174,7 +197,7 @@ export default function HelpCenter() {
               <h3>Información de Contacto</h3>
               <div className="help-contact-hours">
                 <b className="help-contact-hours-title">
-                  <span>⏰</span> Horarios de Atención
+                  <FaClock /> Horarios de Atención
                 </b>
                 <div className="help-contact-hours-table">
                   <div>
@@ -207,10 +230,10 @@ export default function HelpCenter() {
               <div className="help-contact-socials">
                 <b>Síguenos en Redes Sociales</b>
                 <div className="help-contact-social-icons">
-                  <span className="help-social-icon" style={{ color: "#1877F3" }}>📘</span>
-                  <span className="help-social-icon" style={{ color: "#E1306C" }}>📸</span>
-                  <span className="help-social-icon" style={{ color: "#08C9F8" }}>🐦</span>
-                  <span className="help-social-icon" style={{ color: "#25D366" }}>💬</span>
+                  <FaFacebook className="help-social-icon" style={{ color: "#1877F3" }} />
+                  <FaInstagram className="help-social-icon" style={{ color: "#E1306C" }} />
+                  <FaTwitter className="help-social-icon" style={{ color: "#08C9F8" }} />
+                  <FaWhatsapp className="help-social-icon" style={{ color: "#25D366" }} />
                 </div>
               </div>
             </section>
