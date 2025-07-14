@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaRecycle, FaGift, FaMapMarkerAlt, FaBell } from "react-icons/fa";
+import {
+  FaRecycle,
+  FaGift,
+  FaMapMarkerAlt,
+  FaBell,
+  FaQuestionCircle,
+  FaExclamationTriangle,
+  FaClock,
+} from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import { useLang } from "../../LanguageContext";
 import { useTranslation } from "react-i18next";
@@ -63,6 +71,11 @@ export default function Dashboard() {
               <li tabIndex="0">
                 <button className="link-btn" onClick={() => navigate('/ayuda')}>
                   {t('dashboard_help')}
+                </button>
+              </li>
+              <li tabIndex="0">
+                <button className="link-btn" onClick={() => navigate('/reportes')}>
+                  {t('dashboard_reports')}
                 </button>
               </li>
             </ul>
@@ -136,11 +149,42 @@ export default function Dashboard() {
               <span className="badge orange">23 disponibles</span>
             </div>
             <p>Canjea tus puntos por descuentos en cafeterías, papelería, libros y productos sostenibles</p>
-            <Link className="orange-btn" to="/recompensas">
-              <FaGift /> Explorar Premios
+          <Link className="orange-btn" to="/recompensas">
+            <FaGift /> Explorar Premios
+          </Link>
+        </div>
+        </div>
+
+        <div className="dashboard-main-panels">
+          <div className="dashboard-panel help">
+            <div className="panel-header">
+              <span>Ayuda</span>
+            </div>
+            <p>Accede al centro de ayuda para resolver dudas sobre la plataforma</p>
+            <Link className="blue-btn" to="/ayuda">
+              <FaQuestionCircle /> Ver Ayuda
             </Link>
           </div>
+          <div className="dashboard-panel reports">
+            <div className="panel-header">
+              <span>Reportes</span>
+            </div>
+            <p>Envía reportes o revisa problemas comunicados por la comunidad</p>
+            <Link className="green-btn" to="/reportes">
+              <FaExclamationTriangle /> Ir a Reportes
+            </Link>
+          </div>
+          <div className="dashboard-panel upcoming">
+            <div className="panel-header">
+              <span>Próximamente</span>
+            </div>
+            <p>Estamos trabajando en nuevas funcionalidades que verás pronto</p>
+            <div className="orange-btn" style={{ pointerEvents: 'none', opacity: 0.6 }}>
+              <FaClock /> Próximamente
+            </div>
+          </div>
         </div>
+
         <div className="dashboard-activity">
           <h3>Tu Actividad Reciente</h3>
           <ul>
