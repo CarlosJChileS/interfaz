@@ -19,6 +19,7 @@ L.Icon.Default.mergeOptions({
 export default function MapaPuntos() {
   const [puntos, setPuntos] = useState([]);
   const [selected, setSelected] = useState("");
+  const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +32,9 @@ export default function MapaPuntos() {
   const [newPoint, setNewPoint] = useState(null);
 
   const handleMapClick = e => {
+    if (!creating) return;
     setNewPoint({ lat: e.latlng.lat, lng: e.latlng.lng, nombre: "", material: "" });
+    setCreating(false);
   };
 
   const handleChange = e => {
@@ -74,6 +77,14 @@ export default function MapaPuntos() {
       <div className="mapa-header">
         <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
         <strong>Puntos Limpios - Campus Universidad Nacional</strong>
+        {creating && <span className="breadcrumb">Seleccione un punto en el mapa</span>}
+        <button
+          className="mapa-btn"
+          onClick={() => setCreating(true)}
+          disabled={creating || newPoint}
+        >
+          Crear Punto
+        </button>
         <button className="mapa-btn right">Mi Ubicación</button>
         <button className="mapa-btn right">Filtros</button>
       </div>
@@ -160,17 +171,31 @@ export default function MapaPuntos() {
                       />
                     </div>
                     <div>
-                      <input
-                        type="text"
+                      <select
                         name="material"
-                        placeholder="Material"
                         value={newPoint.material}
                         onChange={handleChange}
                         required
-                      />
+                      >
+                        <option value="" disabled>
+                          Seleccionar material
+                        </option>
+                        {['Papel y Cartón', 'Plásticos', 'Vidrio', 'Metales'].map(m => (
+                          <option key={m} value={m}>
+                            {m}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <div style={{ marginTop: '6px', textAlign: 'right' }}>
-                      <button type="button" className="mapa-btn" onClick={() => setNewPoint(null)}>
+                      <button
+                        type="button"
+                        className="mapa-btn"
+                        onClick={() => {
+                          setNewPoint(null);
+                          setCreating(false);
+                        }}
+                      >
                         Cancelar
                       </button>
                       <button type="submit" className="mapa-btn" style={{ marginLeft: '6px' }}>
