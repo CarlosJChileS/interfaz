@@ -10,8 +10,40 @@ const pointsPerMaterial = {
   Vidrio: 6,
 };
 
+const puntos = [
+  {
+    id: 1,
+    label: "Biblioteca Central",
+    desc: "Primer piso, junto a la entrada principal",
+    distance: "120m",
+    material: "Papel y Cartón",
+  },
+  {
+    id: 2,
+    label: "Facultad de Ingeniería",
+    desc: "Bloque B, cerca de laboratorios",
+    distance: "220m",
+    material: "Plásticos",
+  },
+  {
+    id: 3,
+    label: "Cafetería Principal",
+    desc: "Zona norte del edificio",
+    distance: "150m",
+    material: "Vidrio",
+  },
+  {
+    id: 4,
+    label: "Centro de Estudiantes",
+    desc: "Junto a la plazoleta",
+    distance: "300m",
+    material: "Metales",
+  },
+];
+
 export default function RegisterRecyclePage() {
-  const [selectedPoint, setSelectedPoint] = useState(true);
+  const [selectedPoint, setSelectedPoint] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMaterials, setSelectedMaterials] = useState({
     "Papel y Cartón": null,
     "Plásticos PET": null,
@@ -22,6 +54,8 @@ export default function RegisterRecyclePage() {
   const navigate = useNavigate();
 
   const materialOptions = ["0.5 kg", "1 kg", "2+ kg"];
+
+  const selectedPointData = selectedPoint ? puntos.find(p => p.id === selectedPoint) : null;
 
   const selectedEntries = Object.entries(selectedMaterials).filter(([, qty]) => qty);
 
@@ -59,22 +93,42 @@ export default function RegisterRecyclePage() {
       <div className={styles.formWrap}>
         <section>
           <h3 className={styles.sectionTitle}>1. Selecciona el Punto Limpio</h3>
-          <div
-            className={styles.pointBox + " " + (selectedPoint && styles.pointBoxActive)}
-            onClick={() => setSelectedPoint(true)}
-          >
-            <div>
-              <div className={styles.pointTitle}>
-                <span className={styles.pointIcon}>📍</span>
-                Biblioteca Central
+          <div className={styles.filterBtns}>
+            {["Papel y Cartón", "Plásticos", "Vidrio", "Metales"].map(cat => (
+              <div
+                key={cat}
+                className={`${styles.filterBtn} ${selectedCategory === cat ? styles.filterBtnActive : ""}`}
+                onClick={() => setSelectedCategory(cat)}
+                role="button"
+                tabIndex="0"
+                onKeyDown={e => e.key === "Enter" && setSelectedCategory(cat)}
+              >
+                {cat}
               </div>
-              <div className={styles.pointDesc}>Primer piso, junto a la entrada principal</div>
-              <div className={styles.pointDistance}>120m de tu ubicación</div>
-            </div>
-            <div>
-              <button className={styles.mapBtn}>Ver Mapa</button>
-            </div>
+            ))}
+            {selectedCategory && (
+              <button type="button" className={styles.clearFilter} onClick={() => setSelectedCategory("")}>Todos</button>
+            )}
           </div>
+          { (selectedCategory ? puntos.filter(p => p.material === selectedCategory) : puntos).map(p => (
+            <div
+              key={p.id}
+              className={`${styles.pointBox} ${selectedPoint === p.id ? styles.pointBoxActive : ""}`}
+              onClick={() => setSelectedPoint(p.id)}
+            >
+              <div>
+                <div className={styles.pointTitle}>
+                  <span className={styles.pointIcon}>📍</span>
+                  {p.label}
+                </div>
+                <div className={styles.pointDesc}>{p.desc}</div>
+                <div className={styles.pointDistance}>{p.distance} de tu ubicación</div>
+              </div>
+              <div>
+                <button className={styles.mapBtn}>Ver Mapa</button>
+              </div>
+            </div>
+          )) }
         </section>
 
         <section>
@@ -246,7 +300,11 @@ export default function RegisterRecyclePage() {
             <div className={styles.summaryHeader}>
               <span className={styles.pointIcon}>📍</span>
               <div>
-                <b>Biblioteca Central - Primer piso</b>
+                <b>
+                  {selectedPointData
+                    ? `${selectedPointData.label} - ${selectedPointData.desc}`
+                    : "Sin punto seleccionado"}
+                </b>
               </div>
               <div className={styles.summaryTime}>
                 <span>Hoy, 14:30</span>
@@ -259,10 +317,22 @@ export default function RegisterRecyclePage() {
                   <span>+5 puntos</span>
                 </div>
               )}
+              {selectedMaterials["Plásticos PET"] && (
+                <div className={styles.sumLineGreen}>
+                  <span>♻️ Plásticos PET - {selectedMaterials["Plásticos PET"]}</span>
+                  <span>+8 puntos</span>
+                </div>
+              )}
               {selectedMaterials["Metales"] && (
                 <div className={styles.sumLineBlue}>
                   <span>⚡ Metales - {selectedMaterials["Metales"]}</span>
                   <span>+12 puntos</span>
+                </div>
+              )}
+              {selectedMaterials["Vidrio"] && (
+                <div className={styles.sumLineGray}>
+                  <span>🍶 Vidrio - {selectedMaterials["Vidrio"]}</span>
+                  <span>+6 puntos</span>
                 </div>
               )}
             </div>

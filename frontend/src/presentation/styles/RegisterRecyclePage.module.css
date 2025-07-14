@@ -115,6 +115,30 @@
 }
 .mapBtn:hover { background: #228c39; }
 
+.filterBtns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.filterBtn {
+  background: #f1f1f1;
+  color: #176e38;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.filterBtnActive { background: #e4ffe6; font-weight: bold; }
+.clearFilter {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #2196f3;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
 .materialsGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
@@ -199,6 +223,7 @@
   align-items: center;
 }
 .sumLineBlue { background: #eaf4fb; color: #2196f3;}
+.sumLineGray { background: #ededed; color: #8a8a8a; border-radius: 7px; padding: 5px 13px; display: flex; justify-content: space-between; font-size: 1rem; margin-bottom: 6px; align-items: center; }
 .sumTotal {
   margin-top: 9px;
   background: #4caf50;
