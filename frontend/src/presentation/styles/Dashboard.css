@@ -300,14 +300,6 @@
   margin-top: 26px;
   justify-content: center;
 }
-.dashboard-search-input {
-  width: 100%;
-  max-width: 350px;
-  padding: 6px 10px;
-  border: 1px solid #fff;
-  border-radius: 6px;
-  font-size: 1rem;
-}
 .stat {
   background: #fff;
   border-radius: 13px;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRecycle, FaGift, FaMapMarkerAlt, FaBell } from "react-icons/fa";
-import FeedbackModal from "../components/FeedbackModal";
 import { supabase } from "../../utils/supabase";
 import { useLang } from "../../LanguageContext";
 import "../styles/Dashboard.css";
@@ -12,7 +11,6 @@ const translations = {
     rewards: "Recompensas",
     home: "Inicio",
     help: "Ayuda",
-    feedback: "Retroalimentación",
     langBtn: "EN",
   },
   en: {
@@ -20,17 +18,15 @@ const translations = {
     rewards: "Rewards",
     home: "Home",
     help: "Help",
-    feedback: "Feedback",
     langBtn: "ES",
   },
 };
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [points, setPoints] = useState(0);
   const [userName, setUserName] = useState("");
-  const [search, setSearch] = useState("");
-  const [showFeedback, setShowFeedback] = useState(false);
   const [alertCount, setAlertCount] = useState(0);
   const { lang, toggleLang } = useLang();
   const t = translations[lang];
@@ -58,32 +54,29 @@ export default function Dashboard() {
     loadData();
   }, []);
 
-  const searchLower = search.toLowerCase();
-
   return (
     <div className="dashboard-root">
       <nav className="dashboard-navbar">
         <div className="navbar-left">
           <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
           <ul className="dashboard-links">
-            <li tabIndex="0"><Link to="/puntos">{t.map}</Link></li>
-            <li tabIndex="0"><Link to="/recompensas">{t.rewards}</Link></li>
-            <li tabIndex="0"><Link to="/">{t.home}</Link></li>
-            <li tabIndex="0"><Link to="/ayuda">{t.help}</Link></li>
             <li tabIndex="0">
-              <button onClick={() => setShowFeedback(true)} className="link-btn">
-                {t.feedback}
+              <button className="link-btn" onClick={() => navigate('/puntos')}>
+                {t.map}
+              </button>
+            </li>
+            <li tabIndex="0">
+              <button className="link-btn" onClick={() => navigate('/recompensas')}>
+                {t.rewards}
+              </button>
+            </li>
+            <li tabIndex="0"><Link to="/">{t.home}</Link></li>
+            <li tabIndex="0">
+              <button className="link-btn" onClick={() => navigate('/ayuda')}>
+                {t.help}
               </button>
             </li>
           </ul>
-        </div>
-        <div className="navbar-center">
-          <input
-            className="dashboard-search-input"
-            placeholder="Buscar secciones"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
         </div>
         <div className="navbar-right">
           <button onClick={toggleLang} className="lang-btn">
@@ -130,14 +123,7 @@ export default function Dashboard() {
             <small>¡Estás en el top 10% de estudiantes más activos!</small>
           </div>
         </div>
-        <input
-          className="dashboard-search"
-          placeholder="Buscar secciones"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
         <div className="dashboard-main-panels">
-          {"puntos limpios".includes(searchLower) && (
           <div className="dashboard-panel clean-points">
             <div className="panel-header">
               <span>Puntos Limpios</span>
@@ -148,8 +134,6 @@ export default function Dashboard() {
               <FaMapMarkerAlt /> Mapa Interactivo
             </Link>
           </div>
-          )}
-          {"registrar reciclaje".includes(searchLower) && (
           <div className="dashboard-panel register">
             <div className="panel-header">
               <span>Registrar Reciclaje</span>
@@ -159,8 +143,6 @@ export default function Dashboard() {
               <FaRecycle /> Registrar
             </Link>
           </div>
-          )}
-          {"recompensas".includes(searchLower) && (
           <div className="dashboard-panel rewards">
             <div className="panel-header">
               <span>Recompensas</span>
@@ -171,7 +153,6 @@ export default function Dashboard() {
               <FaGift /> Explorar Premios
             </Link>
           </div>
-          )}
         </div>
         <div className="dashboard-activity">
           <h3>Tu Actividad Reciente</h3>
@@ -213,9 +194,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      {showFeedback && (
-        <FeedbackModal onClose={() => setShowFeedback(false)} />
-      )}
     </div>
   );
 }
