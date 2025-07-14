@@ -1,11 +1,11 @@
 .recycle-bg {
-  background: #6f6767;
-  min-height: 100vh;
+  background: #ececec;
   padding: 24px 0;
   font-family: "Segoe UI", Arial, sans-serif;
 }
 .recycle-container {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
   background: #fff;
   border-radius: 10px 10px 0 0;
@@ -135,7 +135,8 @@
 }
 
 .recycle-footer {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
   background: #48a03f;
   border-radius: 0 0 10px 10px;

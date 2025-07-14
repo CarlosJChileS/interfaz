@@ -7,9 +7,7 @@ import Recompensas from './presentation/pages/Recompensas';
 import LoginPage from './presentation/pages/LoginPage';
 import RegisterPage from './presentation/pages/RegisterPage';
 import RegisterRecyclePage from './presentation/pages/RegisterRecyclePage';
-import ProfilePage from './presentation/pages/ProfilePage';
-import HistoryPage from './presentation/pages/HistoryPage';
-import EditProfilePage from './presentation/pages/EditProfilePage';
+import AccountPage from './presentation/pages/AccountPage';
 import AdminPage from './presentation/pages/AdminPage';
 import HelpPage from './presentation/pages/HelpPage';
 import ContactPage from './presentation/pages/ContactPage';
@@ -55,7 +53,7 @@ function App() {
             path="/perfil"
             element={
               <ProtectedRoute>
-                <ProfilePage />
+                <AccountPage />
               </ProtectedRoute>
             }
           />
@@ -63,7 +61,7 @@ function App() {
             path="/editar-perfil"
             element={
               <ProtectedRoute>
-                <EditProfilePage />
+                <AccountPage />
               </ProtectedRoute>
             }
           />
@@ -71,7 +69,7 @@ function App() {
             path="/historial"
             element={
               <ProtectedRoute>
-                <HistoryPage />
+                <AccountPage />
               </ProtectedRoute>
             }
           />

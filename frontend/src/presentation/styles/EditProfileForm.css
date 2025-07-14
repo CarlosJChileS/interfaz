@@ -1,0 +1,42 @@
+.editprofile-form-wrapper {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+}
+.editprofile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.editprofile-form input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.editprofile-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+.editprofile-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.editprofile-actions .cancel-btn {
+  background: #ccc;
+  color: #000;
+}
+.msg-success {
+  color: green;
+}
+.msg-error {
+  color: red;
+}
+.editprofile-loading {
+  padding: 20px;
+}
