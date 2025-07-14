@@ -7,7 +7,6 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "../styles/MapaPuntos.css";
-import NavBar from "../components/NavBar";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -58,7 +57,6 @@ export default function MapaPuntos() {
 
   return (
     <div className="mapa-root">
-      <NavBar />
       <div className="mapa-header">
         <span className="breadcrumb">Inicio &gt; Mapa de Puntos &gt; </span>
         <strong>Puntos Limpios - Campus Universidad Nacional</strong>
