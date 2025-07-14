@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -20,6 +20,7 @@ export default function MapaPuntos() {
   const [puntos, setPuntos] = useState([]);
   const [selected, setSelected] = useState("");
   const [creating, setCreating] = useState(false);
+  const mapRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,6 +31,15 @@ export default function MapaPuntos() {
   }, []);
 
   const [newPoint, setNewPoint] = useState(null);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+    if (creating) {
+      mapRef.current.dragging.disable();
+    } else {
+      mapRef.current.dragging.enable();
+    }
+  }, [creating]);
 
   const handleMapClick = e => {
     if (!creating) return;
@@ -171,6 +181,9 @@ export default function MapaPuntos() {
             scrollWheelZoom={false}
             style={{ height: "100%", width: "100%" }}
             onClick={handleMapClick}
+            whenCreated={map => {
+              mapRef.current = map;
+            }}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
