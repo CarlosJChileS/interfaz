@@ -421,9 +421,8 @@ body.dark .search-wrapper {
 body.dark .search-input {
   color: #fff;
 }
-body.dark .search-icon {
-  color: #ccc;
-}
+
+
 body.dark .lang-btn,
 body.dark .dark-btn {
   border-color: #fff;

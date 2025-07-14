@@ -26,7 +26,6 @@ export default function Dashboard() {
   const [userName, setUserName] = useState("");
   const [alertCount, setAlertCount] = useState(0);
   const { lang, toggleLang } = useLang();
-  const { toggleDark } = useTheme();
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const { t } = useTranslation();
@@ -151,9 +150,6 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="navbar-right">
-          <button onClick={toggleDark} className="dark-btn" title="Toggle dark mode">
-            🌙
-          </button>
           <button onClick={toggleLang} className="lang-btn">
             {t('lang_button')}
           </button>
