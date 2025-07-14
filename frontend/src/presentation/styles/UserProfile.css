@@ -2,6 +2,10 @@
   background: #ececec;
   padding: 20px 0;
 }
+
+body.dark .profile-bg {
+  background: #2b2b2b;
+}
 .profile-container {
   margin: 0 auto;
   width: 100%;
@@ -12,6 +16,12 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
+body.dark .profile-container {
+  background: #333;
+  border-color: #fff;
+  color: #f5f5f5;
+}
+
 .profile-header {
   display: flex;
   justify-content: space-between;
@@ -20,6 +30,10 @@
   color: #fff;
   padding: 12px 24px;
   border-radius: 6px 6px 0 0;
+}
+
+body.dark .profile-header {
+  background: #1f1f1f;
 }
 
 .profile-title {
@@ -50,6 +64,11 @@
 .edit-btn:hover {
   background: #e6f7eb;
 }
+
+body.dark .edit-btn {
+  background: #444;
+  color: #fff;
+}
 .edit-icon {
   margin-right: 5px;
   font-size: 16px;
@@ -67,6 +86,10 @@
   gap: 40px;
   padding: 32px 48px;
   background: #fff;
+}
+
+body.dark .profile-content {
+  background: #333;
 }
 
 .profile-avatar {
@@ -115,4 +138,11 @@
 .profile-label {
   color: #888;
   font-size: 0.91rem;
+}
+
+body.dark .profile-desc,
+body.dark .profile-sem,
+body.dark .profile-details,
+body.dark .profile-label {
+  color: #f5f5f5;
 }

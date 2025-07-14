@@ -45,14 +45,6 @@
   padding: 6px;
   min-width: 180px;
 }
-.dark-btn {
-  background: transparent;
-  border: 1px solid #fff;
-  color: #fff;
-  padding: 2px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-}
 .dashboard-logo {
   font-weight: bold;
   font-size: 1.3rem;
@@ -400,6 +392,7 @@ body.dark .search-wrapper {
 body.dark .search-input {
   color: #fff;
 }
+body.dark .lang-btn {
 body.dark .search-icon {
   color: #ccc;
 }
