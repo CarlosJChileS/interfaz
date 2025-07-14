@@ -1,0 +1,21 @@
+{
+  "welcome_title": "EcoGestor Universitario",
+  "welcome_subtitle": "Recicla, Gana Puntos, Cambia el Mundo",
+  "welcome_desc": "Únete a la comunidad de estudiantes comprometidos con el medio ambiente. Encuentra puntos limpios en tu universidad, acumula puntos por reciclar y canjea increíbles recompensas.",
+  "welcome_start": "Comenzar Ahora",
+  "welcome_points": "Ver Puntos",
+  "how_it_works": "¿Cómo Funciona?",
+  "steps_desc": "Tres pasos simples para comenzar tu impacto ambiental",
+  "step1_title": "1. Encuentra Puntos",
+  "step1_desc": "Localiza los puntos limpios más cercanos en tu universidad usando nuestro mapa interactivo",
+  "step2_title": "2. Recicla Materiales",
+  "step2_desc": "Deposita tus materiales reciclables y registra tu actividad para ganar puntos automáticamente",
+  "step3_title": "3. Gana Recompensas",
+  "step3_desc": "Canjea tus puntos por descuentos en cafeterías, libros, productos eco-friendly y más",
+  "ready": "¿Listo para hacer la diferencia?",
+  "create_account": "Crear Cuenta Gratis",
+  "dashboard_map": "Mapa",
+  "dashboard_rewards": "Recompensas",
+  "dashboard_help": "Ayuda",
+  "lang_button": "EN"
+}
