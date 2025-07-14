@@ -63,30 +63,32 @@ export default function Dashboard() {
   return (
     <div className="dashboard-root">
       <nav className="dashboard-navbar">
-        <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
-        <ul>
-          <li tabIndex="0"><Link to="/puntos">{t.map}</Link></li>
-          <li tabIndex="0"><Link to="/recompensas">{t.rewards}</Link></li>
-          <li tabIndex="0"><Link to="/">{t.home}</Link></li>
-          <li tabIndex="0"><Link to="/ayuda">{t.help}</Link></li>
-          <li tabIndex="0">
-            <button onClick={() => setShowFeedback(true)} className="link-btn">
-              {t.feedback}
-            </button>
-          </li>
-          <li>
-            <button onClick={toggleLang} className="lang-btn">
-              {t.langBtn}
-            </button>
-          </li>
-        </ul>
-        <input
-          className="dashboard-search-input"
-          placeholder="Buscar secciones"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-        <div className="dashboard-userinfo">
+        <div className="navbar-left">
+          <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
+          <ul className="dashboard-links">
+            <li tabIndex="0"><Link to="/puntos">{t.map}</Link></li>
+            <li tabIndex="0"><Link to="/recompensas">{t.rewards}</Link></li>
+            <li tabIndex="0"><Link to="/">{t.home}</Link></li>
+            <li tabIndex="0"><Link to="/ayuda">{t.help}</Link></li>
+            <li tabIndex="0">
+              <button onClick={() => setShowFeedback(true)} className="link-btn">
+                {t.feedback}
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div className="navbar-center">
+          <input
+            className="dashboard-search-input"
+            placeholder="Buscar secciones"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="navbar-right">
+          <button onClick={toggleLang} className="lang-btn">
+            {t.langBtn}
+          </button>
           <span className="dashboard-points">{points} pts</span>
           <span className="notif-bell" title="Notificaciones">
             <FaBell />
