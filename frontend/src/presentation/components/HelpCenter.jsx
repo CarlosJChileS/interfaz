@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaBook,
   FaSearch,
@@ -42,12 +43,20 @@ const faqList = [
 export default function HelpCenter() {
   const [openFaq, setOpenFaq] = useState(0);
   const [showContactInfo, setShowContactInfo] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="help-center-bg">
       <div className="help-center-container">
         {/* Header */}
         <header className="help-header">
+          <button
+            className="back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="Volver"
+          >
+            ←
+          </button>
           <div className="help-header__left">
             <FaBook className="help-header__icon" />
             <span className="help-header__title">

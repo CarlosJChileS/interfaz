@@ -28,6 +28,14 @@ body {
   padding: 16px 28px;
   border-bottom: 1px solid #eee;
 }
+.back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 8px;
+}
 
 .help-header__left {
   display: flex;
