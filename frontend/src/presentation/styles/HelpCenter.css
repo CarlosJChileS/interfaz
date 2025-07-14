@@ -48,15 +48,27 @@ body {
 .help-header__right {
   flex-shrink: 0;
 }
+.help-search-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 18px;
+  padding: 0 8px;
+}
+.help-search-icon {
+  font-size: 1rem;
+  color: #888;
+}
 .help-search {
   border: none;
   border-radius: 18px;
-  padding: 8px 18px;
+  padding: 8px;
   font-size: 1rem;
   outline: none;
   width: 210px;
-  background: #fff;
+  background: transparent;
   color: #444;
+  flex: 1;
 }
 
 /* Título */
@@ -312,5 +324,38 @@ body {
 @media (max-width: 950px) {
   .help-cards { flex-direction: column; }
   .help-form-contact-row { flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .help-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  .help-header__right {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .help-search {
+    width: 100%;
+  }
+  .help-title {
+    margin: 24px 0 16px 16px;
+  }
+  .help-cards {
+    margin: 0 16px 18px 16px;
+    gap: 16px;
+  }
+  .help-form-contact-row {
+    margin: 32px 16px;
+  }
+  .help-form,
+  .help-contact {
+    min-width: 100%;
+  }
+  .help-center-container {
+    margin-top: 8px;
+    border-radius: 0;
+  }
 }
 
