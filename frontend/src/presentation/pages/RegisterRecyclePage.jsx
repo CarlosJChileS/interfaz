@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "./ConfirmModal";
@@ -10,38 +10,8 @@ const pointsPerMaterial = {
   Vidrio: 6,
 };
 
-const puntos = [
-  {
-    id: 1,
-    label: "Biblioteca Central",
-    desc: "Primer piso, junto a la entrada principal",
-    distance: "120m",
-    material: "Papel y Cartón",
-  },
-  {
-    id: 2,
-    label: "Facultad de Ingeniería",
-    desc: "Bloque B, cerca de laboratorios",
-    distance: "220m",
-    material: "Plásticos",
-  },
-  {
-    id: 3,
-    label: "Cafetería Principal",
-    desc: "Zona norte del edificio",
-    distance: "150m",
-    material: "Vidrio",
-  },
-  {
-    id: 4,
-    label: "Centro de Estudiantes",
-    desc: "Junto a la plazoleta",
-    distance: "300m",
-    material: "Metales",
-  },
-];
-
 export default function RegisterRecyclePage() {
+  const [puntos, setPuntos] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMaterials, setSelectedMaterials] = useState({
@@ -52,6 +22,13 @@ export default function RegisterRecyclePage() {
   });
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch('/api/puntos')
+      .then(res => res.json())
+      .then(data => setPuntos(data))
+      .catch(() => setPuntos([]));
+  }, []);
 
   const materialOptions = ["0.5 kg", "1 kg", "2+ kg"];
 
@@ -119,13 +96,21 @@ export default function RegisterRecyclePage() {
               <div>
                 <div className={styles.pointTitle}>
                   <span className={styles.pointIcon}>📍</span>
-                  {p.label}
+                  {p.nombre}
                 </div>
-                <div className={styles.pointDesc}>{p.desc}</div>
-                <div className={styles.pointDistance}>{p.distance} de tu ubicación</div>
+                <div className={styles.pointDesc}>{p.material}</div>
+                <div className={styles.pointDistance}>{p.estado}</div>
               </div>
               <div>
-                <button className={styles.mapBtn}>Ver Mapa</button>
+                <button
+                  className={styles.mapBtn}
+                  onClick={e => {
+                    e.stopPropagation();
+                    navigate(`/puntos?lat=${p.posicion[0]}&lng=${p.posicion[1]}`);
+                  }}
+                >
+                  Ver Mapa
+                </button>
               </div>
             </div>
           )) }
@@ -302,7 +287,7 @@ export default function RegisterRecyclePage() {
               <div>
                 <b>
                   {selectedPointData
-                    ? `${selectedPointData.label} - ${selectedPointData.desc}`
+                    ? `${selectedPointData.nombre} - ${selectedPointData.material}`
                     : "Sin punto seleccionado"}
                 </b>
               </div>
