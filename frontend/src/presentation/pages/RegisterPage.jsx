@@ -11,8 +11,6 @@ export default function RegisterPage() {
     apellidos: '',
     email: '',
     telefono: '',
-    facultad: '',
-    programa: '',
     password: ''
   });
   const [loading, setLoading] = useState(false);
@@ -46,9 +44,7 @@ export default function RegisterPage() {
         data: {
           nombre: form.nombre,
           apellidos: form.apellidos,
-          telefono: form.telefono,
-          facultad: form.facultad,
-          programa: form.programa
+          telefono: form.telefono
         }
       }
     });
@@ -115,18 +111,17 @@ export default function RegisterPage() {
               />
             </div>
           </div>
-          <label className={styles.label}>Correo Institucional *</label>
+          <label className={styles.label}>Correo Electrónico *</label>
           <input
             className={styles.input}
             type="email"
-            placeholder="ana.gonzalez@unal.edu.co"
+            placeholder="ana.gonzalez@email.com"
             name="email"
             value={form.email}
             onChange={handleChange}
             required
-            aria-label="Correo Institucional"
+            aria-label="Correo Electrónico"
           />
-          <small className={styles.note}>Debe ser tu correo institucional (@unal.edu.co)</small>
           <div className={styles.doubleInput}>
             <div>
               <label className={styles.label}>Teléfono *</label>
@@ -145,37 +140,7 @@ export default function RegisterPage() {
                 />
               </div>
             </div>
-            <div>
-              <label className={styles.label}>Facultad *</label>
-              <select
-                className={styles.input}
-                name="facultad"
-                value={form.facultad}
-                onChange={handleChange}
-                required
-                aria-label="Facultad"
-              >
-                <option value="">Seleccionar</option>
-                <option>Ingeniería</option>
-                <option>Medicina</option>
-                <option>Ciencias</option>
-              </select>
-            </div>
           </div>
-          <label className={styles.label}>Programa Académico *</label>
-          <select
-            className={styles.input}
-            name="programa"
-            value={form.programa}
-            onChange={handleChange}
-            required
-            aria-label="Programa Académico"
-          >
-            <option value="">Seleccionar</option>
-            <option>Ingeniería Ambiental</option>
-            <option>Ingeniería Civil</option>
-            <option>Biología</option>
-          </select>
           <label className={styles.label}>Contraseña *</label>
           <div className={styles.inputIcon}>
             <span className={styles.icon}>
