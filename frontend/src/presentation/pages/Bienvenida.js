@@ -1,13 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import NavBar from "../components/NavBar";
 import { FaRecycle, FaMapMarkerAlt, FaGift } from "react-icons/fa";
 import "../styles/Bienvenida.css";
 
 export default function Bienvenida() {
   return (
     <div className="bienvenida-container">
-      <NavBar />
       <div className="bienvenida-hero">
         <FaRecycle className="bienvenida-main-icon" />
         <h1>EcoGestor Universitario</h1>
