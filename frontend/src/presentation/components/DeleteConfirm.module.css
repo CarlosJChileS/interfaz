@@ -1,0 +1,65 @@
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3100;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  width: 340px;
+  max-width: 90vw;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: #c62828;
+  text-align: center;
+}
+
+.message {
+  color: #444;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancelBtn {
+  background: #bbb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
