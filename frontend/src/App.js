@@ -22,7 +22,6 @@ function App() {
     <AuthProvider>
       <LanguageProvider>
         <Router basename={process.env.PUBLIC_URL}>
-          <NavBar />
           <Routes>
           <Route path="/" element={<Bienvenida />} />
           <Route path="/login" element={<LoginPage />} />
