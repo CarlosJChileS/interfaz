@@ -44,23 +44,28 @@ export default function Dashboard() {
       <nav className="dashboard-navbar">
         <div className="navbar-left">
           <div className="dashboard-logo"><FaRecycle /> EcoGestor</div>
-          <ul className="dashboard-links">
-            <li tabIndex="0">
-              <button className="link-btn" onClick={() => navigate('/puntos')}>
-                {t('dashboard_map')}
-              </button>
-            </li>
-            <li tabIndex="0">
-              <button className="link-btn" onClick={() => navigate('/recompensas')}>
-                {t('dashboard_rewards')}
-              </button>
-            </li>
-            <li tabIndex="0">
-              <button className="link-btn" onClick={() => navigate('/ayuda')}>
-                {t('dashboard_help')}
-              </button>
-            </li>
-          </ul>
+            <ul className="dashboard-links">
+              <li tabIndex="0">
+                <button className="link-btn" onClick={() => navigate('/puntos')}>
+                  {t('dashboard_map')}
+                </button>
+              </li>
+              <li tabIndex="0">
+                <button className="link-btn" onClick={() => navigate('/registrar')}>
+                  {t('dashboard_register')}
+                </button>
+              </li>
+              <li tabIndex="0">
+                <button className="link-btn" onClick={() => navigate('/recompensas')}>
+                  {t('dashboard_rewards')}
+                </button>
+              </li>
+              <li tabIndex="0">
+                <button className="link-btn" onClick={() => navigate('/ayuda')}>
+                  {t('dashboard_help')}
+                </button>
+              </li>
+            </ul>
         </div>
         <div className="navbar-right">
           <button onClick={toggleLang} className="lang-btn">
