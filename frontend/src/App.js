@@ -13,6 +13,7 @@ import EditProfilePage from './presentation/pages/EditProfilePage';
 import AdminPage from './presentation/pages/AdminPage';
 import HelpPage from './presentation/pages/HelpPage';
 import ContactPage from './presentation/pages/ContactPage';
+import Reportes from './presentation/pages/Reportes';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
@@ -84,6 +85,7 @@ function App() {
               }
             />
             <Route path="/ayuda" element={<HelpPage />} />
+            <Route path="/reportes" element={<Reportes />} />
             <Route path="/contacto" element={<ContactPage />} />
           </Routes>
         </Router>
