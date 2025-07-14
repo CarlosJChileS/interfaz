@@ -47,7 +47,7 @@ const UserProfile = () => {
         <div className="profile-header">
           <span className="profile-title">Mi Perfil</span>
           <div className="profile-actions">
-            <button className="edit-btn" onClick={() => navigate('/editar-perfil')}>
+            <button className="edit-btn" onClick={() => navigate('/perfil#editar')}>
               <span className="edit-icon">&#9998;</span> Editar Perfil
             </button>
             <span className="settings-icon">&#9881;</span>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabase';
+import { useNavigate } from 'react-router-dom';
+import '../styles/EditProfileForm.css';
 
-export default function EditProfilePage() {
+export default function EditProfileForm() {
   const [form, setForm] = useState({
     nombre: '',
     apellidos: '',
@@ -52,7 +53,7 @@ export default function EditProfilePage() {
         apellidos: form.apellidos,
         telefono: form.telefono,
         facultad: form.facultad,
-        programa: form.programa
+        programa: form.programa,
       }
     });
     if (error) {
@@ -65,19 +66,18 @@ export default function EditProfilePage() {
   };
 
   if (loading) {
-    return <div style={{ padding: '20px' }}>Cargando...</div>;
+    return <div className="editprofile-loading">Cargando...</div>;
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="editprofile-form-wrapper" id="editar">
       <h2>Editar Perfil</h2>
-      <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
+      <form onSubmit={handleSubmit} className="editprofile-form">
         <label>Nombre</label>
         <input
           name="nombre"
           value={form.nombre}
           onChange={handleChange}
-          style={{ display: 'block', width: '100%', marginBottom: 8 }}
           required
         />
         <label>Apellidos</label>
@@ -85,45 +85,39 @@ export default function EditProfilePage() {
           name="apellidos"
           value={form.apellidos}
           onChange={handleChange}
-          style={{ display: 'block', width: '100%', marginBottom: 8 }}
           required
         />
         <label>Correo</label>
-        <input
-          value={form.email}
-          disabled
-          style={{ display: 'block', width: '100%', marginBottom: 8 }}
-        />
+        <input value={form.email} disabled />
         <label>Teléfono</label>
         <input
           name="telefono"
           value={form.telefono}
           onChange={handleChange}
-          style={{ display: 'block', width: '100%', marginBottom: 8 }}
         />
         <label>Facultad</label>
         <input
           name="facultad"
           value={form.facultad}
           onChange={handleChange}
-          style={{ display: 'block', width: '100%', marginBottom: 8 }}
         />
         <label>Programa</label>
         <input
           name="programa"
           value={form.programa}
           onChange={handleChange}
-          style={{ display: 'block', width: '100%', marginBottom: 8 }}
         />
         {msg && (
-          <div style={{ margin: '8px 0', color: msg.includes('exitosamente') ? 'green' : 'red' }}>{msg}</div>
+          <div className={msg.includes('exitosamente') ? 'msg-success' : 'msg-error'}>{msg}</div>
         )}
-        <button type="submit" disabled={saving} style={{ padding: '8px 16px' }}>
-          {saving ? 'Guardando...' : 'Guardar'}
-        </button>
-        <button type="button" onClick={() => navigate('/perfil')} style={{ marginLeft: 8, padding: '8px 16px' }}>
-          Cancelar
-        </button>
+        <div className="editprofile-actions">
+          <button type="submit" disabled={saving}>
+            {saving ? 'Guardando...' : 'Guardar'}
+          </button>
+          <button type="button" onClick={() => navigate('/perfil')} className="cancel-btn">
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   );
