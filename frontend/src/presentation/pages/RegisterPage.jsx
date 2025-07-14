@@ -102,6 +102,8 @@ export default function RegisterPage() {
                 value={form.nombre}
                 onChange={handleChange}
                 required
+                autoFocus
+                aria-label="Nombre"
               />
             </div>
             <div>
@@ -113,6 +115,7 @@ export default function RegisterPage() {
                 value={form.apellidos}
                 onChange={handleChange}
                 required
+                aria-label="Apellidos"
               />
             </div>
           </div>
@@ -125,6 +128,7 @@ export default function RegisterPage() {
             value={form.email}
             onChange={handleChange}
             required
+            aria-label="Correo Institucional"
           />
           <small className={styles.note}>Debe ser tu correo institucional (@unal.edu.co)</small>
           <div className={styles.doubleInput}>
@@ -141,6 +145,7 @@ export default function RegisterPage() {
                   value={form.telefono}
                   onChange={handleChange}
                   required
+                  aria-label="Teléfono"
                 />
               </div>
             </div>
@@ -152,6 +157,7 @@ export default function RegisterPage() {
                 value={form.facultad}
                 onChange={handleChange}
                 required
+                aria-label="Facultad"
               >
                 <option value="">Seleccionar</option>
                 <option>Ingeniería</option>
@@ -167,6 +173,7 @@ export default function RegisterPage() {
             value={form.programa}
             onChange={handleChange}
             required
+            aria-label="Programa Académico"
           >
             <option value="">Seleccionar</option>
             <option>Ingeniería Ambiental</option>
@@ -187,6 +194,7 @@ export default function RegisterPage() {
               value={form.password}
               onChange={handleChange}
               required
+              aria-label="Contraseña"
             />
             <span
               className={styles.iconEye}
@@ -202,8 +210,16 @@ export default function RegisterPage() {
             </span>
           </div>
           <small className={styles.note}>Mínimo 8 caracteres, incluye mayúsculas, minúsculas y números</small>
-          {error && <div className={styles.errorMsg}>{error}</div>}
-          {success && <div className={styles.successMsg}>¡Registro exitoso! Revisa tu correo para confirmar la cuenta.</div>}
+          {error && (
+            <div className={styles.errorMsg} aria-live="assertive">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className={styles.successMsg} aria-live="polite">
+              ¡Registro exitoso! Revisa tu correo para confirmar la cuenta.
+            </div>
+          )}
           <button type="submit" className={styles.registerBtn} disabled={loading}>
             {loading ? 'Creando...' : 'Crear Cuenta'}
           </button>

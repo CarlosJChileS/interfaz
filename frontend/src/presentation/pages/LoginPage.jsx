@@ -95,6 +95,8 @@ export default function LoginPage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
+              autoFocus
+              aria-label="Correo Electrónico"
             />
           </div>
           <label className={styles.label}>Contraseña *</label>
@@ -109,6 +111,7 @@ export default function LoginPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
+              aria-label="Contraseña"
             />
             <span
               className={styles.iconEye}
@@ -136,7 +139,7 @@ export default function LoginPage() {
               ¿Olvidaste tu contraseña?
             </button>
           </div>
-          {error && <div style={{ color: "red" }}>{error}</div>}
+          <div aria-live="assertive" style={{ color: 'red' }}>{error}</div>
           <button type="submit" className={styles.loginBtn} disabled={loading}>
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </button>
@@ -172,6 +175,7 @@ export default function LoginPage() {
                 onChange={e => setResetEmail(e.target.value)}
                 required
                 style={{ marginBottom: 8, width: '100%' }}
+                aria-label="Correo Electrónico"
               />
               <button
                 type="submit"
@@ -191,7 +195,10 @@ export default function LoginPage() {
               </button>
             </form>
             {resetMsg && (
-              <div style={{ marginTop: 8, color: resetMsg.includes('Revisa') ? 'green' : 'red', textAlign: 'center' }}>
+              <div
+                style={{ marginTop: 8, color: resetMsg.includes('Revisa') ? 'green' : 'red', textAlign: 'center' }}
+                aria-live="polite"
+              >
                 {resetMsg}
               </div>
             )}
