@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import { useLang } from "../../LanguageContext";
+import { useTheme } from "../../ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../styles/Dashboard.css";
 
@@ -22,6 +23,8 @@ export default function Dashboard() {
   const [userName, setUserName] = useState("");
   const [alertCount, setAlertCount] = useState(0);
   const { lang, toggleLang } = useLang();
+  const { toggleDark } = useTheme();
+  const [search, setSearch] = useState("");
   const { t } = useTranslation();
   useEffect(() => {
     async function loadData() {
@@ -80,7 +83,19 @@ export default function Dashboard() {
               </li>
             </ul>
         </div>
+        <div className="navbar-center">
+          <input
+            type="text"
+            className="search-input"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder={t('search_placeholder')}
+          />
+        </div>
         <div className="navbar-right">
+          <button onClick={toggleDark} className="dark-btn" title="Toggle dark mode">
+            🌙
+          </button>
           <button onClick={toggleLang} className="lang-btn">
             {t('lang_button')}
           </button>

@@ -15,12 +15,14 @@ import Reportes from './presentation/pages/Reportes';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
+import { ThemeProvider } from './ThemeContext';
 
 function App() {
   return (
     <AuthProvider>
       <LanguageProvider>
-        <Router basename={process.env.PUBLIC_URL}>
+        <ThemeProvider>
+          <Router basename={process.env.PUBLIC_URL}>
           <Routes>
           <Route path="/" element={<Bienvenida />} />
           <Route path="/login" element={<LoginPage />} />
@@ -87,6 +89,7 @@ function App() {
             <Route path="/contacto" element={<ContactPage />} />
           </Routes>
         </Router>
+        </ThemeProvider>
       </LanguageProvider>
     </AuthProvider>
   );
