@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -22,6 +22,14 @@ export default function MapaPuntos() {
   const [creating, setCreating] = useState(false);
   const mapRef = useRef(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const latParam = parseFloat(searchParams.get("lat"));
+  const lngParam = parseFloat(searchParams.get("lng"));
+  const initialCenter =
+    !Number.isNaN(latParam) && !Number.isNaN(lngParam)
+      ? [latParam, lngParam]
+      : [-0.9526, -80.7454];
 
   useEffect(() => {
     fetch("/api/puntos")
@@ -176,7 +184,7 @@ export default function MapaPuntos() {
         </div>
         <div className="mapa-mapa">
           <MapContainer
-            center={[-0.9526, -80.7454]}
+            center={initialCenter}
             zoom={17}
             scrollWheelZoom={false}
             style={{ height: "100%", width: "100%" }}
