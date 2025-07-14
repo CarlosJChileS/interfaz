@@ -1,0 +1,21 @@
+{
+  "welcome_title": "EcoGestor University",
+  "welcome_subtitle": "Recycle, Earn Points, Change the World",
+  "welcome_desc": "Join the community of students committed to the environment. Find recycling points on campus, earn points and redeem great rewards.",
+  "welcome_start": "Start Now",
+  "welcome_points": "View Points",
+  "how_it_works": "How It Works?",
+  "steps_desc": "Three simple steps to start your environmental impact",
+  "step1_title": "1. Find Points",
+  "step1_desc": "Locate the nearest clean points at your university using our interactive map",
+  "step2_title": "2. Recycle Materials",
+  "step2_desc": "Drop off your recyclables and log your activity to earn points automatically",
+  "step3_title": "3. Earn Rewards",
+  "step3_desc": "Redeem your points for discounts on coffee shops, books, eco-friendly products and more",
+  "ready": "Ready to make a difference?",
+  "create_account": "Create Free Account",
+  "dashboard_map": "Map",
+  "dashboard_rewards": "Rewards",
+  "dashboard_help": "Help",
+  "lang_button": "ES"
+}

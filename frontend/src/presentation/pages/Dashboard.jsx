@@ -3,22 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaRecycle, FaGift, FaMapMarkerAlt, FaBell } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import { useLang } from "../../LanguageContext";
+import { useTranslation } from "react-i18next";
 import "../styles/Dashboard.css";
 
-const translations = {
-  es: {
-    map: "Mapa",
-    rewards: "Recompensas",
-    help: "Ayuda",
-    langBtn: "EN",
-  },
-  en: {
-    map: "Map",
-    rewards: "Rewards",
-    help: "Help",
-    langBtn: "ES",
-  },
-};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -27,7 +14,7 @@ export default function Dashboard() {
   const [userName, setUserName] = useState("");
   const [alertCount, setAlertCount] = useState(0);
   const { lang, toggleLang } = useLang();
-  const t = translations[lang];
+  const { t } = useTranslation();
   useEffect(() => {
     async function loadData() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -60,24 +47,24 @@ export default function Dashboard() {
           <ul className="dashboard-links">
             <li tabIndex="0">
               <button className="link-btn" onClick={() => navigate('/puntos')}>
-                {t.map}
+                {t('dashboard_map')}
               </button>
             </li>
             <li tabIndex="0">
               <button className="link-btn" onClick={() => navigate('/recompensas')}>
-                {t.rewards}
+                {t('dashboard_rewards')}
               </button>
             </li>
             <li tabIndex="0">
               <button className="link-btn" onClick={() => navigate('/ayuda')}>
-                {t.help}
+                {t('dashboard_help')}
               </button>
             </li>
           </ul>
         </div>
         <div className="navbar-right">
           <button onClick={toggleLang} className="lang-btn">
-            {t.langBtn}
+            {t('lang_button')}
           </button>
           <span className="dashboard-points">{points} pts</span>
           <span className="notif-bell" title="Notificaciones">
