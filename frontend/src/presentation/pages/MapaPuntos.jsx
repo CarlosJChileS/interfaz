@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -16,39 +16,38 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const puntos = [
-  {
-    id: 1,
-    position: [-0.952, -80.744],
-    label: "Biblioteca Central",
-    material: "Papel y Cartón",
-    estado: "Disponible",
-  },
-  {
-    id: 2,
-    position: [-0.9535, -80.745],
-    label: "Facultad de Ingeniería",
-    material: "Plásticos",
-    estado: "75% Lleno",
-  },
-  {
-    id: 3,
-    position: [-0.9515, -80.746],
-    label: "Cafetería Principal",
-    material: "Vidrio",
-    estado: "Disponible",
-  },
-  {
-    id: 4,
-    position: [-0.9528, -80.7445],
-    label: "Centro de Estudiantes",
-    material: "Metales",
-    estado: "Disponible",
-  },
-];
 export default function MapaPuntos() {
+  const [puntos, setPuntos] = useState([]);
   const [selected, setSelected] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("/api/puntos")
+      .then(res => res.json())
+      .then(data => setPuntos(data))
+      .catch(() => setPuntos([]));
+  }, []);
+
+  const addPunto = async () => {
+    const nombre = prompt("Nombre del punto limpio");
+    if (!nombre) return;
+    const material = prompt("Material");
+    const lat = parseFloat(prompt("Latitud"));
+    const lon = parseFloat(prompt("Longitud"));
+    const estado = prompt("Estado", "Disponible") || "Disponible";
+    const res = await fetch("/api/puntos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, material, posicion: [lat, lon], estado }),
+    });
+    const nuevo = await res.json();
+    setPuntos(prev => [...prev, nuevo]);
+  };
+
+  const deletePunto = async id => {
+    await fetch(`/api/puntos/${id}`, { method: "DELETE" });
+    setPuntos(prev => prev.filter(p => p.id !== id));
+  };
 
   const filtered = selected
     ? puntos.filter(p => p.material === selected)
@@ -91,7 +90,7 @@ export default function MapaPuntos() {
             )}
           </div>
           <div className="mapa-cercanos">
-            <strong>Puntos Cercanos (12)</strong>
+            <strong>Puntos Cercanos ({filtered.length})</strong>
             {filtered.map(p => (
               <div
                 key={p.id}
@@ -100,7 +99,7 @@ export default function MapaPuntos() {
                 }`}
               >
                 <span>
-                  <FaMapMarkerAlt /> {p.label}
+                  <FaMapMarkerAlt /> {p.nombre}
                 </span>
                 <span
                   className={`badge ${
@@ -109,8 +108,14 @@ export default function MapaPuntos() {
                 >
                   {p.estado}
                 </span>
+                <button className="mapa-btn" onClick={() => deletePunto(p.id)}>
+                  Eliminar
+                </button>
               </div>
             ))}
+            <button className="mapa-btn" onClick={addPunto} style={{marginTop: '10px'}}>
+              Agregar Punto
+            </button>
           </div>
         </div>
         <div className="mapa-mapa">
@@ -120,8 +125,8 @@ export default function MapaPuntos() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {filtered.map(p => (
-              <Marker position={p.position} key={p.id}>
-                <Popup>{p.label}</Popup>
+              <Marker position={p.posicion} key={p.id}>
+                <Popup>{p.nombre}</Popup>
               </Marker>
             ))}
           </MapContainer>
