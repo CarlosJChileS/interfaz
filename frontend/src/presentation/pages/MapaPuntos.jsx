@@ -20,6 +20,8 @@ export default function MapaPuntos() {
   const [puntos, setPuntos] = useState([]);
   const [selected, setSelected] = useState("");
   const [creating, setCreating] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
+  const [showCreateHelp, setShowCreateHelp] = useState(false);
   const mapRef = useRef(null);
   const navigate = useNavigate();
 
@@ -31,6 +33,19 @@ export default function MapaPuntos() {
   }, []);
 
   const [newPoint, setNewPoint] = useState(null);
+
+  useEffect(() => {
+    const handleKey = e => {
+      if (e.key.toLowerCase() === "c") {
+        setCreating(true);
+        setShowCreateHelp(false);
+      }
+    };
+    if (showCreateHelp) {
+      window.addEventListener("keydown", handleKey);
+    }
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [showCreateHelp]);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -98,6 +113,16 @@ export default function MapaPuntos() {
   const handleSelect = material => setSelected(material);
   const clearFilters = () => setSelected("");
 
+  const toggleFilters = () => setShowFilters(prev => !prev);
+
+  const goToMyLocation = () => {
+    if (!mapRef.current || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(pos => {
+      const { latitude, longitude } = pos.coords;
+      mapRef.current.setView([latitude, longitude], mapRef.current.getZoom());
+    });
+  };
+
   return (
     <div className="mapa-root">
       <div className="mapa-header">
@@ -106,15 +131,24 @@ export default function MapaPuntos() {
         {creating && <span className="breadcrumb">Seleccione un punto en el mapa</span>}
         <button
           className="mapa-btn"
-          onClick={() => setCreating(true)}
-          disabled={creating || newPoint}
+          onClick={() => setShowCreateHelp(true)}
+          disabled={creating || newPoint || showCreateHelp}
         >
           Crear Punto
         </button>
-        <button className="mapa-btn right">Mi Ubicación</button>
-        <button className="mapa-btn right">Filtros</button>
+        <button className="mapa-btn right" onClick={goToMyLocation}>Mi Ubicación</button>
+        <button className="mapa-btn right" onClick={toggleFilters}>Filtros</button>
       </div>
+      {showCreateHelp && (
+        <div className="create-panel">
+          <p>Presiona la tecla <strong>C</strong> y haz clic en el mapa para crear el punto.</p>
+          <button className="mapa-btn" onClick={() => setShowCreateHelp(false)}>
+            Cancelar
+          </button>
+        </div>
+      )}
       <div className="mapa-main">
+        {showFilters && (
         <div className="mapa-sidebar">
           <div className="mapa-filtros">
             <strong>Filtrar por Tipo de Material</strong>
@@ -174,6 +208,7 @@ export default function MapaPuntos() {
             ))}
           </div>
         </div>
+        )}
         <div className="mapa-mapa">
           <MapContainer
             center={[-0.9526, -80.7454]}
