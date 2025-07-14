@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -47,6 +48,7 @@ const puntos = [
 ];
 export default function MapaPuntos() {
   const [selected, setSelected] = useState("");
+  const navigate = useNavigate();
 
   const filtered = selected
     ? puntos.filter(p => p.material === selected)
@@ -58,7 +60,7 @@ export default function MapaPuntos() {
   return (
     <div className="mapa-root">
       <div className="mapa-header">
-        <span className="breadcrumb">Inicio &gt; Mapa de Puntos &gt; </span>
+        <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
         <strong>Puntos Limpios - Campus Universidad Nacional</strong>
         <button className="mapa-btn right">Mi Ubicación</button>
         <button className="mapa-btn right">Filtros</button>

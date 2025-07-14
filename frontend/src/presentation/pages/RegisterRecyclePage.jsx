@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "./ConfirmModal";
 
@@ -18,6 +19,7 @@ export default function RegisterRecyclePage() {
     Vidrio: null,
   });
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const materialOptions = ["0.5 kg", "1 kg", "2+ kg"];
 
@@ -45,8 +47,7 @@ export default function RegisterRecyclePage() {
   return (
     <div className={styles.pageBg}>
       <header className={styles.headerBar}>
-        <span>Inicio</span>
-        <span className={styles.chevron}>›</span>
+        <button type="button" className={styles.backBtn} onClick={() => navigate(-1)} aria-label="Volver">←</button>
         <span className={styles.linkGreen}>Registrar Reciclaje</span>
         <span className={styles.pageTitle}>Registrar Material Reciclado</span>
         <div className={styles.pointsBox}>
@@ -285,7 +286,9 @@ export default function RegisterRecyclePage() {
           ></textarea>
         </div>
         <div className={styles.actionBtns}>
-          <button className={styles.cancelBtn}>Cancelar</button>
+          <button className={styles.cancelBtn} type="button" onClick={() => navigate(-1)}>
+            Cancelar
+          </button>
           <button className={styles.confirmBtn} onClick={handleConfirm} type="button">
             Confirmar Registro
           </button>
