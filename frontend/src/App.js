@@ -16,6 +16,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
 import { ThemeProvider } from './ThemeContext';
+import ThemeToggle from './presentation/components/ThemeToggle';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <LanguageProvider>
         <ThemeProvider>
           <Router basename={process.env.PUBLIC_URL}>
+          <ThemeToggle />
           <Routes>
           <Route path="/" element={<Bienvenida />} />
           <Route path="/login" element={<LoginPage />} />
