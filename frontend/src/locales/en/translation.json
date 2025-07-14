@@ -19,5 +19,6 @@
   "dashboard_rewards": "Rewards",
   "dashboard_help": "Help",
   "dashboard_reports": "Reports",
-  "lang_button": "ES"
+  "lang_button": "ES",
+  "search_placeholder": "Search..."
 }
