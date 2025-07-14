@@ -4,8 +4,6 @@ import {
   FaSearch,
   FaQuestionCircle,
   FaPhone,
-  FaExclamationTriangle,
-  FaBookOpen,
   FaPaperclip,
   FaClock,
   FaFacebook,
@@ -43,6 +41,7 @@ const faqList = [
 
 export default function HelpCenter() {
   const [openFaq, setOpenFaq] = useState(0);
+  const [showContactInfo, setShowContactInfo] = useState(false);
 
   return (
     <div className="help-center-bg">
@@ -87,27 +86,18 @@ export default function HelpCenter() {
                   Habla directamente con nuestro equipo de soporte
                 </div>
               </div>
-              <button className="help-card__button contact">Contactar</button>
-            </div>
-            <div className="help-card report">
-              <FaExclamationTriangle className="help-card__icon" />
-              <div className="help-card__text">
-                <div className="help-card__title">Reportar Problema</div>
-                <div className="help-card__desc">
-                  Informa sobre problemas técnicos o incidentes
+              <button
+                className="help-card__button contact"
+                onClick={() => setShowContactInfo(!showContactInfo)}
+              >
+                Contactar
+              </button>
+              {showContactInfo && (
+                <div className="help-card-contact-info">
+                  <div>soporte@ecogestor.unal.edu.co</div>
+                  <div>+57 (1) 316-5000 Ext. 12345</div>
                 </div>
-              </div>
-              <button className="help-card__button report">Reportar</button>
-            </div>
-            <div className="help-card guides">
-              <FaBookOpen className="help-card__icon" />
-              <div className="help-card__text">
-                <div className="help-card__title">Guías y Tutoriales</div>
-                <div className="help-card__desc">
-                  Aprende a usar todas las funciones de la plataforma
-                </div>
-              </div>
-              <button className="help-card__button guides">Ver Guías</button>
+              )}
             </div>
           </div>
 

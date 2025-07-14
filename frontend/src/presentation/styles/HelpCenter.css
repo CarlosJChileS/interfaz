@@ -3,18 +3,18 @@ body {
 }
 
 .help-center-bg {
-  background: #746f6e;
+  background: #fff;
   min-height: 100vh;
   padding: 0;
 }
 
 .help-center-container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: none;
   background: #fff;
-  margin: 0 auto;
-  border-radius: 8px;
-  margin-top: 16px;
-  box-shadow: 0 2px 24px #0001;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
 }
 
@@ -145,6 +145,12 @@ body {
 .help-card__button.guides {
   background: #9919be;
   color: #fff;
+}
+
+.help-card-contact-info {
+  margin-top: 8px;
+  font-size: 0.96rem;
+  color: #333;
 }
 
 /* Preguntas frecuentes */
