@@ -139,3 +139,11 @@
   border-radius: 4px;
   font-size: 0.9rem;
 }
+.popup-form select {
+  width: 100%;
+  padding: 4px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
