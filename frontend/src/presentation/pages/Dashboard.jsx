@@ -4,6 +4,7 @@ import {
   FaRecycle,
   FaGift,
   FaMapMarkerAlt,
+  FaSearch,
   FaBell,
   FaQuestionCircle,
   FaExclamationTriangle,
@@ -11,6 +12,8 @@ import {
 } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import { useLang } from "../../LanguageContext";
+import { useTheme } from "../../ThemeContext";
+import NotificationModal from "../components/NotificationModal";
 import { useTranslation } from "react-i18next";
 import "../styles/Dashboard.css";
 
@@ -18,6 +21,7 @@ import "../styles/Dashboard.css";
 export default function Dashboard() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
   const [points, setPoints] = useState(0);
   const [userName, setUserName] = useState("");
   const [alertCount, setAlertCount] = useState(0);
@@ -82,20 +86,27 @@ export default function Dashboard() {
             </ul>
         </div>
         <div className="navbar-center">
-          <input
-            type="text"
-            className="search-input"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder={t('search_placeholder')}
-          />
+          <div className="search-wrapper">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              className="search-input"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder={t('search_placeholder')}
+            />
+          </div>
         </div>
         <div className="navbar-right">
           <button onClick={toggleLang} className="lang-btn">
             {t('lang_button')}
           </button>
           <span className="dashboard-points">{points} pts</span>
-          <span className="notif-bell" title="Notificaciones">
+          <span
+            className="notif-bell"
+            title="Notificaciones"
+            onClick={() => setShowNotif(true)}
+          >
             <FaBell />
             {alertCount > 0 && (
               <span className="notif-count">{alertCount}</span>
@@ -235,6 +246,14 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      {showNotif && (
+        <NotificationModal
+          onClose={() => {
+            setShowNotif(false);
+            setAlertCount(0);
+          }}
+        />
+      )}
     </div>
   );
 }

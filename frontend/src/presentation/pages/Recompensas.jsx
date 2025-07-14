@@ -1,62 +1,120 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaCoffee, FaBook, FaLeaf, FaPercent } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import RedeemModal from "../components/RedeemModal";
 import "../styles/Recompensas.css";
 
 export default function Recompensas() {
   const navigate = useNavigate();
+  const [categoria, setCategoria] = useState("Todas");
+  const [puntos, setPuntos] = useState(1250);
+  const [rewardSel, setRewardSel] = useState(null);
+
+  const categorias = [
+    { key: "Todas", label: "Todas (23)" },
+    { key: "Cafetería", label: "Cafetería (8)" },
+    { key: "Papelería", label: "Papelería (6)" },
+    { key: "Eco-Productos", label: "Eco-Productos (5)" },
+    { key: "Descuentos", label: "Descuentos (4)" },
+  ];
+
+  const recompensas = [
+    {
+      id: 1,
+      nombre: "Café Gratis",
+      sub: "Cafetería Central",
+      desc:
+        "Válido por un café americano o capuchino en la cafetería principal del campus",
+      costo: 150,
+      categoria: "Cafetería",
+      icon: FaCoffee,
+      cls: "cafe",
+    },
+    {
+      id: 2,
+      nombre: "Descuento 20% Libros",
+      sub: "Librería Universitaria",
+      desc:
+        "20% de descuento en cualquier libro académico de literatura en la librería",
+      costo: 300,
+      categoria: "Papelería",
+      icon: FaBook,
+      cls: "libros",
+    },
+    {
+      id: 3,
+      nombre: "Botella Reutilizable",
+      sub: "Producto Eco-Friendly",
+      desc:
+        "Botella de acero inoxidable de 500ml con diseño exclusivo de la universidad",
+      costo: 500,
+      categoria: "Eco-Productos",
+      icon: FaLeaf,
+      cls: "eco",
+    },
+    {
+      id: 4,
+      nombre: "Almuerzo Gratis",
+      sub: "Restaurante Universitario",
+      desc:
+        "Almuerzo completo en el restaurante universitario, incluye entrada, plato fuerte y bebida",
+      costo: 400,
+      categoria: "Descuentos",
+      icon: FaPercent,
+      cls: "almuerzo",
+    },
+  ];
+
+  const lista =
+    categoria === "Todas"
+      ? recompensas
+      : recompensas.filter((r) => r.categoria === categoria);
+
+  const handleConfirm = () => {
+    setPuntos((p) => p - rewardSel.costo);
+    alert(`Canjeaste: ${rewardSel.nombre}`);
+    setRewardSel(null);
+  };
+
   return (
     <div className="recompensas-root">
       <div className="recompensas-header">
         <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
         <span>Recompensas</span>
         <div className="recompensas-puntos">
-          <span>1,250</span> Puntos disponibles
+          <span>{puntos.toLocaleString()}</span> Puntos disponibles
         </div>
       </div>
       <div className="recompensas-content">
         <div className="recompensas-categorias">
-          <span className="categoria selected">Todas (23)</span>
-          <span className="categoria">Cafetería (8)</span>
-          <span className="categoria">Papelería (6)</span>
-          <span className="categoria">Eco-Productos (5)</span>
-          <span className="categoria">Descuentos (4)</span>
+          {categorias.map((c) => (
+            <span
+              key={c.key}
+              className={`categoria ${categoria === c.key ? "selected" : ""}`}
+              onClick={() => setCategoria(c.key)}
+            >
+              {c.label}
+            </span>
+          ))}
         </div>
         <div className="recompensas-mas-populares">
           <h3>Recompensas Más Populares</h3>
           <div className="populares-grid">
-            <div className="pop-card cafe">
-              <FaCoffee className="pop-icon" />
-              <h4>Café Gratis</h4>
-              <p className="pop-sub">Cafetería Central</p>
-              <p>Válido por un café americano o capuchino en la cafetería principal del campus</p>
-              <span className="puntos">150 puntos</span>
-              <button className="pop-btn">Canjear</button>
-            </div>
-            <div className="pop-card libros">
-              <FaBook className="pop-icon" />
-              <h4>Descuento 20% Libros</h4>
-              <p className="pop-sub">Librería Universitaria</p>
-              <p>20% de descuento en cualquier libro académico de literatura en la librería</p>
-              <span className="puntos">300 puntos</span>
-              <button className="pop-btn">Canjear</button>
-            </div>
-            <div className="pop-card eco">
-              <FaLeaf className="pop-icon" />
-              <h4>Botella Reutilizable</h4>
-              <p className="pop-sub">Producto Eco-Friendly</p>
-              <p>Botella de acero inoxidable de 500ml con diseño exclusivo de la universidad</p>
-              <span className="puntos">500 puntos</span>
-              <button className="pop-btn">Canjear</button>
-            </div>
-            <div className="pop-card almuerzo">
-              <FaPercent className="pop-icon" />
-              <h4>Almuerzo Gratis</h4>
-              <p className="pop-sub">Restaurante Universitario</p>
-              <p>Almuerzo completo en el restaurante universitario, incluye entrada, plato fuerte y bebida</p>
-              <span className="puntos">400 puntos</span>
-              <button className="pop-btn">Canjear</button>
-            </div>
+            {lista.map((r) => {
+              const Icon = r.icon;
+              return (
+                <div key={r.id} className={`pop-card ${r.cls}`}>
+                  <Icon className="pop-icon" />
+                  <h4>{r.nombre}</h4>
+                  <p className="pop-sub">{r.sub}</p>
+                  <p>{r.desc}</p>
+                  <span className="puntos">{r.costo} puntos</span>
+                  <button className="pop-btn" onClick={() => setRewardSel(r)}>
+                    Canjear
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="recompensas-recientes">
@@ -73,6 +131,13 @@ export default function Recompensas() {
           </div>
         </div>
       </div>
+      {rewardSel && (
+        <RedeemModal
+          reward={rewardSel}
+          onCancel={() => setRewardSel(null)}
+          onConfirm={handleConfirm}
+        />
+      )}
     </div>
   );
 }

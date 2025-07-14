@@ -1,0 +1,80 @@
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3200;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+  text-align: center;
+  color: #237e49;
+}
+
+.list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+  font-size: 0.95rem;
+}
+
+.msg {
+  margin-bottom: 2px;
+}
+
+.date {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.empty {
+  text-align: center;
+  color: #666;
+  padding: 20px 0;
+}
+
+.readBtn {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
