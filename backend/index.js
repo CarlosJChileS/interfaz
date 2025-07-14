@@ -61,6 +61,19 @@ app.delete('/api/puntos/:id', (req, res) => {
   res.json({ ok: true });
 });
 
+// Update a punto limpio
+app.put('/api/puntos/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const updates = req.body;
+  let punto = puntos.find(p => p.id === id);
+  if (!punto) {
+    return res.status(404).json({ error: 'Punto no encontrado' });
+  }
+  punto = { ...punto, ...updates };
+  puntos = puntos.map(p => (p.id === id ? punto : p));
+  res.json(punto);
+});
+
 app.get('/api/recompensas', (req, res) => {
   const recompensas = [
     { id: 1, nombre: 'Café Gratis', costo: 150 },
