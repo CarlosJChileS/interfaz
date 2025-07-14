@@ -9,6 +9,7 @@ import RegisterPage from './presentation/pages/RegisterPage';
 import RegisterRecyclePage from './presentation/pages/RegisterRecyclePage';
 import ProfilePage from './presentation/pages/ProfilePage';
 import HistoryPage from './presentation/pages/HistoryPage';
+import EditProfilePage from './presentation/pages/EditProfilePage';
 import AdminPage from './presentation/pages/AdminPage';
 import HelpPage from './presentation/pages/HelpPage';
 import ContactPage from './presentation/pages/ContactPage';
@@ -57,6 +58,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editar-perfil"
+            element={
+              <ProtectedRoute>
+                <EditProfilePage />
               </ProtectedRoute>
             }
           />

@@ -111,6 +111,7 @@ export default function Dashboard() {
           {showMenu && (
             <div className="avatar-menu">
               <Link to="/perfil">Mi Perfil</Link>
+              <Link to="/editar-perfil">Editar Perfil</Link>
               <Link to="/historial">Historial</Link>
             </div>
           )}
