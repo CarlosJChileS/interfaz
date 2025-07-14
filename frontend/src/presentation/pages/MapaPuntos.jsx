@@ -28,20 +28,33 @@ export default function MapaPuntos() {
       .catch(() => setPuntos([]));
   }, []);
 
-  const addPunto = async () => {
-    const nombre = prompt("Nombre del punto limpio");
-    if (!nombre) return;
-    const material = prompt("Material");
-    const lat = parseFloat(prompt("Latitud"));
-    const lon = parseFloat(prompt("Longitud"));
-    const estado = prompt("Estado", "Disponible") || "Disponible";
+  const [newPoint, setNewPoint] = useState(null);
+
+  const handleMapClick = e => {
+    setNewPoint({ lat: e.latlng.lat, lng: e.latlng.lng, nombre: "", material: "" });
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setNewPoint(prev => ({ ...prev, [name]: value }));
+  };
+
+  const submitNewPoint = async e => {
+    e.preventDefault();
+    if (!newPoint.nombre || !newPoint.material) return;
     const res = await fetch("/api/puntos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, material, posicion: [lat, lon], estado }),
+      body: JSON.stringify({
+        nombre: newPoint.nombre,
+        material: newPoint.material,
+        posicion: [newPoint.lat, newPoint.lng],
+        estado: "Disponible",
+      }),
     });
     const nuevo = await res.json();
     setPuntos(prev => [...prev, nuevo]);
+    setNewPoint(null);
   };
 
   const deletePunto = async id => {
@@ -113,13 +126,16 @@ export default function MapaPuntos() {
                 </button>
               </div>
             ))}
-            <button className="mapa-btn" onClick={addPunto} style={{marginTop: '10px'}}>
-              Agregar Punto
-            </button>
           </div>
         </div>
         <div className="mapa-mapa">
-          <MapContainer center={[-0.9526, -80.7454]} zoom={17} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
+          <MapContainer
+            center={[-0.9526, -80.7454]}
+            zoom={17}
+            scrollWheelZoom={false}
+            style={{ height: "100%", width: "100%" }}
+            onClick={handleMapClick}
+          >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -129,6 +145,42 @@ export default function MapaPuntos() {
                 <Popup>{p.nombre}</Popup>
               </Marker>
             ))}
+            {newPoint && (
+              <Marker position={[newPoint.lat, newPoint.lng]}>
+                <Popup>
+                  <form onSubmit={submitNewPoint} className="popup-form">
+                    <div>
+                      <input
+                        type="text"
+                        name="nombre"
+                        placeholder="Nombre"
+                        value={newPoint.nombre}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        name="material"
+                        placeholder="Material"
+                        value={newPoint.material}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginTop: '6px', textAlign: 'right' }}>
+                      <button type="button" className="mapa-btn" onClick={() => setNewPoint(null)}>
+                        Cancelar
+                      </button>
+                      <button type="submit" className="mapa-btn" style={{ marginLeft: '6px' }}>
+                        Guardar
+                      </button>
+                    </div>
+                  </form>
+                </Popup>
+              </Marker>
+            )}
           </MapContainer>
         </div>
       </div>

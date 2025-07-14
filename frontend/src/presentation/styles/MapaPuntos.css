@@ -2,6 +2,8 @@
   background: #ececec;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 .mapa-header {
   background: #2988f7;
@@ -44,16 +46,21 @@
   margin-right: 7px;
 }
 .mapa-main {
-  display: flex;
-  margin-top: 0;
+  position: relative;
+  flex: 1;
 }
 .mapa-sidebar {
   background: #fff;
-  width: 280px;
-  min-width: 230px;
-  border-radius: 0 0 0 15px;
-  box-shadow: 0 2px 8px rgba(44, 146, 82, 0.04);
+  width: 260px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(44, 146, 82, 0.1);
   padding: 18px 16px;
+  z-index: 1000;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
 }
 .mapa-filtros {
   margin-bottom: 32px;
@@ -116,12 +123,19 @@
 }
 .mapa-mapa {
   background: #f6fdf6;
-  border-radius: 0 0 15px 0;
   flex: 1;
-  min-height: 440px;
+  height: calc(100vh - 72px);
 }
 
 .mapa-mapa .leaflet-container {
   height: 100%;
-  border-radius: 0 0 15px 0;
+}
+
+.popup-form input {
+  width: 100%;
+  padding: 4px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
