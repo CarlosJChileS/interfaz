@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
+import DeleteConfirm from "./DeleteConfirm";
 import "../styles/RecycleHistory.css";
 
 const RecycleHistory = () => {
   const [records, setRecords] = useState([]);
+  const [toDelete, setToDelete] = useState(null);
 
   useEffect(() => {
     async function fetchRecords() {
       const { data, error } = await supabase
         .from("historial")
-        .select("id, accion, descripcion, fecha")
+        .select("id, accion, descripcion, fecha, puntos")
         .order("fecha", { ascending: false })
         .limit(10);
       if (!error && data) {
@@ -18,6 +20,13 @@ const RecycleHistory = () => {
     }
     fetchRecords();
   }, []);
+
+  const handleDelete = async (id) => {
+    const { error } = await supabase.from("historial").delete().eq("id", id);
+    if (!error) {
+      setRecords((recs) => recs.filter((r) => r.id !== id));
+    }
+  };
 
   const totalPuntos = records.reduce((acc, r) => acc + (r.puntos || 0), 0);
 
@@ -45,6 +54,13 @@ const RecycleHistory = () => {
         <div className="records-list">
           {records.map((rec) => (
             <div className="record-item" key={rec.id}>
+              <button
+                className="delete-btn"
+                onClick={() => setToDelete(rec)}
+                aria-label="Eliminar registro"
+              >
+                🗑️
+              </button>
               <div className="record-icon">&#128230;</div>
               <div className="record-info">
                 <div className="record-date">
@@ -66,6 +82,16 @@ const RecycleHistory = () => {
       <div className="recycle-footer">
         <span className="footer-title">Mi Historial de Reciclaje</span>
       </div>
+      {toDelete && (
+        <DeleteConfirm
+          item={`${toDelete.accion}`}
+          onCancel={() => setToDelete(null)}
+          onConfirm={async () => {
+            await handleDelete(toDelete.id);
+            setToDelete(null);
+          }}
+        />
+      )}
     </div>
   );
 };
