@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
@@ -16,11 +16,45 @@ L.Icon.Default.mergeOptions({
 });
 
 const puntos = [
-  { position: [-0.952, -80.744], label: "Bote 1" },
-  { position: [-0.9535, -80.745], label: "Bote 2" },
-  { position: [-0.9515, -80.746], label: "Bote 3" },
+  {
+    id: 1,
+    position: [-0.952, -80.744],
+    label: "Biblioteca Central",
+    material: "Papel y Cartón",
+    estado: "Disponible",
+  },
+  {
+    id: 2,
+    position: [-0.9535, -80.745],
+    label: "Facultad de Ingeniería",
+    material: "Plásticos",
+    estado: "75% Lleno",
+  },
+  {
+    id: 3,
+    position: [-0.9515, -80.746],
+    label: "Cafetería Principal",
+    material: "Vidrio",
+    estado: "Disponible",
+  },
+  {
+    id: 4,
+    position: [-0.9528, -80.7445],
+    label: "Centro de Estudiantes",
+    material: "Metales",
+    estado: "Disponible",
+  },
 ];
 export default function MapaPuntos() {
+  const [selected, setSelected] = useState("");
+
+  const filtered = selected
+    ? puntos.filter(p => p.material === selected)
+    : puntos;
+
+  const handleSelect = material => setSelected(material);
+  const clearFilters = () => setSelected("");
+
   return (
     <div className="mapa-root">
       <div className="mapa-header">
@@ -33,25 +67,48 @@ export default function MapaPuntos() {
         <div className="mapa-sidebar">
           <div className="mapa-filtros">
             <strong>Filtrar por Tipo de Material</strong>
-            <div className="filtro-item selected">Papel y Cartón (23)</div>
-            <div className="filtro-item">Plásticos (18)</div>
-            <div className="filtro-item">Vidrio (12)</div>
-            <div className="filtro-item">Metales (15)</div>
+            {["Papel y Cartón", "Plásticos", "Vidrio", "Metales"].map(m => (
+              <div
+                key={m}
+                className={`filtro-item ${selected === m ? "selected" : ""}`}
+                onClick={() => handleSelect(m)}
+                onKeyDown={e => e.key === "Enter" && handleSelect(m)}
+                role="button"
+                tabIndex="0"
+              >
+                {m}
+              </div>
+            ))}
+            {selected && (
+              <button
+                onClick={clearFilters}
+                className="mapa-btn clear-filtros"
+              >
+                Limpiar filtros
+              </button>
+            )}
           </div>
           <div className="mapa-cercanos">
             <strong>Puntos Cercanos (12)</strong>
-            <div className="cercano-card disponible">
-              <span><FaMapMarkerAlt /> Biblioteca Central</span>
-              <span className="badge verde">Disponible</span>
-            </div>
-            <div className="cercano-card medio">
-              <span><FaMapMarkerAlt /> Facultad de Ingeniería</span>
-              <span className="badge naranja">75% Lleno</span>
-            </div>
-            <div className="cercano-card disponible">
-              <span><FaMapMarkerAlt /> Cafetería Principal</span>
-              <span className="badge verde">Disponible</span>
-            </div>
+            {filtered.map(p => (
+              <div
+                key={p.id}
+                className={`cercano-card ${
+                  p.estado === "Disponible" ? "disponible" : "medio"
+                }`}
+              >
+                <span>
+                  <FaMapMarkerAlt /> {p.label}
+                </span>
+                <span
+                  className={`badge ${
+                    p.estado === "Disponible" ? "verde" : "naranja"
+                  }`}
+                >
+                  {p.estado}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
         <div className="mapa-mapa">
@@ -60,8 +117,8 @@ export default function MapaPuntos() {
               attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {puntos.map((p, idx) => (
-              <Marker position={p.position} key={idx}>
+            {filtered.map(p => (
+              <Marker position={p.position} key={p.id}>
                 <Popup>{p.label}</Popup>
               </Marker>
             ))}

@@ -63,6 +63,9 @@
   background: #e4ffe6;
   font-weight: bold;
 }
+.clear-filtros {
+  margin-top: 12px;
+}
 .mapa-cercanos {
   margin-top: 18px;
 }

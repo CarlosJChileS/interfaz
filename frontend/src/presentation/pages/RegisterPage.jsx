@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
 import styles from '../styles/RegisterPage.module.css';
-
-// Configura tu Supabase aquí
-const supabaseUrl =process.env.REACT_APP_SUPABASE_URL;
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from '../../utils/supabase';
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
