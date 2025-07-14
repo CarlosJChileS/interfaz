@@ -32,6 +32,7 @@
   border: 1px solid #ccc;
   border-radius: 18px;
   padding: 2px 8px;
+  position: relative;
 }
 .search-icon {
   color: #888;
@@ -44,6 +45,26 @@
   background: transparent;
   padding: 6px;
   min-width: 180px;
+}
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0;
+  z-index: 10;
+}
+.search-results li {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.search-results li:hover {
+  background: #f0f0f0;
 }
 .dark-btn {
   background: transparent;
@@ -407,4 +428,11 @@ body.dark .lang-btn,
 body.dark .dark-btn {
   border-color: #fff;
   color: #fff;
+}
+body.dark .search-results {
+  background: #555;
+  border-color: #666;
+}
+body.dark .search-results li:hover {
+  background: #666;
 }

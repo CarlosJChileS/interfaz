@@ -28,6 +28,7 @@ export default function Dashboard() {
   const { lang, toggleLang } = useLang();
   const { toggleDark } = useTheme();
   const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
   const { t } = useTranslation();
   useEffect(() => {
     async function loadData() {
@@ -52,6 +53,48 @@ export default function Dashboard() {
     }
     loadData();
   }, []);
+
+  // Available sections to search
+  const sections = [
+    {
+      name: t('dashboard_map'),
+      path: '/puntos',
+      keywords: ['mapa', 'map', 'puntos', 'mapa interactivo']
+    },
+    {
+      name: t('dashboard_register'),
+      path: '/registrar',
+      keywords: ['registrar', 'registro', 'reciclaje']
+    },
+    {
+      name: t('dashboard_rewards'),
+      path: '/recompensas',
+      keywords: ['recompensas', 'rewards', 'premios']
+    },
+    {
+      name: t('dashboard_help'),
+      path: '/ayuda',
+      keywords: ['ayuda', 'help', 'soporte', 'contacto']
+    },
+    {
+      name: t('dashboard_reports'),
+      path: '/reportes',
+      keywords: ['reportes', 'reports', 'problemas']
+    }
+  ];
+
+  useEffect(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) {
+      setResults([]);
+      return;
+    }
+    const filtered = sections.filter(s =>
+      s.name.toLowerCase().includes(query) ||
+      s.keywords.some(k => k.toLowerCase().includes(query))
+    );
+    setResults(filtered);
+  }, [search, lang]);
 
   return (
     <div className="dashboard-root">
@@ -96,6 +139,15 @@ export default function Dashboard() {
               onChange={e => setSearch(e.target.value)}
               placeholder={t('search_placeholder')}
             />
+            {results.length > 0 && (
+              <ul className="search-results">
+                {results.map(r => (
+                  <li key={r.path} onMouseDown={() => navigate(r.path)}>
+                    {r.name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
         <div className="navbar-right">
