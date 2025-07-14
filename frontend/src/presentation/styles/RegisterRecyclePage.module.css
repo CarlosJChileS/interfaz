@@ -13,6 +13,13 @@
   gap: 12px;
   position: relative;
 }
+.backBtn {
+  background: none;
+  border: none;
+  color: #228c39;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
 .chevron {
   color: #a7a7a7;
 }

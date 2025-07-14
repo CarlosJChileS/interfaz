@@ -15,6 +15,14 @@
   border-radius: 0 0 12px 12px;
   position: relative;
 }
+.back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 6px;
+}
 .mapa-btn {
   background: #fff;
   color: #2988f7;

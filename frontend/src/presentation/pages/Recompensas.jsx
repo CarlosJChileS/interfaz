@@ -1,12 +1,15 @@
 import React from "react";
 import { FaCoffee, FaBook, FaLeaf, FaPercent } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "../styles/Recompensas.css";
 
 export default function Recompensas() {
+  const navigate = useNavigate();
   return (
     <div className="recompensas-root">
       <div className="recompensas-header">
-        <span>Página Recompensas</span>
+        <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
+        <span>Recompensas</span>
         <div className="recompensas-puntos">
           <span>1,250</span> Puntos disponibles
         </div>

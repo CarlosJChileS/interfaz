@@ -9,14 +9,12 @@ const translations = {
   es: {
     map: "Mapa",
     rewards: "Recompensas",
-    home: "Inicio",
     help: "Ayuda",
     langBtn: "EN",
   },
   en: {
     map: "Map",
     rewards: "Rewards",
-    home: "Home",
     help: "Help",
     langBtn: "ES",
   },
@@ -70,7 +68,6 @@ export default function Dashboard() {
                 {t.rewards}
               </button>
             </li>
-            <li tabIndex="0"><Link to="/">{t.home}</Link></li>
             <li tabIndex="0">
               <button className="link-btn" onClick={() => navigate('/ayuda')}>
                 {t.help}
