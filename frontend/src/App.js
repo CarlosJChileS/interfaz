@@ -11,6 +11,8 @@ import ProfilePage from './presentation/pages/ProfilePage';
 import HistoryPage from './presentation/pages/HistoryPage';
 import AdminPage from './presentation/pages/AdminPage';
 import HelpPage from './presentation/pages/HelpPage';
+import ContactPage from './presentation/pages/ContactPage';
+import NavBar from './presentation/components/NavBar';
 import ProtectedRoute from './ProtectedRoute';
 import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
@@ -20,6 +22,7 @@ function App() {
     <AuthProvider>
       <LanguageProvider>
         <Router basename={process.env.PUBLIC_URL}>
+          <NavBar />
           <Routes>
           <Route path="/" element={<Bienvenida />} />
           <Route path="/login" element={<LoginPage />} />
@@ -74,6 +77,7 @@ function App() {
               }
             />
             <Route path="/ayuda" element={<HelpPage />} />
+            <Route path="/contacto" element={<ContactPage />} />
           </Routes>
         </Router>
       </LanguageProvider>
