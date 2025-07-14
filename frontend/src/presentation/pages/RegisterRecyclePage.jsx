@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "./ConfirmModal";
+import NavBar from "../components/NavBar";
 
 const pointsPerMaterial = {
   "Papel y Cartón": 5,
@@ -44,6 +45,7 @@ export default function RegisterRecyclePage() {
 
   return (
     <div className={styles.pageBg}>
+      <NavBar />
       <header className={styles.headerBar}>
         <span>Inicio</span>
         <span className={styles.chevron}>›</span>

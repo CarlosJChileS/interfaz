@@ -1,10 +1,12 @@
 import React from "react";
 import { FaCoffee, FaBook, FaLeaf, FaPercent } from "react-icons/fa";
 import "../styles/Recompensas.css";
+import NavBar from "../components/NavBar";
 
 export default function Recompensas() {
   return (
     <div className="recompensas-root">
+      <NavBar />
       <div className="recompensas-header">
         <span>Página Recompensas</span>
         <div className="recompensas-puntos">

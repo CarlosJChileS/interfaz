@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../../utils/supabase";
 import "../styles/UserProfile.css";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -45,7 +47,7 @@ const UserProfile = () => {
         <div className="profile-header">
           <span className="profile-title">Mi Perfil</span>
           <div className="profile-actions">
-            <button className="edit-btn">
+            <button className="edit-btn" onClick={() => navigate('/editar-perfil')}>
               <span className="edit-icon">&#9998;</span> Editar Perfil
             </button>
             <span className="settings-icon">&#9881;</span>
