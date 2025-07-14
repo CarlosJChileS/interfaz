@@ -282,3 +282,33 @@
   transition: background .18s;
 }
 .confirmBtn:hover { background: #228c39; }
+
+/* Dark mode styles */
+:global(body.dark) .pageBg {
+  background: #2b2b2b;
+}
+:global(body.dark) .formWrap {
+  background: #333;
+  color: #f5f5f5;
+}
+:global(body.dark) .headerBar {
+  background: #1f1f1f;
+  color: #fff;
+}
+:global(body.dark) .pointBox {
+  background: #333;
+  border-color: #555;
+}
+:global(body.dark) .materialCard {
+  background: #333;
+  border-color: #555;
+}
+:global(body.dark) .summaryBox {
+  background: #444;
+  border-color: #555;
+}
+:global(body.dark) .obsInput {
+  background: #444;
+  border-color: #666;
+  color: #fff;
+}

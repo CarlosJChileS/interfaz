@@ -143,3 +143,31 @@
 }
 .canje-tipo.cafe { color: #fd7b1f; }
 .canje-tipo.libros { color: #34a5fd; }
+
+/* Dark mode styles */
+body.dark .recompensas-root {
+  background: #1f1f1f;
+  color: #f0f0f0;
+}
+body.dark .recompensas-header {
+  background: #333;
+}
+body.dark .recompensas-puntos {
+  background: #555;
+  color: #fd7b1f;
+}
+body.dark .categoria {
+  background: #333;
+  color: #fd7b1f;
+}
+body.dark .categoria.selected {
+  background: #fd7b1f;
+  color: #fff;
+}
+body.dark .pop-card {
+  background: #444;
+  color: #f0f0f0;
+}
+body.dark .recompensas-recientes {
+  background: #444;
+}

@@ -373,3 +373,49 @@ body {
   }
 }
 
+/* Dark mode styles */
+body.dark .help-center-bg {
+  background: #2b2b2b;
+  color: #f0f0f0;
+}
+body.dark .help-center-container {
+  background: #2b2b2b;
+}
+body.dark .help-header {
+  background: #1f1f1f;
+}
+body.dark .help-search-wrapper {
+  background: #555;
+}
+body.dark .help-search {
+  color: #fff;
+}
+body.dark .help-title,
+body.dark .help-card__title,
+body.dark .help-faq-title,
+body.dark .help-contact-hours-title {
+  color: #8ab4f8;
+}
+body.dark .help-card,
+body.dark .help-faq-list,
+body.dark .help-form,
+body.dark .help-contact {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark .help-faq-answer {
+  background: #444;
+  color: #fff;
+}
+body.dark .help-form select,
+body.dark .help-form input,
+body.dark .help-form textarea {
+  background: #444;
+  border-color: #666;
+  color: #fff;
+}
+body.dark .help-form-clear {
+  background: #666;
+  color: #fff;
+}
+
