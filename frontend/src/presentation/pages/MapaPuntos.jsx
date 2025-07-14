@@ -65,6 +65,22 @@ export default function MapaPuntos() {
     setPuntos(prev => prev.filter(p => p.id !== id));
   };
 
+  const editPunto = async p => {
+    const nombre = window.prompt("Nuevo nombre", p.nombre);
+    if (nombre === null) return;
+    const material = window.prompt("Nuevo material", p.material);
+    if (material === null) return;
+    const res = await fetch(`/api/puntos/${p.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, material }),
+    });
+    if (res.ok) {
+      const actualizado = await res.json();
+      setPuntos(prev => prev.map(pt => (pt.id === p.id ? actualizado : pt)));
+    }
+  };
+
   const filtered = selected
     ? puntos.filter(p => p.material === selected)
     : puntos;
@@ -132,9 +148,18 @@ export default function MapaPuntos() {
                 >
                   {p.estado}
                 </span>
-                <button className="mapa-btn" onClick={() => deletePunto(p.id)}>
-                  Eliminar
-                </button>
+                <div>
+                  <button
+                    className="mapa-btn"
+                    onClick={() => editPunto(p)}
+                    style={{ marginRight: '6px' }}
+                  >
+                    Editar
+                  </button>
+                  <button className="mapa-btn" onClick={() => deletePunto(p.id)}>
+                    Eliminar
+                  </button>
+                </div>
               </div>
             ))}
           </div>
