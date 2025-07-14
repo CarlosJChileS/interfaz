@@ -1,0 +1,316 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.help-center-bg {
+  background: #746f6e;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.help-center-container {
+  max-width: 1200px;
+  background: #fff;
+  margin: 0 auto;
+  border-radius: 8px;
+  margin-top: 16px;
+  box-shadow: 0 2px 24px #0001;
+  overflow: hidden;
+}
+
+/* Header */
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #299dfc;
+  color: #fff;
+  padding: 16px 28px;
+  border-bottom: 1px solid #eee;
+}
+
+.help-header__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-header__icon {
+  font-size: 1.4rem;
+  margin-right: 5px;
+}
+
+.help-header__title {
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+
+.help-header__right {
+  flex-shrink: 0;
+}
+.help-search {
+  border: none;
+  border-radius: 18px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  outline: none;
+  width: 210px;
+  background: #fff;
+  color: #444;
+}
+
+/* Título */
+.help-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #265cb9;
+  margin: 30px 0 16px 32px;
+}
+
+/* Cards */
+.help-cards {
+  display: flex;
+  gap: 22px;
+  margin: 0 28px 18px 28px;
+  flex-wrap: wrap;
+}
+
+.help-card {
+  flex: 1 1 170px;
+  min-width: 210px;
+  background: #f2f9fe;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px 14px 16px;
+  align-items: flex-start;
+  box-shadow: 0 1px 8px #0001;
+  position: relative;
+  margin-bottom: 12px;
+}
+.help-card__icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+.help-card__title {
+  font-size: 1.08rem;
+  font-weight: bold;
+  color: #265cb9;
+  margin-bottom: 3px;
+}
+.help-card__desc {
+  font-size: 0.97rem;
+  color: #555;
+}
+
+.help-card.contact {
+  background: #e8f7e5;
+}
+.help-card.report {
+  background: #fff7e1;
+}
+.help-card.guides {
+  background: #f3ebfa;
+}
+
+.help-card__button {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 22px;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.help-card__button.contact {
+  background: #23c151;
+  color: #fff;
+}
+.help-card__button.report {
+  background: #ff9700;
+  color: #fff;
+}
+.help-card__button.guides {
+  background: #9919be;
+  color: #fff;
+}
+
+/* Preguntas frecuentes */
+.help-faq-section {
+  margin: 34px 32px 10px 32px;
+}
+.help-faq-title {
+  font-size: 1.22rem;
+  color: #265cb9;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.help-faq-list {
+  border-radius: 8px;
+  background: #f8fafb;
+  box-shadow: 0 1px 8px #0001;
+  padding: 3px 0;
+}
+.help-faq-item {
+  border-bottom: 1px solid #eee;
+}
+.help-faq-item:last-child {
+  border-bottom: none;
+}
+.help-faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 17px 16px;
+  text-align: left;
+  font-size: 1.04rem;
+  color: #2d3540;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.help-faq-answer {
+  background: #f4faff;
+  color: #3a4a58;
+  font-size: 0.98rem;
+  padding: 10px 22px 18px 22px;
+  border-radius: 0 0 8px 8px;
+  animation: faqfade 0.3s;
+}
+@keyframes faqfade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.help-faq-arrow {
+  font-size: 1.1rem;
+  color: #299dfc;
+}
+
+/* Formulario y Contacto */
+.help-form-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin: 38px 32px 38px 32px;
+}
+.help-form, .help-contact {
+  flex: 1 1 330px;
+  background: #f8fafb;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px #0001;
+  padding: 28px 22px 18px 22px;
+  min-width: 330px;
+  margin-bottom: 12px;
+}
+
+.help-form h3, .help-contact h3 {
+  font-size: 1.13rem;
+  color: #265cb9;
+  font-weight: bold;
+  margin-bottom: 13px;
+}
+.help-form form label {
+  display: block;
+  font-size: 0.97rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #313a4d;
+}
+.help-form select, .help-form input, .help-form textarea {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  border: 1px solid #b8c1cd;
+  font-size: 1rem;
+  background: #fff;
+  color: #30333a;
+  resize: vertical;
+}
+.help-form textarea {
+  min-height: 70px;
+}
+.help-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.help-form-upload {
+  font-size: 0.98rem;
+  color: #5c5c5c;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.help-form-upload-hint {
+  font-size: 0.89rem;
+  color: #9fa4ac;
+}
+.help-form-clear {
+  background: #f0f1f3;
+  color: #323842;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.98rem;
+}
+.help-form-submit {
+  background: #299dfc;
+  color: #fff;
+  border: none;
+  padding: 8px 17px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Info de contacto */
+.help-contact-hours {
+  margin-bottom: 19px;
+}
+.help-contact-hours-title {
+  color: #265cb9;
+  font-size: 1.03rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.help-contact-hours-table {
+  margin-left: 12px;
+  font-size: 0.99rem;
+}
+.help-contact-hours-closed b {
+  color: #f55;
+}
+.help-contact-data {
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+.help-contact-link {
+  color: #299dfc;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.help-contact-socials {
+  font-size: 0.99rem;
+}
+.help-contact-social-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 7px;
+}
+.help-social-icon {
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+@media (max-width: 950px) {
+  .help-cards { flex-direction: column; }
+  .help-form-contact-row { flex-direction: column; }
+}
+
