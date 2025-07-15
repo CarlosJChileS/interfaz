@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "./ConfirmModal";
+import { usePuntos } from "../../PuntosContext";
 
 const pointsPerMaterial = {
   "Papel y Cartón": 5,
@@ -11,7 +12,7 @@ const pointsPerMaterial = {
 };
 
 export default function RegisterRecyclePage() {
-  const [puntos, setPuntos] = useState([]);
+  const { puntos } = usePuntos();
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMaterials, setSelectedMaterials] = useState({
@@ -22,13 +23,6 @@ export default function RegisterRecyclePage() {
   });
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch('/api/puntos')
-      .then(res => res.json())
-      .then(data => setPuntos(data))
-      .catch(() => setPuntos([]));
-  }, []);
 
   const materialOptions = ["0.5 kg", "1 kg", "2+ kg"];
 

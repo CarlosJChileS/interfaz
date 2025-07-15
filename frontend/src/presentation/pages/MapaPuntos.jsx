@@ -8,6 +8,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "../styles/MapaPuntos.css";
+import { usePuntos } from "../../PuntosContext";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -17,7 +18,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function MapaPuntos() {
-  const [puntos, setPuntos] = useState([]);
+  const { puntos, addPunto, deletePunto: removePunto, updatePunto } = usePuntos();
   const [selected, setSelected] = useState("");
   const [creating, setCreating] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
@@ -34,12 +35,7 @@ export default function MapaPuntos() {
       ? [latParam, lngParam]
       : [-0.9526, -80.7454];
 
-  useEffect(() => {
-    fetch("/api/puntos")
-      .then(res => res.json())
-      .then(data => setPuntos(data))
-      .catch(() => setPuntos([]));
-  }, []);
+  // puntos se cargan desde el contexto
 
   const [newPoint, setNewPoint] = useState(null);
   const [manualPoint, setManualPoint] = useState({
@@ -87,7 +83,7 @@ export default function MapaPuntos() {
     setManualPoint(prev => ({ ...prev, [name]: value }));
   };
 
-  const submitManualPoint = async e => {
+  const submitManualPoint = e => {
     e.preventDefault();
     if (
       !manualPoint.nombre ||
@@ -96,43 +92,30 @@ export default function MapaPuntos() {
       manualPoint.lng === ""
     )
       return;
-    const res = await fetch("/api/puntos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nombre: manualPoint.nombre,
-        material: manualPoint.material,
-        posicion: [parseFloat(manualPoint.lat), parseFloat(manualPoint.lng)],
-        estado: "Disponible",
-      }),
+    addPunto({
+      nombre: manualPoint.nombre,
+      material: manualPoint.material,
+      posicion: [parseFloat(manualPoint.lat), parseFloat(manualPoint.lng)],
+      estado: "Disponible",
     });
-    const nuevo = await res.json();
-    setPuntos(prev => [...prev, nuevo]);
     setManualPoint({ nombre: "", material: "", lat: "", lng: "" });
     setShowManualForm(false);
   };
 
-  const submitNewPoint = async e => {
+  const submitNewPoint = e => {
     e.preventDefault();
     if (!newPoint.nombre || !newPoint.material) return;
-    const res = await fetch("/api/puntos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nombre: newPoint.nombre,
-        material: newPoint.material,
-        posicion: [newPoint.lat, newPoint.lng],
-        estado: "Disponible",
-      }),
+    addPunto({
+      nombre: newPoint.nombre,
+      material: newPoint.material,
+      posicion: [newPoint.lat, newPoint.lng],
+      estado: "Disponible",
     });
-    const nuevo = await res.json();
-    setPuntos(prev => [...prev, nuevo]);
     setNewPoint(null);
   };
 
-  const deletePunto = async id => {
-    await fetch(`/api/puntos/${id}`, { method: "DELETE" });
-    setPuntos(prev => prev.filter(p => p.id !== id));
+  const deletePunto = id => {
+    removePunto(id);
   };
 
   const editPunto = async p => {
@@ -140,15 +123,7 @@ export default function MapaPuntos() {
     if (nombre === null) return;
     const material = window.prompt("Nuevo material", p.material);
     if (material === null) return;
-    const res = await fetch(`/api/puntos/${p.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, material }),
-    });
-    if (res.ok) {
-      const actualizado = await res.json();
-      setPuntos(prev => prev.map(pt => (pt.id === p.id ? actualizado : pt)));
-    }
+    updatePunto(p.id, { nombre, material });
   };
 
   const filtered = selected
