@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
+import { FaTrash, FaClipboard } from "react-icons/fa";
 import DeleteConfirm from "./DeleteConfirm";
 import "../styles/RecycleHistory.css";
 
@@ -59,9 +60,11 @@ const RecycleHistory = () => {
                 onClick={() => setToDelete(rec)}
                 aria-label="Eliminar registro"
               >
-                🗑️
+                <FaTrash />
               </button>
-              <div className="record-icon">&#128230;</div>
+              <div className="record-icon">
+                <FaClipboard />
+              </div>
               <div className="record-info">
                 <div className="record-date">
                   <b>{new Date(rec.fecha).toLocaleDateString()}</b>
