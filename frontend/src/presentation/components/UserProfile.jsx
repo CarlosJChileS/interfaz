@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaEdit, FaCog } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import "../styles/UserProfile.css";
 
@@ -48,9 +49,9 @@ const UserProfile = () => {
           <span className="profile-title">Mi Perfil</span>
           <div className="profile-actions">
             <button className="edit-btn" onClick={() => navigate('/perfil#editar')}>
-              <span className="edit-icon">&#9998;</span> Editar Perfil
+              <FaEdit className="edit-icon" /> Editar Perfil
             </button>
-            <span className="settings-icon">&#9881;</span>
+            <FaCog className="settings-icon" />
           </div>
         </div>
         <div className="profile-content">
