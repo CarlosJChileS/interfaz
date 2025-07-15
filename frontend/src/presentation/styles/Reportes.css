@@ -1,3 +1,28 @@
+.reportes-root {
+  background: #ececec;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.reportes-header {
+  background: #ff6d2d;
+  color: #fff;
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 16px 16px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
 .incident-container {
   background: #fff;
   max-width: 550px;
@@ -5,19 +30,10 @@
   border-radius: 18px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.10);
   padding: 28px 26px 24px 26px;
-  font-family: 'Segoe UI', Arial, sans-serif;
   color: #242424;
   position: relative;
 }
 
-.incident-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #89bedc;
-  font-size: 1rem;
-  margin-bottom: 8px;
-}
 
 .urgent-btn {
   background: #ff765b;

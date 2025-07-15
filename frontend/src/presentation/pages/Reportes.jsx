@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Reportes.css";
 
 const incidentTypes = [
@@ -33,6 +34,7 @@ const incidentTypes = [
 ];
 
 export default function Reportes() {
+  const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState("damaged");
   const [location, setLocation] = useState("Biblioteca Central");
   const [description, setDescription] = useState("");
@@ -47,13 +49,19 @@ export default function Reportes() {
   };
 
   return (
-    <div className="incident-container">
-      <header className="incident-header">
-        <span>Ayuda &gt; Reportar Incidente</span>
+    <div className="reportes-root">
+      <header className="reportes-header">
+        <button
+          className="back-btn"
+          onClick={() => navigate(-1)}
+          aria-label="Volver"
+        >
+          ←
+        </button>
         <button className="urgent-btn">Reporte Urgente</button>
       </header>
-
-      <h2 className="incident-title">Reportar Incidente o Problema</h2>
+      <div className="incident-container">
+        <h2 className="incident-title">Reportar Incidente o Problema</h2>
       
       <section>
         <h3 className="section-title">Selecciona el Tipo de Incidente</h3>
@@ -157,6 +165,7 @@ export default function Reportes() {
       <div className="incident-footer">
         <button className="cancel-btn">Cancelar</button>
         <button className="send-btn">Enviar Reporte</button>
+      </div>
       </div>
     </div>
   );
