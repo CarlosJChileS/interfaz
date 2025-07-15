@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReportConfirmModal from "../components/ReportConfirmModal";
 import { useNavigate } from "react-router-dom";
 import "../styles/Reportes.css";
 
@@ -43,9 +44,19 @@ export default function Reportes() {
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("gsa.problemas@uleam.edu.ec");
   const [phone, setPhone] = useState("+57 300 123 4567");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const handleSend = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirm = () => {
+    alert("Reporte enviado");
+    setShowConfirm(false);
   };
 
   return (
@@ -164,9 +175,21 @@ export default function Reportes() {
 
       <div className="incident-footer">
         <button className="cancel-btn">Cancelar</button>
-        <button className="send-btn">Enviar Reporte</button>
+        <button className="send-btn" onClick={handleSend}>Enviar Reporte</button>
       </div>
       </div>
+      {showConfirm && (
+        <ReportConfirmModal
+          data={{
+            type: incidentTypes.find((x) => x.key === selectedType).title,
+            location,
+            urgency,
+            description,
+          }}
+          onCancel={() => setShowConfirm(false)}
+          onConfirm={handleConfirm}
+        />
+      )}
     </div>
   );
 }
