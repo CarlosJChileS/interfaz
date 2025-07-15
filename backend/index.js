@@ -39,6 +39,34 @@ let puntos = [
     estado: 'Disponible',
     posicion: [-0.9528, -80.7445],
   },
+  {
+    id: 5,
+    nombre: 'Parqueo Principal',
+    material: 'Plásticos',
+    estado: 'Disponible',
+    posicion: [-0.953, -80.744],
+  },
+  {
+    id: 6,
+    nombre: 'Laboratorios de Química',
+    material: 'Vidrio',
+    estado: '75% Lleno',
+    posicion: [-0.9518, -80.7437],
+  },
+  {
+    id: 7,
+    nombre: 'Auditorio Uleam',
+    material: 'Papel y Cartón',
+    estado: 'Disponible',
+    posicion: [-0.9532, -80.7461],
+  },
+  {
+    id: 8,
+    nombre: 'Entrada Uleam',
+    material: 'Metales',
+    estado: 'Disponible',
+    posicion: [-0.9521, -80.7435],
+  },
 ];
 
 app.get('/api/puntos', (req, res) => {

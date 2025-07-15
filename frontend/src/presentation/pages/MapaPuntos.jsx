@@ -22,6 +22,7 @@ export default function MapaPuntos() {
   const [creating, setCreating] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
   const [showCreateHelp, setShowCreateHelp] = useState(false);
+  const [showManualForm, setShowManualForm] = useState(false);
   const mapRef = useRef(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -41,6 +42,12 @@ export default function MapaPuntos() {
   }, []);
 
   const [newPoint, setNewPoint] = useState(null);
+  const [manualPoint, setManualPoint] = useState({
+    nombre: "",
+    material: "",
+    lat: "",
+    lng: "",
+  });
 
   useEffect(() => {
     const handleKey = e => {
@@ -73,6 +80,36 @@ export default function MapaPuntos() {
   const handleChange = e => {
     const { name, value } = e.target;
     setNewPoint(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleManualChange = e => {
+    const { name, value } = e.target;
+    setManualPoint(prev => ({ ...prev, [name]: value }));
+  };
+
+  const submitManualPoint = async e => {
+    e.preventDefault();
+    if (
+      !manualPoint.nombre ||
+      !manualPoint.material ||
+      manualPoint.lat === "" ||
+      manualPoint.lng === ""
+    )
+      return;
+    const res = await fetch("/api/puntos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre: manualPoint.nombre,
+        material: manualPoint.material,
+        posicion: [parseFloat(manualPoint.lat), parseFloat(manualPoint.lng)],
+        estado: "Disponible",
+      }),
+    });
+    const nuevo = await res.json();
+    setPuntos(prev => [...prev, nuevo]);
+    setManualPoint({ nombre: "", material: "", lat: "", lng: "" });
+    setShowManualForm(false);
   };
 
   const submitNewPoint = async e => {
@@ -144,6 +181,13 @@ export default function MapaPuntos() {
         >
           Crear Punto
         </button>
+        <button
+          className="mapa-btn"
+          onClick={() => setShowManualForm(true)}
+          disabled={creating || newPoint || showManualForm}
+        >
+          Crear Manualmente
+        </button>
         <button className="mapa-btn right" onClick={goToMyLocation}>Mi Ubicación</button>
         <button className="mapa-btn right" onClick={toggleFilters}>Filtros</button>
       </div>
@@ -153,6 +197,76 @@ export default function MapaPuntos() {
           <button className="mapa-btn" onClick={() => setShowCreateHelp(false)}>
             Cancelar
           </button>
+        </div>
+      )}
+      {showManualForm && (
+        <div className="create-panel">
+          <form onSubmit={submitManualPoint} className="popup-form">
+            <div>
+              <input
+                type="text"
+                name="nombre"
+                placeholder="Nombre"
+                value={manualPoint.nombre}
+                onChange={handleManualChange}
+                required
+              />
+            </div>
+            <div>
+              <select
+                name="material"
+                value={manualPoint.material}
+                onChange={handleManualChange}
+                required
+              >
+                <option value="" disabled>
+                  Seleccionar material
+                </option>
+                {['Papel y Cartón', 'Plásticos', 'Vidrio', 'Metales'].map(m => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <input
+                type="number"
+                step="any"
+                name="lat"
+                placeholder="Latitud"
+                value={manualPoint.lat}
+                onChange={handleManualChange}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                step="any"
+                name="lng"
+                placeholder="Longitud"
+                value={manualPoint.lng}
+                onChange={handleManualChange}
+                required
+              />
+            </div>
+            <div style={{ marginTop: '6px', textAlign: 'right' }}>
+              <button
+                type="button"
+                className="mapa-btn"
+                onClick={() => {
+                  setShowManualForm(false);
+                  setManualPoint({ nombre: '', material: '', lat: '', lng: '' });
+                }}
+              >
+                Cancelar
+              </button>
+              <button type="submit" className="mapa-btn" style={{ marginLeft: '6px' }}>
+                Guardar
+              </button>
+            </div>
+          </form>
         </div>
       )}
       <div className="mapa-main">
