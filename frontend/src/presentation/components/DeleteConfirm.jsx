@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./DeleteConfirm.module.css";
+import styles from "../styles/DeleteConfirm.module.css";
 
 export default function DeleteConfirm({ item, onCancel, onConfirm }) {
   const [loading, setLoading] = useState(false);

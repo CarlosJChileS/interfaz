@@ -1,3 +1,23 @@
+/* MODAL STYLES */
+.editprofile-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.editprofile-modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 5px 32px rgba(0,0,0,0.18);
+  max-width: 420px;
+  width: 100%;
+}
+
+/* FORM WRAPPER */
 .editprofile-form-wrapper {
   background: #fff;
   border-radius: 8px;
@@ -11,6 +31,8 @@ body.dark .editprofile-form-wrapper {
   background: #333;
   color: #f5f5f5;
 }
+
+/* FORM */
 .editprofile-form {
   display: flex;
   flex-direction: column;
@@ -27,6 +49,8 @@ body.dark .editprofile-form input {
   border-color: #777;
   color: #fff;
 }
+
+/* ACTIONS */
 .editprofile-actions {
   margin-top: 10px;
   display: flex;
@@ -47,6 +71,8 @@ body.dark .editprofile-actions .cancel-btn {
   background: #666;
   color: #fff;
 }
+
+/* FEEDBACK MESSAGES */
 .msg-success {
   color: green;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./ConfirmModal.module.css";
+import styles from "../styles/ConfirmModal.module.css";
 
 export default function ConfirmModal({ points, details, total, onClose }) {
   return (

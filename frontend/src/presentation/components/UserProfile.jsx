@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaEdit, FaCog } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import "../styles/UserProfile.css";
 
-const UserProfile = () => {
+const UserProfile = ({ onEdit }) => {
   const [profile, setProfile] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const meta = user.user_metadata || {};
+        const { data: perfilData } = await supabase
+          .from("perfil")
+          .select("foto_url, puntos, preferencias, datos_extra")
+          .eq("auth_id", user.id)
+          .single();
+
         setProfile({
           name: `${meta.nombre || ""} ${meta.apellidos || ""}`.trim(),
           email: user.email,
           telefono: meta.telefono,
-          facultad: meta.facultad,
-          programa: meta.programa,
+          foto_url: perfilData?.foto_url,
+          puntos: perfilData?.puntos ?? 0,
+          preferencias: perfilData?.preferencias,
         });
       }
     }
@@ -48,14 +53,20 @@ const UserProfile = () => {
         <div className="profile-header">
           <span className="profile-title">Mi Perfil</span>
           <div className="profile-actions">
-            <button className="edit-btn" onClick={() => navigate('/perfil#editar')}>
+            <button className="edit-btn" onClick={onEdit}>
               <FaEdit className="edit-icon" /> Editar Perfil
             </button>
             <FaCog className="settings-icon" />
           </div>
         </div>
         <div className="profile-content">
-          <div className="profile-avatar">{initials}</div>
+          <div className="profile-avatar">
+            {profile.foto_url ? (
+              <img src={profile.foto_url} alt={initials} className="profile-img" />
+            ) : (
+              initials
+            )}
+          </div>
           <div className="profile-info">
             <h2 className="profile-name">{profile.name}</h2>
             <div className="profile-desc">
@@ -79,7 +90,21 @@ const UserProfile = () => {
                 <br />
                 {profile.facultad}
               </div>
+              <div style={{ marginTop: "10px" }}>
+                <span className="profile-label">Puntos</span>
+                <br />
+                <b>{profile.puntos}</b>
+              </div>
             </div>
+            {profile.preferencias && (
+              <div style={{ marginTop: "10px" }}>
+                <span className="profile-label">Preferencias</span>
+                <br />
+                <pre style={{ fontSize: "12px", background: "#f8f8f8", padding: "5px", borderRadius: "4px" }}>
+                  {JSON.stringify(profile.preferencias, null, 2)}
+                </pre>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabase';
 import { useNavigate } from 'react-router-dom';
 import '../styles/EditProfileForm.css';
 
-export default function EditProfileForm() {
+export default function EditProfileForm({ onClose }) {
   const [form, setForm] = useState({
     nombre: '',
     apellidos: '',
@@ -15,7 +15,7 @@ export default function EditProfileForm() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
-  const navigate = useNavigate();
+  const [authId, setAuthId] = useState(null);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -24,13 +24,20 @@ export default function EditProfileForm() {
         setLoading(false);
         return;
       }
+      setAuthId(user.id);
       const meta = user.user_metadata || {};
+      const { data: usuario } = await supabase
+        .from("usuario")
+        .select("telefono, facultad, programa")
+        .eq("auth_id", user.id)
+        .single();
+
       setForm({
         nombre: meta.nombre || '',
         apellidos: meta.apellidos || '',
-        telefono: meta.telefono || '',
-        facultad: meta.facultad || '',
-        programa: meta.programa || '',
+        telefono: usuario?.telefono || meta.telefono || '',
+        facultad: usuario?.facultad || meta.facultad || '',
+        programa: usuario?.programa || meta.programa || '',
         email: user.email || ''
       });
       setLoading(false);
@@ -47,20 +54,30 @@ export default function EditProfileForm() {
     e.preventDefault();
     setSaving(true);
     setMsg('');
+    // Actualiza user_metadata en Supabase Auth
     const { error } = await supabase.auth.updateUser({
       data: {
         nombre: form.nombre,
         apellidos: form.apellidos,
-        telefono: form.telefono,
-        facultad: form.facultad,
-        programa: form.programa,
+        telefono: form.telefono
       }
     });
-    if (error) {
-      setMsg(error.message || 'Error al actualizar');
+    // Actualiza también los datos en la tabla perfil
+    let errorPerfil = null;
+    if (authId) {
+      const { error: err2 } = await supabase
+        .from("usuario")
+        .update({
+          telefono: form.telefono,
+        })
+        .eq("auth_id", authId);
+      errorPerfil = err2;
+    }
+    if (error || errorPerfil) {
+      setMsg((error?.message || errorPerfil?.message) || 'Error al actualizar');
     } else {
       setMsg('Perfil actualizado exitosamente');
-      setTimeout(() => navigate('/perfil'), 1500);
+      setTimeout(() => onClose(), 1200);
     }
     setSaving(false);
   };
@@ -95,18 +112,6 @@ export default function EditProfileForm() {
           value={form.telefono}
           onChange={handleChange}
         />
-        <label>Facultad</label>
-        <input
-          name="facultad"
-          value={form.facultad}
-          onChange={handleChange}
-        />
-        <label>Programa</label>
-        <input
-          name="programa"
-          value={form.programa}
-          onChange={handleChange}
-        />
         {msg && (
           <div className={msg.includes('exitosamente') ? 'msg-success' : 'msg-error'}>{msg}</div>
         )}
@@ -114,7 +119,7 @@ export default function EditProfileForm() {
           <button type="submit" disabled={saving}>
             {saving ? 'Guardando...' : 'Guardar'}
           </button>
-          <button type="button" onClick={() => navigate('/perfil')} className="cancel-btn">
+          <button type="button" onClick={onClose} className="cancel-btn">
             Cancelar
           </button>
         </div>

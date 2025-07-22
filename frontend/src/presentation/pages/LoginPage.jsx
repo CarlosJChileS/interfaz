@@ -22,10 +22,18 @@ export default function LoginPage() {
     setError('');
     const response = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
+
     if (response.error) {
       setError(response.error.message);
     } else if (response.data?.session) {
-      navigate('/dashboard');
+      // VALIDACIÓN: ¿Está el correo verificado?
+      const isVerified = response.data.session.user?.email_confirmed_at || response.data.session.user?.confirmed_at;
+      if (isVerified) {
+        navigate('/dashboard');
+      } else {
+        setError('Debes confirmar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada.');
+        // Opcional: puedes mostrar un botón para reenviar el correo de verificación
+      }
     } else {
       setError('No session returned. ¿Confirmaste tu correo?');
     }

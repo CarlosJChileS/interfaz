@@ -62,6 +62,10 @@
 .search-results li {
   padding: 6px 10px;
   cursor: pointer;
+  color: #222;      /* <--- añade esto */
+}
+body.dark .search-results li {
+  color: #f5f5f5;   /* <--- añade esto para modo oscuro */
 }
 .search-results li:hover {
   background: #f0f0f0;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReportConfirmModal from "../components/ReportConfirmModal";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../utils/supabase";
 import "../styles/Reportes.css";
 
 const incidentTypes = [
@@ -54,8 +55,46 @@ export default function Reportes() {
     setShowConfirm(true);
   };
 
-  const handleConfirm = () => {
-    alert("Reporte enviado");
+  const handleConfirm = async () => {
+    // Obtiene el usuario actual
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      alert("No se pudo obtener el usuario. Intenta de nuevo.");
+      setShowConfirm(false);
+      return;
+    }
+
+    // Inserta el reporte en la BD
+    const { error: reportError } = await supabase
+      .from("reporte")
+      .insert({
+        auth_id: user.id,
+        tipo: incidentTypes.find(x => x.key === selectedType).title,
+        descripcion: description,
+        ubicacion: location,
+        estado: "abierto",
+        fecha: new Date().toISOString()
+        // Puedes agregar otros campos como urgencia, email, phone, evidencia, etc.
+      });
+
+    // Inserta la acción en historial
+    await supabase
+      .from("historial")
+      .insert({
+        auth_id: user.id,
+        accion: "Reporte de incidente",
+        descripcion: `Reportaste: ${incidentTypes.find(x=>x.key === selectedType).title} en ${location}. Severidad: ${urgency}. Detalle: ${description}`,
+        fecha: new Date().toISOString()
+      });
+
+    if (reportError) {
+      alert("Hubo un error al enviar el reporte.");
+    } else {
+      alert("Reporte enviado");
+      // Puedes limpiar el formulario aquí si lo deseas
+      setDescription("");
+      setFile(null);
+    }
     setShowConfirm(false);
   };
 

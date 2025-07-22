@@ -29,13 +29,6 @@ export default function RegisterPage() {
     setSuccess(false);
     setLoading(true);
 
-    // Validación básica de correo institucional
-    // if (!form.email.endsWith('@unal.edu.co')) {
-    //   setLoading(false);
-    //   setError('El correo debe ser institucional (@unal.edu.co)');
-    //   return;
-    // }
-
     // Registro en Supabase Auth
     const { data, error } = await supabase.auth.signUp({
       email: form.email,
@@ -49,17 +42,47 @@ export default function RegisterPage() {
       }
     });
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       setError(error.message);
-    } else {
-      setSuccess(true);
-      // Opcional: Redirige tras unos segundos o informa al usuario que revise el email
-      setTimeout(() => navigate('/dashboard'), 1500);
+      return;
     }
-  };
 
+    // Si el registro en Auth fue exitoso, crea el usuario en tu tabla propia
+    // data.user contiene el objeto de usuario, su id es el UUID que necesitas
+    const auth_id = data?.user?.id;
+    if (auth_id) {
+      // Crea el registro en tu tabla usuario
+      const { error: dbError } = await supabase
+        .from('usuario')
+        .insert([{
+          auth_id,
+          nombre: form.nombre,
+          email: form.email,
+          password: form.password, // OJO: Normalmente NO guardes la password en tu tabla, solo en Auth
+          rol: 'estudiante', // O asigna el rol que corresponda
+          telefono: form.telefono
+        }]);
+
+      // Crea el registro en perfil
+      await supabase
+        .from('perfil')
+        .insert([{
+          auth_id,
+          puntos: 0
+        }]);
+
+      if (dbError) {
+        setLoading(false);
+        setError('Error creando usuario en la base de datos interna');
+        return;
+      }
+    }
+
+    setLoading(false);
+    setSuccess(true);
+    setTimeout(() => navigate('/login'), 2500);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.leftPanel}>

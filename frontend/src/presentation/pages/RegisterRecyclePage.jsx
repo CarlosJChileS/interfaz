@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/RegisterRecyclePage.module.css";
-import ConfirmModal from "./ConfirmModal";
+import ConfirmModal from "../components/ConfirmModal";
+import { supabase } from "../../utils/supabase";
 import { usePuntos } from "../../PuntosContext";
 
 const pointsPerMaterial = {
@@ -12,22 +13,23 @@ const pointsPerMaterial = {
 };
 
 export default function RegisterRecyclePage() {
-  const { puntos } = usePuntos();
+  const { puntos, refreshPuntos } = usePuntos();
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMaterials, setSelectedMaterials] = useState({
     "Papel y Cartón": null,
     "Plásticos PET": null,
-    Metales: "1 kg",
+    Metales: null,
     Vidrio: null,
   });
   const [showModal, setShowModal] = useState(false);
+  const [userPoints, setUserPoints] = useState(0);
+  const [observaciones, setObservaciones] = useState("");
+  const [authId, setAuthId] = useState(null);
   const navigate = useNavigate();
 
   const materialOptions = ["0.5 kg", "1 kg", "2+ kg"];
-
   const selectedPointData = selectedPoint ? puntos.find(p => p.id === selectedPoint) : null;
-
   const selectedEntries = Object.entries(selectedMaterials).filter(([, qty]) => qty);
 
   const totalPoints = selectedEntries.reduce(
@@ -41,12 +43,81 @@ export default function RegisterRecyclePage() {
     0
   );
 
+  useEffect(() => {
+    async function getUserInfo() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setAuthId(user.id);
+        const { data: perfil } = await supabase
+          .from("perfil")
+          .select("puntos")
+          .eq("auth_id", user.id)
+          .single();
+        if (perfil && typeof perfil.puntos === "number") {
+          setUserPoints(perfil.puntos);
+        }
+      }
+    }
+    getUserInfo();
+  }, []);
+
   function handleMaterialSelect(mat, qty) {
     setSelectedMaterials(prev => ({ ...prev, [mat]: qty }));
   }
 
-  function handleConfirm() {
-    setShowModal(true);
+  async function handleConfirm() {
+    if (!selectedPointData || selectedEntries.length === 0 || !authId) {
+      alert("Selecciona un punto limpio y al menos un material reciclado.");
+      return;
+    }
+    let success = true;
+    const nowISOString = new Date().toISOString();
+
+    // Registra reciclaje y historial en supabase
+    for (const [material, cantidad] of selectedEntries) {
+      // Insertar en solicitud_recoleccion
+      const { error } = await supabase
+        .from("solicitud_recoleccion")
+        .insert({
+          auth_id: authId,
+          direccion: selectedPointData.nombre,
+          fecha: nowISOString.slice(0, 10),
+          tipo_residuo: material,
+          estado: "completado",
+          fecha_creacion: nowISOString,
+          cantidad: cantidad,
+          observaciones,
+        });
+      if (error) success = false;
+
+      // Insertar en historial 
+      const puntosMaterial = (cantidad === "1 kg"
+        ? pointsPerMaterial[material]
+        : cantidad === "0.5 kg"
+        ? Math.round(pointsPerMaterial[material] / 2)
+        : pointsPerMaterial[material] * 2);
+
+      await supabase
+        .from("historial")
+        .insert({
+          auth_id: authId,
+          accion: "Registro de reciclaje",
+          descripcion: `Registraste ${cantidad} de ${material} en ${selectedPointData.nombre}.`,
+          fecha: nowISOString,
+          puntos: puntosMaterial
+        });
+    }
+    // Actualiza puntos del usuario
+    if (success) {
+      await supabase
+        .from("perfil")
+        .update({ puntos: userPoints + totalPoints })
+        .eq("auth_id", authId);
+      if (refreshPuntos) refreshPuntos();
+      setShowModal(true);
+    } else {
+      alert("Hubo un error al registrar el reciclaje.");
+    }
   }
 
   return (
@@ -57,7 +128,7 @@ export default function RegisterRecyclePage() {
         <span className={styles.pageTitle}>Registrar Material Reciclado</span>
         <div className={styles.pointsBox}>
           <span className={styles.starIcon}>⭐</span>
-          1,250 <span className={styles.pointsSmall}>Puntos actuales</span>
+          {userPoints.toLocaleString()} <span className={styles.pointsSmall}>Puntos actuales</span>
         </div>
       </header>
 
@@ -65,7 +136,7 @@ export default function RegisterRecyclePage() {
         <section>
           <h3 className={styles.sectionTitle}>1. Selecciona el Punto Limpio</h3>
           <div className={styles.filterBtns}>
-            {["Papel y Cartón", "Plásticos", "Vidrio", "Metales"].map(cat => (
+            {["Papel y Cartón", "Plásticos PET", "Vidrio", "Metales"].map(cat => (
               <div
                 key={cat}
                 className={`${styles.filterBtn} ${selectedCategory === cat ? styles.filterBtnActive : ""}`}
@@ -81,7 +152,7 @@ export default function RegisterRecyclePage() {
               <button type="button" className={styles.clearFilter} onClick={() => setSelectedCategory("")}>Todos</button>
             )}
           </div>
-          { (selectedCategory ? puntos.filter(p => p.material === selectedCategory) : puntos).map(p => (
+          {(selectedCategory ? puntos.filter(p => p.material === selectedCategory) : puntos).map(p => (
             <div
               key={p.id}
               className={`${styles.pointBox} ${selectedPoint === p.id ? styles.pointBoxActive : ""}`}
@@ -107,7 +178,7 @@ export default function RegisterRecyclePage() {
                 </button>
               </div>
             </div>
-          )) }
+          ))}
         </section>
 
         <section>
@@ -332,6 +403,8 @@ export default function RegisterRecyclePage() {
             id="obs"
             className={styles.obsInput}
             placeholder="Agrega cualquier comentario sobre el material reciclado..."
+            value={observaciones}
+            onChange={e => setObservaciones(e.target.value)}
           ></textarea>
         </div>
         <div className={styles.actionBtns}>
@@ -348,7 +421,7 @@ export default function RegisterRecyclePage() {
         <ConfirmModal
           points={totalPoints}
           details={selectedEntries}
-          total={1250 + totalPoints}
+          total={userPoints + totalPoints}
           onClose={() => setShowModal(false)}
         />
       )}

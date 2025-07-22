@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./RedeemModal.module.css";
+import styles from "../styles/RedeemModal.module.css";
 
 export default function RedeemModal({ reward, onConfirm, onCancel }) {
   return (

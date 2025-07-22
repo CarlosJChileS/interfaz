@@ -7,15 +7,24 @@ import "../styles/RecycleHistory.css";
 const RecycleHistory = () => {
   const [records, setRecords] = useState([]);
   const [toDelete, setToDelete] = useState(null);
+  const [authId, setAuthId] = useState(null);
 
   useEffect(() => {
     async function fetchRecords() {
-      const { data, error } = await supabase
+      // Obtener el usuario actual (auth_id)
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error || !user) return;
+      setAuthId(user.id);
+
+      // Filtra el historial solo para el usuario actual por auth_id
+      const { data, error: histError } = await supabase
         .from("historial")
         .select("id, accion, descripcion, fecha, puntos")
+        .eq("auth_id", user.id)
         .order("fecha", { ascending: false })
         .limit(10);
-      if (!error && data) {
+
+      if (!histError && data) {
         setRecords(data);
       }
     }

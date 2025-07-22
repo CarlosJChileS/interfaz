@@ -1,79 +1,154 @@
-import React, { useState } from "react";
-import { FaCoffee, FaBook, FaLeaf, FaPercent } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaCoffee, FaBook, FaLeaf, FaPercent, FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../utils/supabase";
 import RedeemModal from "../components/RedeemModal";
 import "../styles/Recompensas.css";
 
 export default function Recompensas() {
   const navigate = useNavigate();
   const [categoria, setCategoria] = useState("Todas");
-  const [puntos, setPuntos] = useState(1250);
+  const [puntos, setPuntos] = useState(0);
   const [rewardSel, setRewardSel] = useState(null);
-
+  const [recompensas, setRecompensas] = useState([]);
+  const [canjes, setCanjes] = useState([]);
   const categorias = [
-    { key: "Todas", label: "Todas (23)" },
-    { key: "Cafetería", label: "Cafetería (8)" },
-    { key: "Papelería", label: "Papelería (6)" },
-    { key: "Eco-Productos", label: "Eco-Productos (5)" },
-    { key: "Descuentos", label: "Descuentos (4)" },
+    { key: "Todas", label: "Todas" },
+    { key: "Cafetería", label: "Cafetería" },
+    { key: "Papelería", label: "Papelería" },
+    { key: "Eco-Productos", label: "Eco-Productos" },
+    { key: "Descuentos", label: "Descuentos" },
   ];
+  // Iconos por categoría
+  const iconosCat = {
+    "Cafetería": FaCoffee,
+    "Papelería": FaBook,
+    "Eco-Productos": FaLeaf,
+    "Descuentos": FaPercent,
+  };
 
-  const recompensas = [
-    {
-      id: 1,
-      nombre: "Café Gratis",
-      sub: "Cafetería Central",
-      desc:
-        "Válido por un café americano o capuchino en la cafetería principal del campus",
-      costo: 150,
-      categoria: "Cafetería",
-      icon: FaCoffee,
-      cls: "cafe",
-    },
-    {
-      id: 2,
-      nombre: "Descuento 20% Libros",
-      sub: "Librería Universitaria",
-      desc:
-        "20% de descuento en cualquier libro académico de literatura en la librería",
-      costo: 300,
-      categoria: "Papelería",
-      icon: FaBook,
-      cls: "libros",
-    },
-    {
-      id: 3,
-      nombre: "Botella Reutilizable",
-      sub: "Producto Eco-Friendly",
-      desc:
-        "Botella de acero inoxidable de 500ml con diseño exclusivo de la universidad",
-      costo: 500,
-      categoria: "Eco-Productos",
-      icon: FaLeaf,
-      cls: "eco",
-    },
-    {
-      id: 4,
-      nombre: "Almuerzo Gratis",
-      sub: "Restaurante Universitario",
-      desc:
-        "Almuerzo completo en el restaurante universitario, incluye entrada, plato fuerte y bebida",
-      costo: 400,
-      categoria: "Descuentos",
-      icon: FaPercent,
-      cls: "almuerzo",
-    },
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      // Obtener usuario actual
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Puntos del usuario
+      const { data: perfil } = await supabase
+        .from("perfil")
+        .select("puntos")
+        .eq("auth_id", user.id)
+        .single();
+      if (perfil && typeof perfil.puntos === "number") setPuntos(perfil.puntos);
+
+      // Recompensas disponibles
+      const { data: recomp } = await supabase
+        .from("recompensa")
+        .select("id, nombre, descripcion, puntos_necesarios, stock, activo, categoria")
+        .eq("activo", true)
+        .gt("stock", 0)
+        .order("puntos_necesarios", { ascending: true });
+
+      // Añadir iconos y clases
+      const recompensasFormateadas = (recomp || []).map(r => ({
+        id: r.id,
+        nombre: r.nombre,
+        sub: r.categoria,
+        desc: r.descripcion,
+        costo: r.puntos_necesarios,
+        categoria: r.categoria,
+        icon: iconosCat[r.categoria] || FaGift,
+        cls: r.categoria?.toLowerCase().replace(/[^a-z]/gi, "") || "default",
+        stock: r.stock
+      }));
+      setRecompensas(recompensasFormateadas);
+
+      // Canjes recientes
+      const { data: canjeData } = await supabase
+        .from("canje_recompensa")
+        .select("id, fecha, estado, recompensa(nombre, categoria, puntos_necesarios), codigo")
+        .eq("auth_id", user.id)
+        .order("fecha", { ascending: false })
+        .limit(5);
+
+      setCanjes((canjeData || []).map(c => ({
+        id: c.id,
+        nombre: c.recompensa?.nombre,
+        categoria: c.recompensa?.categoria,
+        costo: c.recompensa?.puntos_necesarios,
+        fecha: c.fecha,
+        codigo: c.codigo || "",
+        estado: c.estado,
+      })));
+    }
+    fetchData();
+  }, []);
 
   const lista =
     categoria === "Todas"
       ? recompensas
       : recompensas.filter((r) => r.categoria === categoria);
 
-  const handleConfirm = () => {
-    setPuntos((p) => p - rewardSel.costo);
+  const handleConfirm = async () => {
+    // Registrar el canje en supabase
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user || !rewardSel) return;
+
+    if (puntos < rewardSel.costo) {
+      alert("No tienes suficientes puntos para esta recompensa.");
+      return;
+    }
+    if (rewardSel.stock <= 0) {
+      alert("No hay stock disponible para esta recompensa.");
+      return;
+    }
+
+    // Inserta el canje con auth_id
+    const { error: insertError } = await supabase
+      .from("canje_recompensa")
+      .insert({
+        auth_id: user.id,
+        recompensa_id: rewardSel.id,
+        estado: "solicitado"
+      });
+
+    if (insertError) {
+      alert("Error al canjear recompensa");
+      return;
+    }
+
+    // Actualiza puntos del usuario
+    const { error: puntosError } = await supabase
+      .from("perfil")
+      .update({ puntos: puntos - rewardSel.costo })
+      .eq("auth_id", user.id);
+
+    // Actualiza stock de la recompensa
+    const { error: stockError } = await supabase
+      .from("recompensa")
+      .update({ stock: rewardSel.stock - 1 })
+      .eq("id", rewardSel.id);
+
+    // **NUEVO: Inserta registro en historial**
+    await supabase
+      .from("historial")
+      .insert({
+        auth_id: user.id,
+        accion: "Canje de recompensa",
+        descripcion: `Canjeaste ${rewardSel.nombre} (${rewardSel.categoria}) por ${rewardSel.costo} puntos.`,
+        fecha: new Date().toISOString(),
+        puntos: -rewardSel.costo
+      });
+
+    if (puntosError || stockError) {
+      alert("Error al actualizar puntos o stock.");
+      return;
+    }
+
+    setPuntos(p => p - rewardSel.costo);
     alert(`Canjeaste: ${rewardSel.nombre}`);
     setRewardSel(null);
+    // Opcional: recargar recompensas y canjes
   };
 
   return (
@@ -119,16 +194,19 @@ export default function Recompensas() {
         </div>
         <div className="recompensas-recientes">
           <h4>Mis Canjes Recientes</h4>
-          <div className="canje-item">
-            <span className="canje-tipo cafe">Café Gratis - Cafetería Central</span>
-            <span className="canje-pts neg">-150 pts</span>
-            <span className="canje-detalle">Canjeado hace 2 días - Código: C7204D01</span>
-          </div>
-          <div className="canje-item">
-            <span className="canje-tipo libros">Descuento 20% - Librería Universitaria</span>
-            <span className="canje-pts neg">-300 pts</span>
-            <span className="canje-detalle">Canjeado hace 1 semana - Código: LB202415</span>
-          </div>
+          {canjes.length === 0 ? (
+            <div className="canje-item">No has realizado canjes recientes.</div>
+          ) : (
+            canjes.map((c) => (
+              <div key={c.id} className="canje-item">
+                <span className={`canje-tipo ${c.categoria?.toLowerCase()}`}>{c.nombre} - {c.categoria}</span>
+                <span className="canje-pts neg">-{c.costo} pts</span>
+                <span className="canje-detalle">
+                  Canjeado el {new Date(c.fecha).toLocaleDateString()} {c.codigo && `- Código: ${c.codigo}`}
+                </span>
+              </div>
+            ))
+          )}
         </div>
       </div>
       {rewardSel && (

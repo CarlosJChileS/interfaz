@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
-import styles from "./NotificationModal.module.css";
+import styles from "../styles/NotificationModal.module.css";
 
 export default function NotificationModal({ onClose }) {
   const [alerts, setAlerts] = useState([]);

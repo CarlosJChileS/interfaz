@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./ReportConfirmModal.module.css";
+import styles from "../styles/DeleteConfirm.module.css";
 
 export default function ReportConfirmModal({ data, onCancel, onConfirm }) {
   return (
