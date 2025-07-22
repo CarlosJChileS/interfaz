@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
-import { FaTrash, FaClipboard } from "react-icons/fa";
+import { FaTrash, FaClipboard, FaFilter } from "react-icons/fa";
 import DeleteConfirm from "./DeleteConfirm";
 import "../styles/RecycleHistory.css";
 
 const RecycleHistory = () => {
   const [records, setRecords] = useState([]);
+  const [filteredRecords, setFilteredRecords] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("Todos");
   const [toDelete, setToDelete] = useState(null);
   const [authId, setAuthId] = useState(null);
 
@@ -26,23 +28,45 @@ const RecycleHistory = () => {
 
       if (!histError && data) {
         setRecords(data);
+        setFilteredRecords(data);
       }
     }
     fetchRecords();
   }, []);
 
+  // Efecto para filtrar registros cuando cambia el filtro seleccionado
+  useEffect(() => {
+    if (selectedFilter === "Todos") {
+      setFilteredRecords(records);
+    } else {
+      const filtered = records.filter(record => 
+        record.accion && record.accion.toLowerCase().includes(selectedFilter.toLowerCase())
+      );
+      setFilteredRecords(filtered);
+    }
+  }, [records, selectedFilter]);
+
+  // Obtener tipos únicos de eventos para los filtros
+  const getEventTypes = () => {
+    const types = ["Todos"];
+    const uniqueTypes = [...new Set(records.map(record => record.accion))];
+    return [...types, ...uniqueTypes.filter(type => type)];
+  };
+
   const handleDelete = async (id) => {
     const { error } = await supabase.from("historial").delete().eq("id", id);
     if (!error) {
-      setRecords((recs) => recs.filter((r) => r.id !== id));
+      const updatedRecords = records.filter((r) => r.id !== id);
+      setRecords(updatedRecords);
+      // Los filteredRecords se actualizarán automáticamente por el useEffect
     }
   };
 
-  const totalPuntos = records.reduce((acc, r) => acc + (r.puntos || 0), 0);
+  const totalPuntos = filteredRecords.reduce((acc, r) => acc + (r.puntos || 0), 0);
 
   const summary = [
-    { value: `${totalPuntos} pts`, label: "Puntos ganados", color: "summary-orange", desc: "totales" },
-    { value: `${records.length}`, label: "Registros", color: "summary-green", desc: "este mes" },
+    { value: `${totalPuntos} pts`, label: "Puntos ganados", color: "summary-orange", desc: selectedFilter === "Todos" ? "totales" : `en ${selectedFilter.toLowerCase()}` },
+    { value: `${filteredRecords.length}`, label: "Registros", color: "summary-green", desc: selectedFilter === "Todos" ? "este mes" : "filtrados" },
   ];
 
   return (
@@ -50,8 +74,28 @@ const RecycleHistory = () => {
       <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '20px auto 0' }}>
         <div className="panel-header">
           <span>Mi Historial</span>
-          <div className="badge">{records.length} registros</div>
+          <div className="badge">{filteredRecords.length} registros</div>
         </div>
+        
+        {/* Filtros */}
+        <div className="filter-section">
+          <div className="filter-header">
+            <FaFilter className="filter-icon" />
+            <span className="filter-title">Filtrar por tipo de evento</span>
+          </div>
+          <div className="filter-options">
+            {getEventTypes().map((type) => (
+              <button
+                key={type}
+                className={`filter-btn ${selectedFilter === type ? 'active' : ''}`}
+                onClick={() => setSelectedFilter(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
+        
         <div className="summary-cards">
           {summary.map((item, i) => (
             <div key={i} className={`summary-card ${item.color}`}>
@@ -62,36 +106,46 @@ const RecycleHistory = () => {
           ))}
         </div>
         <div className="records-header">
-          <span className="records-title">Registros Recientes</span>
+          <span className="records-title">
+            {selectedFilter === "Todos" ? "Registros Recientes" : `Registros de ${selectedFilter}`}
+          </span>
         </div>
         <div className="records-list">
-          {records.map((rec) => (
-            <div className="record-item" key={rec.id}>
-              <button
-                className="delete-btn"
-                onClick={() => setToDelete(rec)}
-                aria-label="Eliminar registro"
-              >
-                <FaTrash />
-              </button>
-              <div className="record-icon">
-                <FaClipboard />
-              </div>
-              <div className="record-info">
-                <div className="record-date">
-                  <b>{new Date(rec.fecha).toLocaleDateString()}</b>
-                  <span className="record-time">
-                    {new Date(rec.fecha).toLocaleTimeString()}
-                  </span>
-                </div>
-                <div className="record-place">{rec.accion}</div>
-                <div className="record-materials">{rec.descripcion}</div>
-              </div>
-              {rec.puntos && (
-                <div className="record-points">{`+${rec.puntos} puntos`}</div>
-              )}
+          {filteredRecords.length === 0 ? (
+            <div className="no-records">
+              <FaClipboard className="no-records-icon" />
+              <p>No hay registros para mostrar</p>
+              <small>{selectedFilter !== "Todos" ? `No se encontraron registros de "${selectedFilter}"` : "Aún no tienes actividad registrada"}</small>
             </div>
-          ))}
+          ) : (
+            filteredRecords.map((rec) => (
+              <div className="record-item" key={rec.id}>
+                <button
+                  className="delete-btn"
+                  onClick={() => setToDelete(rec)}
+                  aria-label="Eliminar registro"
+                >
+                  <FaTrash />
+                </button>
+                <div className="record-icon">
+                  <FaClipboard />
+                </div>
+                <div className="record-info">
+                  <div className="record-date">
+                    <b>{new Date(rec.fecha).toLocaleDateString()}</b>
+                    <span className="record-time">
+                      {new Date(rec.fecha).toLocaleTimeString()}
+                    </span>
+                  </div>
+                  <div className="record-place">{rec.accion}</div>
+                  <div className="record-materials">{rec.descripcion}</div>
+                </div>
+                {rec.puntos && (
+                  <div className="record-points">{`+${rec.puntos} puntos`}</div>
+                )}
+              </div>
+            ))
+          )}
         </div>
         <div className="recycle-footer">
           <span className="footer-title">Mi Historial de Reciclaje</span>

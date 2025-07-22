@@ -48,6 +48,118 @@ body.dark .recycle-container {
 .summary-blue { background: #d5eafd; color: #1976d2; }
 .summary-purple { background: #ebd6fa; color: #9535bb; }
 
+/* FILTER SECTION */
+.filter-section {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+body.dark .filter-section {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.filter-icon {
+  color: #2d9e51;
+  font-size: 1rem;
+}
+
+.filter-title {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+body.dark .filter-title {
+  color: #e5e7eb;
+}
+
+.filter-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 2px solid #e5e7eb;
+  background: #fff;
+  color: #6b7280;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: #2d9e51;
+  color: #2d9e51;
+  background: #f0f9f4;
+}
+
+.filter-btn.active {
+  background: #2d9e51;
+  border-color: #2d9e51;
+  color: #fff;
+}
+
+body.dark .filter-btn {
+  background: #374151;
+  border-color: #4b5563;
+  color: #d1d5db;
+}
+
+body.dark .filter-btn:hover {
+  border-color: #4ade80;
+  color: #4ade80;
+  background: #1f2937;
+}
+
+body.dark .filter-btn.active {
+  background: #4ade80;
+  border-color: #4ade80;
+  color: #1f2937;
+}
+
+/* NO RECORDS STATE */
+.no-records {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.no-records-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.no-records p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.no-records small {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+body.dark .no-records {
+  color: #9ca3af;
+}
+
 .summary-value {
   font-size: 1.6rem;
   font-weight: bold;
