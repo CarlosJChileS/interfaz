@@ -32,10 +32,11 @@ const UserProfile = ({ onEdit }) => {
 
   if (!profile) {
     return (
-      <div className="profile-bg">
-        <div className="profile-container">
-          <p>Cargando perfil...</p>
+      <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <div className="panel-header">
+          <span>Mi Perfil</span>
         </div>
+        <p>Cargando perfil...</p>
       </div>
     );
   }
@@ -48,64 +49,62 @@ const UserProfile = ({ onEdit }) => {
     .join("");
 
   return (
-    <div className="profile-bg">
-      <div className="profile-container">
-        <div className="profile-header">
-          <span className="profile-title">Mi Perfil</span>
-          <div className="profile-actions">
-            <button className="edit-btn" onClick={onEdit}>
-              <FaEdit className="edit-icon" /> Editar Perfil
-            </button>
-            <FaCog className="settings-icon" />
-          </div>
+    <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div className="panel-header">
+        <span>Mi Perfil</span>
+        <div className="profile-actions">
+          <button className="edit-btn" onClick={onEdit}>
+            <FaEdit className="edit-icon" /> Editar Perfil
+          </button>
+          <FaCog className="settings-icon" />
         </div>
-        <div className="profile-content">
-          <div className="profile-avatar">
-            {profile.foto_url ? (
-              <img src={profile.foto_url} alt={initials} className="profile-img" />
-            ) : (
-              initials
-            )}
+      </div>
+      <div className="profile-content">
+        <div className="profile-avatar">
+          {profile.foto_url ? (
+            <img src={profile.foto_url} alt={initials} className="profile-img" />
+          ) : (
+            initials
+          )}
+        </div>
+        <div className="profile-info">
+          <h2 className="profile-name">{profile.name}</h2>
+          <div className="profile-desc">
+            {profile.programa}
+            <br />
+            <span className="profile-sem">{profile.facultad}</span>
           </div>
-          <div className="profile-info">
-            <h2 className="profile-name">{profile.name}</h2>
-            <div className="profile-desc">
-              {profile.programa}
+          <div className="profile-details">
+            <div>
+              <span className="profile-label">Correo Electrónico</span>
               <br />
-              <span className="profile-sem">{profile.facultad}</span>
+              {profile.email}
             </div>
-            <div className="profile-details">
-              <div>
-                <span className="profile-label">Correo Electrónico</span>
-                <br />
-                {profile.email}
-              </div>
-              <div style={{ marginTop: "10px" }}>
-                <span className="profile-label">Teléfono</span>
-                <br />
-                {profile.telefono}
-              </div>
-              <div style={{ marginTop: "10px" }}>
-                <span className="profile-label">Facultad</span>
-                <br />
-                {profile.facultad}
-              </div>
-              <div style={{ marginTop: "10px" }}>
-                <span className="profile-label">Puntos</span>
-                <br />
-                <b>{profile.puntos}</b>
-              </div>
+            <div style={{ marginTop: "10px" }}>
+              <span className="profile-label">Teléfono</span>
+              <br />
+              {profile.telefono}
             </div>
-            {profile.preferencias && (
-              <div style={{ marginTop: "10px" }}>
-                <span className="profile-label">Preferencias</span>
-                <br />
-                <pre style={{ fontSize: "12px", background: "#f8f8f8", padding: "5px", borderRadius: "4px" }}>
-                  {JSON.stringify(profile.preferencias, null, 2)}
-                </pre>
-              </div>
-            )}
+            <div style={{ marginTop: "10px" }}>
+              <span className="profile-label">Facultad</span>
+              <br />
+              {profile.facultad}
+            </div>
+            <div style={{ marginTop: "10px" }}>
+              <span className="profile-label">Puntos</span>
+              <br />
+              <b style={{ color: "#2d9e51", fontSize: "1.2rem" }}>{profile.puntos}</b>
+            </div>
           </div>
+          {profile.preferencias && (
+            <div style={{ marginTop: "10px" }}>
+              <span className="profile-label">Preferencias</span>
+              <br />
+              <pre style={{ fontSize: "12px", background: "#f8f8f8", padding: "5px", borderRadius: "4px" }}>
+                {JSON.stringify(profile.preferencias, null, 2)}
+              </pre>
+            </div>
+          )}
         </div>
       </div>
     </div>

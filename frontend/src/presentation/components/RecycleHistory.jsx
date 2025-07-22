@@ -46,9 +46,12 @@ const RecycleHistory = () => {
   ];
 
   return (
-    <div className="recycle-bg">
-      <div className="recycle-container">
-        <div className="recycle-title">Mi Historial</div>
+    <>
+      <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '20px auto 0' }}>
+        <div className="panel-header">
+          <span>Mi Historial</span>
+          <div className="badge">{records.length} registros</div>
+        </div>
         <div className="summary-cards">
           {summary.map((item, i) => (
             <div key={i} className={`summary-card ${item.color}`}>
@@ -90,9 +93,9 @@ const RecycleHistory = () => {
             </div>
           ))}
         </div>
-      </div>
-      <div className="recycle-footer">
-        <span className="footer-title">Mi Historial de Reciclaje</span>
+        <div className="recycle-footer">
+          <span className="footer-title">Mi Historial de Reciclaje</span>
+        </div>
       </div>
       {toDelete && (
         <DeleteConfirm
@@ -104,7 +107,7 @@ const RecycleHistory = () => {
           }}
         />
       )}
-    </div>
+    </>
   );
 };
 
