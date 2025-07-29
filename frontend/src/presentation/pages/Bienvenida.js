@@ -1,14 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRecycle, FaMapMarkerAlt, FaGift } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../ThemeContext";
+import { useAuth } from "../../AuthContext";
 import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Bienvenida.css";
 
 export default function Bienvenida() {
   const { t } = useTranslation();
   const { dark } = useTheme();
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const handleStartNow = () => {
+    if (isLoggedIn) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleCreateAccount = () => {
+    if (isLoggedIn) {
+      navigate('/dashboard');
+    } else {
+      navigate('/register');
+    }
+  };
   
   return (
     <div className={`bienvenida-container ${dark ? 'dark' : ''}`}>
@@ -21,7 +40,7 @@ export default function Bienvenida() {
           {t('welcome_desc')}
         </p>
         <div className="bienvenida-buttons">
-          <Link className="primary-btn" to="/login">{t('welcome_start')}</Link>
+          <button className="primary-btn" onClick={handleStartNow}>{t('welcome_start')}</button>
           <Link className="outline-btn" to="/puntos">{t('welcome_points')}</Link>
         </div>
       </div>
@@ -48,7 +67,7 @@ export default function Bienvenida() {
       </div>
       <div className="bienvenida-bottom">
         <h3>{t('ready')}</h3>
-        <Link className="green-btn" to="/register">{t('create_account')}</Link>
+        <button className="green-btn" onClick={handleCreateAccount}>{t('create_account')}</button>
       </div>
     </div>
   );
