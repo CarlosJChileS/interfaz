@@ -211,6 +211,31 @@ label {
 .send-btn:hover {
   background: #ee560d;
 }
+.send-btn.disabled,
+.send-btn:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.send-btn.disabled:hover,
+.send-btn:disabled:hover {
+  background: #d1d5db;
+}
+
+/* Campo requerido */
+.required-field {
+  border-color: #fca5a5 !important;
+  background-color: #fef2f2 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
 
 @media (max-width: 650px) {
   .incident-container {

@@ -63,11 +63,7 @@ const UserProfile = ({ onEdit }) => {
               <br />
               {profile.telefono}
             </div>
-            <div style={{ marginTop: "10px" }}>
-              <span className="profile-label">{t('account_faculty')}</span>
-              <br />
-              {profile.facultad}
-            </div>
+
             <div style={{ marginTop: "10px" }}>
               <span className="profile-label">{t('account_total_points')}</span>
               <br />

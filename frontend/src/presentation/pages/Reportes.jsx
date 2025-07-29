@@ -57,10 +57,23 @@ export default function Reportes() {
   };
 
   const handleSend = () => {
+    // Validar que la descripción no esté vacía
+    if (!description.trim()) {
+      alert(t('reports_error_description_required'));
+      return;
+    }
+    
     setShowConfirm(true);
   };
 
   const handleConfirm = async () => {
+    // Validación final de descripción obligatoria
+    if (!description.trim()) {
+      alert(t('reports_error_description_required'));
+      setShowConfirm(false);
+      return;
+    }
+
     // Obtiene el usuario actual
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
@@ -147,12 +160,17 @@ export default function Reportes() {
 
           <label>{t('reports_description')} *</label>
           <textarea
-            className="input"
+            className={`input ${!description.trim() ? 'required-field' : ''}`}
             rows={2}
             placeholder={t('reports_description_placeholder')}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          {!description.trim() && (
+            <div className="field-error">
+              {t('reports_error_description_required')}
+            </div>
+          )}
 
           <div className="row">
             <div className="col">
@@ -220,7 +238,13 @@ export default function Reportes() {
 
       <div className="incident-footer">
         <button className="cancel-btn">{t('common_cancel')}</button>
-        <button className="send-btn" onClick={handleSend}>{t('reports_submit')}</button>
+        <button 
+          className={`send-btn ${!description.trim() ? 'disabled' : ''}`} 
+          onClick={handleSend}
+          disabled={!description.trim()}
+        >
+          {t('reports_submit')}
+        </button>
       </div>
       </div>
       {showConfirm && (

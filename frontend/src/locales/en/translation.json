@@ -297,6 +297,7 @@
   "reports_summary_no_description": "(Not entered)",
   "reports_error_user": "Could not get user. Try again.",
   "reports_error_submit": "There was an error sending the report.",
+  "reports_error_description_required": "Description is required. Please describe the problem before submitting the report.",
   "reports_confirm_sent": "Report sent",
   
   "history_title": "My History",

@@ -278,6 +278,7 @@
   "reports_summary_no_description": "(No ingresada)",
   "reports_error_user": "No se pudo obtener el usuario. Intenta de nuevo.",
   "reports_error_submit": "Hubo un error al enviar el reporte.",
+  "reports_error_description_required": "La descripción es obligatoria. Por favor describe el problema antes de enviar el reporte.",
   "reports_confirm_sent": "Reporte enviado",
   
   "history_title": "Mi Historial",
