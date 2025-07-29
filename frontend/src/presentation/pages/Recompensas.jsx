@@ -17,18 +17,23 @@ const iconosCat = {
 export default function Recompensas() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [categoria, setCategoria] = useState("Todas");
+  const [categoria, setCategoria] = useState(t('rewards_category_all'));
   const [puntos, setPuntos] = useState(0);
   const [rewardSel, setRewardSel] = useState(null);
   const [recompensas, setRecompensas] = useState([]);
   const [canjes, setCanjes] = useState([]);
+  
   const categorias = [
-    { key: "Todas", label: "Todas" },
-    { key: "Cafetería", label: "Cafetería" },
-    { key: "Papelería", label: "Papelería" },
-    { key: "Eco-Productos", label: "Eco-Productos" },
-    { key: "Descuentos", label: "Descuentos" },
+    { key: "Todas", label: t('rewards_category_all') },
+    { key: "Cafetería", label: t('rewards_category_cafeteria') },
+    { key: "Papelería", label: t('rewards_category_stationery') },
+    { key: "Eco-Productos", label: t('rewards_category_eco') },
+    { key: "Descuentos", label: t('rewards_category_discounts') },
   ];
+
+  useEffect(() => {
+    setCategoria(t('rewards_category_all'));
+  }, [t]);
 
   useEffect(() => {
     async function fetchData() {
@@ -87,10 +92,22 @@ export default function Recompensas() {
     fetchData();
   }, []);
 
+  // Función para obtener la categoría original desde la traducción
+  const getOriginalCategory = (translatedCategory) => {
+    const categoryMap = {
+      [t('rewards_category_all')]: "Todas",
+      [t('rewards_category_cafeteria')]: "Cafetería",
+      [t('rewards_category_stationery')]: "Papelería",
+      [t('rewards_category_eco')]: "Eco-Productos",
+      [t('rewards_category_discounts')]: "Descuentos"
+    };
+    return categoryMap[translatedCategory] || translatedCategory;
+  };
+
   const lista =
-    categoria === "Todas"
+    categoria === t('rewards_category_all')
       ? recompensas
-      : recompensas.filter((r) => r.categoria === categoria);
+      : recompensas.filter((r) => r.categoria === getOriginalCategory(categoria));
 
   const handleConfirm = async () => {
     // Registrar el canje en supabase
@@ -102,7 +119,7 @@ export default function Recompensas() {
       return;
     }
     if (rewardSel.stock <= 0) {
-      alert("No hay stock disponible para esta recompensa.");
+      alert(t('rewards_no_stock'));
       return;
     }
 
@@ -116,7 +133,7 @@ export default function Recompensas() {
       });
 
     if (insertError) {
-      alert("Error al canjear recompensa");
+      alert(t('rewards_exchange_error'));
       return;
     }
 
@@ -144,12 +161,12 @@ export default function Recompensas() {
       });
 
     if (puntosError || stockError) {
-      alert("Error al actualizar puntos o stock.");
+      alert(t('rewards_update_error'));
       return;
     }
 
     setPuntos(p => p - rewardSel.costo);
-    alert(`Canjeaste: ${rewardSel.nombre}`);
+    alert(`${t('rewards_success')} ${rewardSel.nombre}`);
     setRewardSel(null);
     // Opcional: recargar recompensas y canjes
   };
@@ -176,7 +193,7 @@ export default function Recompensas() {
           ))}
         </div>
         <div className="recompensas-mas-populares">
-          <h3>Recompensas Más Populares</h3>
+          <h3>{t('rewards_popular')}</h3>
           <div className="populares-grid">
             {lista.map((r) => {
               const Icon = r.icon;
@@ -196,16 +213,16 @@ export default function Recompensas() {
           </div>
         </div>
         <div className="recompensas-recientes">
-          <h4>Mis Canjes Recientes</h4>
+          <h4>{t('rewards_recent_exchanges')}</h4>
           {canjes.length === 0 ? (
-            <div className="canje-item">No has realizado canjes recientes.</div>
+            <div className="canje-item">{t('rewards_no_recent')}</div>
           ) : (
             canjes.map((c) => (
               <div key={c.id} className="canje-item">
                 <span className={`canje-tipo ${c.categoria?.toLowerCase()}`}>{c.nombre} - {c.categoria}</span>
                 <span className="canje-pts neg">-{c.costo} pts</span>
                 <span className="canje-detalle">
-                  Canjeado el {new Date(c.fecha).toLocaleDateString()} {c.codigo && `- Código: ${c.codigo}`}
+                  {t('rewards_exchanged_on')} {new Date(c.fecha).toLocaleDateString()} {c.codigo && `- ${t('rewards_code')} ${c.codigo}`}
                 </span>
               </div>
             ))

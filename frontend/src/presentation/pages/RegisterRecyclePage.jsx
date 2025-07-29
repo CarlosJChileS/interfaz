@@ -69,7 +69,7 @@ export default function RegisterRecyclePage() {
 
   async function handleConfirm() {
     if (!selectedPointData || selectedEntries.length === 0 || !authId) {
-      alert("Selecciona un punto limpio y al menos un material reciclado.");
+      alert(t('register_recycle_error_selection'));
       return;
     }
     let success = true;
@@ -118,7 +118,7 @@ export default function RegisterRecyclePage() {
       if (refreshPuntos) refreshPuntos();
       setShowModal(true);
     } else {
-      alert("Hubo un error al registrar el reciclaje.");
+      alert(t('register_recycle_error_save'));
     }
   }
 
@@ -130,28 +130,33 @@ export default function RegisterRecyclePage() {
         <span className={styles.pageTitle}>{t('register_recycle_title')}</span>
         <div className={styles.pointsBox}>
           <span className={styles.starIcon}>⭐</span>
-          {userPoints.toLocaleString()} <span className={styles.pointsSmall}>Puntos actuales</span>
+          {userPoints.toLocaleString()} <span className={styles.pointsSmall}>{t('register_recycle_current_points')}</span>
         </div>
       </header>
 
       <div className={styles.formWrap}>
         <section>
-          <h3 className={styles.sectionTitle}>1. Selecciona el Punto Limpio</h3>
+          <h3 className={styles.sectionTitle}>{t('register_recycle_step1')}</h3>
           <div className={styles.filterBtns}>
-            {["Papel y Cartón", "Plásticos PET", "Vidrio", "Metales"].map(cat => (
+            {[
+              { key: "Papel y Cartón", label: t('register_recycle_material_paper') },
+              { key: "Plásticos PET", label: t('register_recycle_material_plastic') },
+              { key: "Vidrio", label: t('register_recycle_material_glass') },
+              { key: "Metales", label: t('register_recycle_material_metal') }
+            ].map(cat => (
               <div
-                key={cat}
-                className={`${styles.filterBtn} ${selectedCategory === cat ? styles.filterBtnActive : ""}`}
-                onClick={() => setSelectedCategory(cat)}
+                key={cat.key}
+                className={`${styles.filterBtn} ${selectedCategory === cat.key ? styles.filterBtnActive : ""}`}
+                onClick={() => setSelectedCategory(cat.key)}
                 role="button"
                 tabIndex="0"
-                onKeyDown={e => e.key === "Enter" && setSelectedCategory(cat)}
+                onKeyDown={e => e.key === "Enter" && setSelectedCategory(cat.key)}
               >
-                {cat}
+                {cat.label}
               </div>
             ))}
             {selectedCategory && (
-              <button type="button" className={styles.clearFilter} onClick={() => setSelectedCategory("")}>Todos</button>
+              <button type="button" className={styles.clearFilter} onClick={() => setSelectedCategory("")}>{t('register_recycle_filter_all')}</button>
             )}
           </div>
           {(selectedCategory ? puntos.filter(p => p.material === selectedCategory) : puntos).map(p => (
@@ -176,7 +181,7 @@ export default function RegisterRecyclePage() {
                     navigate(`/puntos?lat=${p.posicion[0]}&lng=${p.posicion[1]}`);
                   }}
                 >
-                  Ver Mapa
+                  {t('register_recycle_view_map')}
                 </button>
               </div>
             </div>
@@ -184,7 +189,7 @@ export default function RegisterRecyclePage() {
         </section>
 
         <section>
-          <h3 className={styles.sectionTitle}>2. Selecciona los Materiales Reciclados</h3>
+          <h3 className={styles.sectionTitle}>{t('register_recycle_step2')}</h3>
           <div className={styles.materialsGrid}>
             <div
               className={
@@ -196,11 +201,11 @@ export default function RegisterRecyclePage() {
             >
               <div className={styles.matHeader}>
                 <span className={styles.matIcon}>📄</span>
-                <b>Papel y Cartón</b>
-                <span className={styles.pointsBadge}>5 puntos por kg</span>
+                <b>{t('register_recycle_material_paper')}</b>
+                <span className={styles.pointsBadge}>5 {t('register_recycle_points_per_kg')}</span>
               </div>
               <div className={styles.matQty}>
-                <div>Cantidad aproximada:</div>
+                <div>{t('register_recycle_quantity')}</div>
                 <div className={styles.matQtyBtns}>
                   {materialOptions.map(opt => (
                     <button
@@ -236,11 +241,11 @@ export default function RegisterRecyclePage() {
             >
               <div className={styles.matHeader}>
                 <span className={styles.matIcon}>🧴</span>
-                <b>Plásticos PET</b>
-                <span className={styles.pointsBadge}>8 puntos por kg</span>
+                <b>{t('register_recycle_material_plastic')}</b>
+                <span className={styles.pointsBadge}>8 {t('register_recycle_points_per_kg')}</span>
               </div>
               <div className={styles.matQty}>
-                <div>Cantidad aproximada:</div>
+                <div>{t('register_recycle_quantity')}</div>
                 <div className={styles.matQtyBtns}>
                   {materialOptions.map(opt => (
                     <button
@@ -275,11 +280,11 @@ export default function RegisterRecyclePage() {
             >
               <div className={styles.matHeader}>
                 <span className={styles.matIcon}>⚡</span>
-                <b>Metales</b>
-                <span className={styles.pointsBadgeBlue}>12 puntos por kg</span>
+                <b>{t('register_recycle_material_metal')}</b>
+                <span className={styles.pointsBadgeBlue}>12 {t('register_recycle_points_per_kg')}</span>
               </div>
               <div className={styles.matQty}>
-                <div>Cantidad aproximada:</div>
+                <div>{t('register_recycle_quantity')}</div>
                 <div className={styles.matQtyBtns}>
                   {materialOptions.map(opt => (
                     <button
@@ -315,11 +320,11 @@ export default function RegisterRecyclePage() {
             >
               <div className={styles.matHeader}>
                 <span className={styles.matIcon}>🍶</span>
-                <b>Vidrio</b>
-                <span className={styles.pointsBadgeGray}>6 puntos por kg</span>
+                <b>{t('register_recycle_material_glass')}</b>
+                <span className={styles.pointsBadgeGray}>6 {t('register_recycle_points_per_kg')}</span>
               </div>
               <div className={styles.matQty}>
-                <div>Cantidad aproximada:</div>
+                <div>{t('register_recycle_quantity')}</div>
                 <div className={styles.matQtyBtns}>
                   {materialOptions.map(opt => (
                     <button
@@ -347,7 +352,7 @@ export default function RegisterRecyclePage() {
         </section>
 
         <section>
-          <h3 className={styles.sectionTitle}>3. Confirma tu Registro</h3>
+          <h3 className={styles.sectionTitle}>{t('register_recycle_step3')}</h3>
           <div className={styles.summaryBox}>
             <div className={styles.summaryHeader}>
               <span className={styles.pointIcon}>📍</span>
@@ -355,42 +360,42 @@ export default function RegisterRecyclePage() {
                 <b>
                   {selectedPointData
                     ? `${selectedPointData.nombre} - ${selectedPointData.material}`
-                    : "Sin punto seleccionado"}
+                    : t('register_recycle_no_point')}
                 </b>
               </div>
               <div className={styles.summaryTime}>
-                <span>Hoy, 14:30</span>
+                <span>{t('register_recycle_today')}</span>
               </div>
             </div>
             <div>
               {selectedMaterials["Papel y Cartón"] && (
                 <div className={styles.sumLineGreen}>
-                  <span>📄 Papel y Cartón - {selectedMaterials["Papel y Cartón"]}</span>
+                  <span>📄 {t('register_recycle_material_paper')} - {selectedMaterials["Papel y Cartón"]}</span>
                   <span>+5 puntos</span>
                 </div>
               )}
               {selectedMaterials["Plásticos PET"] && (
                 <div className={styles.sumLineGreen}>
-                  <span>♻️ Plásticos PET - {selectedMaterials["Plásticos PET"]}</span>
+                  <span>♻️ {t('register_recycle_material_plastic')} - {selectedMaterials["Plásticos PET"]}</span>
                   <span>+8 puntos</span>
                 </div>
               )}
               {selectedMaterials["Metales"] && (
                 <div className={styles.sumLineBlue}>
-                  <span>⚡ Metales - {selectedMaterials["Metales"]}</span>
+                  <span>⚡ {t('register_recycle_material_metal')} - {selectedMaterials["Metales"]}</span>
                   <span>+12 puntos</span>
                 </div>
               )}
               {selectedMaterials["Vidrio"] && (
                 <div className={styles.sumLineGray}>
-                  <span>🍶 Vidrio - {selectedMaterials["Vidrio"]}</span>
+                  <span>🍶 {t('register_recycle_material_glass')} - {selectedMaterials["Vidrio"]}</span>
                   <span>+6 puntos</span>
                 </div>
               )}
             </div>
             <div className={styles.sumTotal}>
               <span>
-                <span className={styles.starIcon}>⭐</span> Total de Puntos a Ganar:
+                <span className={styles.starIcon}>⭐</span> {t('register_recycle_total_points')}
               </span>
               <span className={styles.sumTotalNum}>+{totalPoints} puntos</span>
             </div>
@@ -399,22 +404,22 @@ export default function RegisterRecyclePage() {
 
         <div className={styles.obsBox}>
           <label htmlFor="obs" className={styles.obsLabel}>
-            Observaciones Adicionales (Opcional)
+            {t('register_recycle_observations')}
           </label>
           <textarea
             id="obs"
             className={styles.obsInput}
-            placeholder="Agrega cualquier comentario sobre el material reciclado..."
+            placeholder={t('register_recycle_observations_placeholder')}
             value={observaciones}
             onChange={e => setObservaciones(e.target.value)}
           ></textarea>
         </div>
         <div className={styles.actionBtns}>
           <button className={styles.cancelBtn} type="button" onClick={() => navigate(-1)}>
-            Cancelar
+            {t('register_recycle_cancel')}
           </button>
           <button className={styles.confirmBtn} onClick={handleConfirm} type="button">
-            Confirmar Registro
+            {t('register_recycle_confirm')}
           </button>
         </div>
       </div>
