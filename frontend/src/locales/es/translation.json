@@ -44,6 +44,9 @@
   "register_login": "Inicia sesión aquí",
   "register_success": "¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.",
   "register_show_password": "Mostrar contraseña",
+  "password_weak": "Débil",
+  "password_medium": "Media",
+  "password_strong": "Fuerte",
   
   "reset_password_title": "Restablecer Contraseña",
   "reset_password_email": "Ingresa tu correo electrónico",

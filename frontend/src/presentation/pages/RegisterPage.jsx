@@ -22,6 +22,35 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
+  const getPasswordStrength = (password) => {
+    if (!password) return { score: 0, label: '', color: '#e0e0e0' };
+    
+    let score = 0;
+    const checks = {
+      length: password.length >= 8,
+      lowercase: /[a-z]/.test(password),
+      uppercase: /[A-Z]/.test(password),
+      numbers: /\d/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    };
+    
+    // Calcular puntuación
+    if (checks.length) score += 20;
+    if (checks.lowercase) score += 20;
+    if (checks.uppercase) score += 20;
+    if (checks.numbers) score += 20;
+    if (checks.special) score += 20;
+    
+    // Determinar nivel y color
+    if (score < 40) {
+      return { score, label: t('password_weak'), color: '#f44336' };
+    } else if (score < 80) {
+      return { score, label: t('password_medium'), color: '#ff9800' };
+    } else {
+      return { score, label: t('password_strong'), color: '#4caf50' };
+    }
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
@@ -198,6 +227,25 @@ export default function RegisterPage() {
               )}
             </span>
           </div>
+          {form.password && (
+            <div className={styles.passwordStrength}>
+              <div className={styles.strengthBar}>
+                <div 
+                  className={styles.strengthFill}
+                  style={{
+                    width: `${getPasswordStrength(form.password).score}%`,
+                    backgroundColor: getPasswordStrength(form.password).color
+                  }}
+                />
+              </div>
+              <small 
+                className={styles.strengthLabel}
+                style={{ color: getPasswordStrength(form.password).color }}
+              >
+                {getPasswordStrength(form.password).label}
+              </small>
+            </div>
+          )}
           <small className={styles.note}>{t('register_note')}</small>
           {error && (
             <div className={styles.errorMsg} aria-live="assertive">
