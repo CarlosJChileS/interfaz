@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaCog } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
 import "../styles/UserProfile.css";
 
 const UserProfile = ({ onEdit }) => {
+  const { t } = useTranslation();
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -34,9 +36,9 @@ const UserProfile = ({ onEdit }) => {
     return (
       <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="panel-header">
-          <span>Mi Perfil</span>
+          <span>{t('account_profile')}</span>
         </div>
-        <p>Cargando perfil...</p>
+        <p>{t('common_loading')}</p>
       </div>
     );
   }
@@ -51,10 +53,10 @@ const UserProfile = ({ onEdit }) => {
   return (
     <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '0 auto' }}>
       <div className="panel-header">
-        <span>Mi Perfil</span>
+        <span>{t('account_profile')}</span>
         <div className="profile-actions">
           <button className="edit-btn" onClick={onEdit}>
-            <FaEdit className="edit-icon" /> Editar Perfil
+            <FaEdit className="edit-icon" /> {t('account_edit')}
           </button>
           <FaCog className="settings-icon" />
         </div>
@@ -76,22 +78,22 @@ const UserProfile = ({ onEdit }) => {
           </div>
           <div className="profile-details">
             <div>
-              <span className="profile-label">Correo Electrónico</span>
+              <span className="profile-label">{t('account_email')}</span>
               <br />
               {profile.email}
             </div>
             <div style={{ marginTop: "10px" }}>
-              <span className="profile-label">Teléfono</span>
+              <span className="profile-label">{t('account_phone')}</span>
               <br />
               {profile.telefono}
             </div>
             <div style={{ marginTop: "10px" }}>
-              <span className="profile-label">Facultad</span>
+              <span className="profile-label">{t('account_faculty')}</span>
               <br />
               {profile.facultad}
             </div>
             <div style={{ marginTop: "10px" }}>
-              <span className="profile-label">Puntos</span>
+              <span className="profile-label">{t('account_total_points')}</span>
               <br />
               <b style={{ color: "#2d9e51", fontSize: "1.2rem" }}>{profile.puntos}</b>
             </div>

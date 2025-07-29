@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabase';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/LoginPage.module.css';
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetMsg, setResetMsg] = useState('');
@@ -31,11 +33,11 @@ export default function LoginPage() {
       if (isVerified) {
         navigate('/dashboard');
       } else {
-        setError('Debes confirmar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada.');
+        setError(t('login_verification_required'));
         // Opcional: puedes mostrar un botón para reenviar el correo de verificación
       }
     } else {
-      setError('No session returned. ¿Confirmaste tu correo?');
+      setError(t('login_no_session'));
     }
   };
 
@@ -51,7 +53,7 @@ export default function LoginPage() {
     if (error) {
       setResetMsg(error.message);
     } else {
-      setResetMsg('Revisa tu correo electrónico para restablecer tu contraseña.');
+      setResetMsg(t('reset_password_success'));
     }
   };
 
@@ -84,10 +86,10 @@ export default function LoginPage() {
         </div>
       </div>
       <div className={styles.rightPanel}>
-        <h2 className={styles.loginTitle}>Iniciar Sesión</h2>
+        <h2 className={styles.loginTitle}>{t('login_title')}</h2>
         <p className={styles.loginDesc}>Ingresa tus credenciales para acceder</p>
         <form onSubmit={handleSubmit}>
-          <label className={styles.label}>Correo Electrónico *</label>
+          <label className={styles.label}>{t('login_email')} *</label>
           <div className={styles.inputIcon}>
             <span className={styles.icon}>
               <svg width="18" height="18" fill="none"><path d="M2 4h14v10H2z" stroke="#888" strokeWidth="1.5"/><path d="M2 4l7 6 7-6" stroke="#888" strokeWidth="1.5"/></svg>
@@ -100,10 +102,10 @@ export default function LoginPage() {
               onChange={e => setEmail(e.target.value)}
               required
               autoFocus
-              aria-label="Correo Electrónico"
+              aria-label={t('login_email')}
             />
           </div>
-          <label className={styles.label}>Contraseña *</label>
+          <label className={styles.label}>{t('login_password')} *</label>
           <div className={styles.inputIcon}>
             <span className={styles.icon}>
               <svg width="18" height="18" fill="none"><circle cx="9" cy="9" r="7" stroke="#888" strokeWidth="1.5"/><circle cx="9" cy="9" r="2" fill="#888"/></svg>
@@ -115,13 +117,13 @@ export default function LoginPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              aria-label="Contraseña"
+              aria-label={t('login_password')}
             />
             <span
               className={styles.iconEye}
               onClick={() => setShowPassword(s => !s)}
               style={{ cursor: 'pointer' }}
-              title="Mostrar/Ocultar"
+              title={t('login_show_password')}
             >
               {showPassword ? (
                 <svg width="18" height="18" fill="none"><path d="M1 9c2-4 7-7 8-7s6 3 8 7c-2 4-7 7-8 7s-6-3-8-7z" stroke="#888" strokeWidth="1.5"/><circle cx="9" cy="9" r="2" fill="#888"/></svg>
@@ -140,17 +142,17 @@ export default function LoginPage() {
               style={{ background: 'none', border: 'none', color: '#2196f3', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
               onClick={() => setShowResetModal(true)}
             >
-              ¿Olvidaste tu contraseña?
+              {t('login_forgot')}
             </button>
           </div>
           <div aria-live="assertive" style={{ color: 'red' }}>{error}</div>
           <button type="submit" className={styles.loginBtn} disabled={loading}>
-            {loading ? 'Ingresando...' : 'Iniciar Sesión'}
+            {loading ? 'Ingresando...' : t('login_submit')}
           </button>
         </form>
         <div className={styles.registerRow}>
-          <span>¿No tienes cuenta?</span>
-          <a href="/register" className={styles.registerLink}>Regístrate aquí</a>
+          <span>{t('login_no_account')}</span>
+          <a href="/register" className={styles.registerLink}>{t('login_register')}</a>
         </div>
         <p className={styles.terms}>
           Al iniciar sesión aceptas nuestros Términos y Condiciones
@@ -169,17 +171,17 @@ export default function LoginPage() {
               className={styles.modalClose}
               aria-label="Cerrar"
             >×</button>
-            <h3 style={{ marginTop: 0 }}>Restablecer Contraseña</h3>
+            <h3 style={{ marginTop: 0 }}>{t('reset_password_title')}</h3>
             <form onSubmit={handleResetPassword}>
               <input
                 className={styles.input}
                 type="email"
-                placeholder="Tu correo institucional"
+                placeholder={t('reset_password_email')}
                 value={resetEmail}
                 onChange={e => setResetEmail(e.target.value)}
                 required
                 style={{ marginBottom: 8, width: '100%' }}
-                aria-label="Correo Electrónico"
+                aria-label={t('login_email')}
               />
               <button
                 type="submit"
@@ -187,7 +189,7 @@ export default function LoginPage() {
                 disabled={resetLoading}
                 style={{ marginTop: 8, width: '100%' }}
               >
-                {resetLoading ? 'Enviando...' : 'Enviar enlace'}
+                {resetLoading ? 'Enviando...' : t('reset_password_submit')}
               </button>
               <button
                 type="button"
@@ -195,7 +197,7 @@ export default function LoginPage() {
                 style={{ background: '#bbb', marginTop: 8, width: '100%' }}
                 onClick={() => setShowResetModal(false)}
               >
-                Cancelar
+                {t('common_cancel')}
               </button>
             </form>
             {resetMsg && (

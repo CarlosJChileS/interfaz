@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import '../styles/EditProfileForm.css';
 
 export default function EditProfileForm({ onClose }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     nombre: '',
     apellidos: '',
@@ -81,7 +82,7 @@ export default function EditProfileForm({ onClose }) {
         throw new Error(authError?.message || dbError?.message || 'Error al actualizar');
       }
 
-      setMsg('✅ Perfil actualizado exitosamente');
+      setMsg(t('edit_profile_success'));
       setTimeout(() => onClose(), 1500);
 
     } catch (error) {
@@ -92,67 +93,67 @@ export default function EditProfileForm({ onClose }) {
   };
 
   if (loading) {
-    return <div className="editprofile-loading">Cargando...</div>;
+    return <div className="editprofile-loading">{t('common_loading')}</div>;
   }
 
   return (
     <div className="editprofile-form-wrapper" id="editar">
-      <h2>Editar Perfil</h2>
+      <h2>{t('edit_profile_title')}</h2>
       <form onSubmit={handleSubmit} className="editprofile-form">
         <div>
-          <label>Nombre *</label>
+          <label>{t('edit_profile_name')} *</label>
           <input
             name="nombre"
             value={form.nombre}
             onChange={handleChange}
-            placeholder="Ingresa tu nombre"
+            placeholder={t('edit_profile_name_placeholder')}
             required
           />
         </div>
         
         <div>
-          <label>Apellidos *</label>
+          <label>{t('edit_profile_lastname')} *</label>
           <input
             name="apellidos"
             value={form.apellidos}
             onChange={handleChange}
-            placeholder="Ingresa tus apellidos"
+            placeholder={t('edit_profile_lastname_placeholder')}
             required
           />
         </div>
         
         <div>
-          <label>Correo Electrónico</label>
+          <label>{t('edit_profile_email')}</label>
           <input 
             value={form.email} 
             disabled 
-            placeholder="No se puede modificar"
+            placeholder={t('edit_profile_email_disabled')}
           />
         </div>
         
         <div>
-          <label>Teléfono</label>
+          <label>{t('edit_profile_phone')}</label>
           <input
             name="telefono"
             value={form.telefono}
             onChange={handleChange}
-            placeholder="Ej: +57 300 123 4567"
+            placeholder={t('edit_profile_phone_placeholder')}
             type="tel"
           />
         </div>
         
         {msg && (
-          <div className={msg.includes('exitosamente') ? 'msg-success' : 'msg-error'}>
+          <div className={msg.includes(t('edit_profile_success')) ? 'msg-success' : 'msg-error'}>
             {msg}
           </div>
         )}
         
         <div className="editprofile-actions">
           <button type="button" onClick={onClose} className="cancel-btn">
-            Cancelar
+            {t('common_cancel')}
           </button>
           <button type="submit" disabled={saving}>
-            {saving ? 'Guardando...' : 'Guardar Cambios'}
+            {saving ? t('edit_profile_saving') : t('edit_profile_save_changes')}
           </button>
         </div>
       </form>

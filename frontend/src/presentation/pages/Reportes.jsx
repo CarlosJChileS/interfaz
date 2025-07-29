@@ -1,46 +1,50 @@
 import React, { useState } from "react";
 import ReportConfirmModal from "../components/ReportConfirmModal";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
 import "../styles/Reportes.css";
 
-const incidentTypes = [
-  {
-    key: "damaged",
-    title: "Punto Limpio Dañado",
-    description: "Contenedor roto, mal estado o fuera de funcionamiento",
-    icon: "🛑",
-    active: true,
-  },
-  {
-    key: "technical",
-    title: "Problema Técnico",
-    description: "Fallas en la aplicación, problemas de sensores o tags",
-    icon: "🛠️",
-    active: false,
-  },
-  {
-    key: "full",
-    title: "Punto Limpio Lleno",
-    description: "Contenedor sin espacio para recibir residuos",
-    icon: "♻️",
-    active: false,
-  },
-  {
-    key: "security",
-    title: "Problema de Seguridad",
-    description: "Situación peligrosa o riesgo para los usuarios",
-    icon: "⚠️",
-    active: false,
-  },
-];
-
 export default function Reportes() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const incidentTypes = [
+    {
+      key: "damaged",
+      title: t('reports_damaged'),
+      description: t('reports_damaged_desc'),
+      icon: "🛑",
+      active: true,
+    },
+    {
+      key: "technical",
+      title: t('reports_technical'),
+      description: t('reports_technical_desc'),
+      icon: "🛠️",
+      active: false,
+    },
+    {
+      key: "full",
+      title: t('reports_full'),
+      description: t('reports_full_desc'),
+      icon: "♻️",
+      active: false,
+    },
+    {
+      key: "security",
+      title: t('reports_security'),
+      description: t('reports_security_desc'),
+      icon: "⚠️",
+      active: false,
+    },
+  ];
+
   const [selectedType, setSelectedType] = useState("damaged");
+  // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useState("Biblioteca Central");
   const [description, setDescription] = useState("");
-  const [urgency, setUrgency] = useState("Alto");
+  const [urgency, setUrgency] = useState(t('reports_urgency_high'));
   const [when, setWhen] = useState("Hace 2 horas (14:30 PM)");
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("gsa.problemas@uleam.edu.ec");
@@ -59,7 +63,7 @@ export default function Reportes() {
     // Obtiene el usuario actual
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
-      alert("No se pudo obtener el usuario. Intenta de nuevo.");
+      alert(t('reports_error_user'));
       setShowConfirm(false);
       return;
     }
@@ -88,9 +92,9 @@ export default function Reportes() {
       });
 
     if (reportError) {
-      alert("Hubo un error al enviar el reporte.");
+      alert(t('reports_error_submit'));
     } else {
-      alert("Reporte enviado");
+      alert(t('reports_confirm_sent'));
       // Puedes limpiar el formulario aquí si lo deseas
       setDescription("");
       setFile(null);
@@ -104,17 +108,17 @@ export default function Reportes() {
         <button
           className="back-btn"
           onClick={() => navigate(-1)}
-          aria-label="Volver"
+          aria-label={t('common_back')}
         >
           ←
         </button>
-        <button className="urgent-btn">Reporte Urgente</button>
+        <button className="urgent-btn">{t('reports_urgent_btn')}</button>
       </header>
       <div className="incident-container">
-        <h2 className="incident-title">Reportar Incidente o Problema</h2>
+        <h2 className="incident-title">{t('reports_title')}</h2>
       
       <section>
-        <h3 className="section-title">Selecciona el Tipo de Incidente</h3>
+        <h3 className="section-title">{t('reports_type')}</h3>
         <div className="incident-types">
           {incidentTypes.map((type) => (
             <div
@@ -131,34 +135,34 @@ export default function Reportes() {
       </section>
       
       <section>
-        <h3 className="section-title">Detalles del Incidente</h3>
+        <h3 className="section-title">{t('reports_incident_details')}</h3>
         <div className="incident-details">
-          <label>Ubicación del Incidente</label>
+          <label>{t('reports_location')}</label>
           <div className="location-box">
             <span className="icon-location">📍</span>
             <span>{location}</span>
           </div>
 
-          <label>Descripción del problema *</label>
+          <label>{t('reports_description')} *</label>
           <textarea
             className="input"
             rows={2}
-            placeholder="Describe el problema"
+            placeholder={t('reports_description_placeholder')}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
           <div className="row">
             <div className="col">
-              <label>Nivel de Severidad *</label>
+              <label>{t('reports_urgency')} *</label>
               <select className="input" value={urgency} onChange={e => setUrgency(e.target.value)}>
-                <option value="Alto">Alto. Requiere atención inmediata</option>
-                <option value="Medio">Medio</option>
-                <option value="Bajo">Bajo</option>
+                <option value={t('reports_urgency_high')}>{t('reports_urgency_high')}{t('reports_urgency_high_desc')}</option>
+                <option value={t('reports_urgency_medium')}>{t('reports_urgency_medium')}</option>
+                <option value={t('reports_urgency_low')}>{t('reports_urgency_low')}</option>
               </select>
             </div>
             <div className="col">
-              <label>¿Cuándo ocurrió?</label>
+              <label>{t('reports_when')}</label>
               <input
                 className="input"
                 value={when}
@@ -168,53 +172,53 @@ export default function Reportes() {
             </div>
           </div>
 
-          <label>Evidencia Fotográfica</label>
+          <label>{t('reports_evidence')}</label>
           <div className="file-upload">
             <input type="file" id="file" onChange={handleFileChange} />
             <label htmlFor="file">
               <span role="img" aria-label="upload">📷</span>
-              {file ? file.name : "Arrastra fotos o haz click para seleccionar"}
+              {file ? file.name : t('reports_evidence_placeholder')}
             </label>
           </div>
         </div>
       </section>
 
       <section>
-        <h3 className="section-title">Información de Contacto para Seguimiento</h3>
+        <h3 className="section-title">{t('reports_contact_followup')}</h3>
         <div className="contact-info">
-          <label>Email *</label>
+          <label>{t('reports_email')} *</label>
           <input className="input" type="email" value={email} onChange={e => setEmail(e.target.value)} />
 
-          <label>Teléfono (Opcional)</label>
+          <label>{t('reports_phone')}</label>
           <input className="input" type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
         </div>
         <div className="checkbox">
           <input type="checkbox" id="notify" defaultChecked />
-          <label htmlFor="notify">Notificarme el estado del reporte</label>
+          <label htmlFor="notify">{t('reports_notify')}</label>
         </div>
       </section>
 
       <section>
-        <h3 className="section-title">Resumen del Reporte</h3>
+        <h3 className="section-title">{t('reports_summary')}</h3>
         <div className="summary-box">
           <div>
-            <strong>Tipo de Incidente:</strong> {incidentTypes.find(x=>x.key === selectedType).title}
+            <strong>{t('reports_summary_type')}</strong> {incidentTypes.find(x=>x.key === selectedType).title}
           </div>
           <div>
-            <strong>Ubicación:</strong> {location}
+            <strong>{t('reports_summary_location')}</strong> {location}
           </div>
           <div>
-            <strong>Nivel de Severidad:</strong> {urgency}
+            <strong>{t('reports_summary_severity')}</strong> {urgency}
           </div>
           <div>
-            <strong>Descripción:</strong> {description || "(No ingresada)"}
+            <strong>{t('reports_summary_description')}</strong> {description || t('reports_summary_no_description')}
           </div>
         </div>
       </section>
 
       <div className="incident-footer">
-        <button className="cancel-btn">Cancelar</button>
-        <button className="send-btn" onClick={handleSend}>Enviar Reporte</button>
+        <button className="cancel-btn">{t('common_cancel')}</button>
+        <button className="send-btn" onClick={handleSend}>{t('reports_submit')}</button>
       </div>
       </div>
       {showConfirm && (

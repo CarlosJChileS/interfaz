@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
 import styles from "../styles/NotificationModal.module.css";
+import { useTranslation } from 'react-i18next';
 
 export default function NotificationModal({ onClose }) {
+  const { t } = useTranslation();
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
@@ -28,13 +30,13 @@ export default function NotificationModal({ onClose }) {
   return (
     <div className={styles.bg} role="dialog" aria-modal="true">
       <div className={styles.card}>
-        <button className={styles.close} onClick={onClose} aria-label="Cerrar">
+        <button className={styles.close} onClick={onClose} aria-label={t('modal_close')}>
           ×
         </button>
-        <h3 className={styles.title}>Notificaciones</h3>
+        <h3 className={styles.title}>{t('modal_notifications_title')}</h3>
         <div className={styles.list}>
           {alerts.length === 0 && (
-            <div className={styles.empty}>No hay notificaciones</div>
+            <div className={styles.empty}>{t('modal_no_notifications')}</div>
           )}
           {alerts.map((a) => (
             <div key={a.id} className={styles.item}>
@@ -51,7 +53,7 @@ export default function NotificationModal({ onClose }) {
                   className={styles.readBtn}
                   onClick={() => markAsRead(a.id)}
                 >
-                  Marcar leído
+                  {t('modal_mark_read')}
                 </button>
               )}
             </div>

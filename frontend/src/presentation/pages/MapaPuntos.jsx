@@ -9,6 +9,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "../styles/MapaPuntos.css";
 import { usePuntos } from "../../PuntosContext";
+import { useTranslation } from 'react-i18next';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -18,6 +19,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function MapaPuntos() {
+  const { t } = useTranslation();
   const { puntos, addPunto, deletePunto: removePunto, updatePunto } = usePuntos();
   const [selected, setSelected] = useState("");
   const [creating, setCreating] = useState(false);
@@ -119,9 +121,9 @@ export default function MapaPuntos() {
   };
 
   const editPunto = async p => {
-    const nombre = window.prompt("Nuevo nombre", p.nombre);
+    const nombre = window.prompt(t('map_edit_name'), p.nombre);
     if (nombre === null) return;
-    const material = window.prompt("Nuevo material", p.material);
+    const material = window.prompt(t('map_edit_material'), p.material);
     if (material === null) return;
     updatePunto(p.id, { nombre, material });
   };
@@ -147,30 +149,30 @@ export default function MapaPuntos() {
     <div className="mapa-root">
       <div className="mapa-header">
         <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
-        <strong>Puntos Limpios - Campus Universidad Nacional</strong>
-        {creating && <span className="breadcrumb">Seleccione un punto en el mapa</span>}
+        <strong>{t('map_title')}</strong>
+        {creating && <span className="breadcrumb">{t('map_select_point')}</span>}
         <button
           className="mapa-btn"
           onClick={() => setShowCreateHelp(true)}
           disabled={creating || newPoint || showCreateHelp}
         >
-          Crear Punto
+          {t('map_create_point')}
         </button>
         <button
           className="mapa-btn"
           onClick={() => setShowManualForm(true)}
           disabled={creating || newPoint || showManualForm}
         >
-          Crear Manualmente
+          {t('map_create_manually')}
         </button>
-        <button className="mapa-btn right" onClick={goToMyLocation}>Mi Ubicación</button>
-        <button className="mapa-btn right" onClick={toggleFilters}>Filtros</button>
+        <button className="mapa-btn right" onClick={goToMyLocation}>{t('map_my_location')}</button>
+        <button className="mapa-btn right" onClick={toggleFilters}>{t('map_filters')}</button>
       </div>
       {showCreateHelp && (
         <div className="create-panel">
-          <p>Presiona la tecla <strong>C</strong> y haz clic en el mapa para crear el punto.</p>
+          <p>{t('map_create_help')}</p>
           <button className="mapa-btn" onClick={() => setShowCreateHelp(false)}>
-            Cancelar
+            {t('common_cancel')}
           </button>
         </div>
       )}
@@ -181,7 +183,7 @@ export default function MapaPuntos() {
               <input
                 type="text"
                 name="nombre"
-                placeholder="Nombre"
+                placeholder={t('map_name_placeholder')}
                 value={manualPoint.nombre}
                 onChange={handleManualChange}
                 required
@@ -195,9 +197,9 @@ export default function MapaPuntos() {
                 required
               >
                 <option value="" disabled>
-                  Seleccionar material
+                  {t('map_select_material')}
                 </option>
-                {['Papel y Cartón', 'Plásticos', 'Vidrio', 'Metales'].map(m => (
+                {[t('material_paper'), t('material_plastic'), t('material_glass'), t('material_metal')].map(m => (
                   <option key={m} value={m}>
                     {m}
                   </option>
@@ -209,7 +211,7 @@ export default function MapaPuntos() {
                 type="number"
                 step="any"
                 name="lat"
-                placeholder="Latitud"
+                placeholder={t('map_latitude')}
                 value={manualPoint.lat}
                 onChange={handleManualChange}
                 required
@@ -220,7 +222,7 @@ export default function MapaPuntos() {
                 type="number"
                 step="any"
                 name="lng"
-                placeholder="Longitud"
+                placeholder={t('map_longitude')}
                 value={manualPoint.lng}
                 onChange={handleManualChange}
                 required
@@ -235,10 +237,10 @@ export default function MapaPuntos() {
                   setManualPoint({ nombre: '', material: '', lat: '', lng: '' });
                 }}
               >
-                Cancelar
+                {t('common_cancel')}
               </button>
               <button type="submit" className="mapa-btn" style={{ marginLeft: '6px' }}>
-                Guardar
+                {t('common_save')}
               </button>
             </div>
           </form>
@@ -248,8 +250,8 @@ export default function MapaPuntos() {
         {showFilters && (
         <div className="mapa-sidebar">
           <div className="mapa-filtros">
-            <strong>Filtrar por Tipo de Material</strong>
-            {["Papel y Cartón", "Plásticos", "Vidrio", "Metales"].map(m => (
+            <strong>{t('map_filter_material')}</strong>
+            {[t('material_paper'), t('material_plastic'), t('material_glass'), t('material_metal')].map(m => (
               <div
                 key={m}
                 className={`filtro-item ${selected === m ? "selected" : ""}`}
@@ -266,12 +268,12 @@ export default function MapaPuntos() {
                 onClick={clearFilters}
                 className="mapa-btn clear-filtros"
               >
-                Limpiar filtros
+                {t('map_clear_filters')}
               </button>
             )}
           </div>
           <div className="mapa-cercanos">
-            <strong>Puntos Cercanos ({filtered.length})</strong>
+            <strong>{t('map_nearby_points')} ({filtered.length})</strong>
             {filtered.map(p => (
               <div
                 key={p.id}
@@ -295,10 +297,10 @@ export default function MapaPuntos() {
                     onClick={() => editPunto(p)}
                     style={{ marginRight: '6px' }}
                   >
-                    Editar
+                    {t('common_edit')}
                   </button>
                   <button className="mapa-btn" onClick={() => deletePunto(p.id)}>
-                    Eliminar
+                    {t('common_delete')}
                   </button>
                 </div>
               </div>

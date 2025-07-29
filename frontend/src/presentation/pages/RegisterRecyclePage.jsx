@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "../components/ConfirmModal";
 import { supabase } from "../../utils/supabase";
@@ -13,6 +14,7 @@ const pointsPerMaterial = {
 };
 
 export default function RegisterRecyclePage() {
+  const { t } = useTranslation();
   const { puntos, refreshPuntos } = usePuntos();
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -123,9 +125,9 @@ export default function RegisterRecyclePage() {
   return (
     <div className={styles.pageBg}>
       <header className={styles.headerBar}>
-        <button type="button" className={styles.backBtn} onClick={() => navigate(-1)} aria-label="Volver">←</button>
-        <span className={styles.linkGreen}>Registrar Reciclaje</span>
-        <span className={styles.pageTitle}>Registrar Material Reciclado</span>
+        <button type="button" className={styles.backBtn} onClick={() => navigate(-1)} aria-label={t('common_back')}>←</button>
+        <span className={styles.linkGreen}>{t('register_recycle_title')}</span>
+        <span className={styles.pageTitle}>{t('register_recycle_title')}</span>
         <div className={styles.pointsBox}>
           <span className={styles.starIcon}>⭐</span>
           {userPoints.toLocaleString()} <span className={styles.pointsSmall}>Puntos actuales</span>

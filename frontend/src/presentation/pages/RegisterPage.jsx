@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../utils/supabase';
 import styles from '../styles/RegisterPage.module.css';
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     nombre: '',
@@ -104,12 +105,12 @@ export default function RegisterPage() {
         </ul>
       </div>
       <div className={styles.rightPanel}>
-        <h2 className={styles.registerTitle}>Crear Cuenta</h2>
+        <h2 className={styles.registerTitle}>{t('register_title')}</h2>
         <p className={styles.registerDesc}>Completa tus datos para comenzar</p>
         <form onSubmit={handleSubmit}>
           <div className={styles.doubleInput}>
             <div>
-              <label className={styles.label}>Nombre *</label>
+              <label className={styles.label}>{t('register_name')} *</label>
               <input
                 className={styles.input}
                 placeholder="Ana María"
@@ -118,11 +119,11 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 required
                 autoFocus
-                aria-label="Nombre"
+                aria-label={t('register_name')}
               />
             </div>
             <div>
-              <label className={styles.label}>Apellidos *</label>
+              <label className={styles.label}>{t('register_lastname')} *</label>
               <input
                 className={styles.input}
                 placeholder="González Pérez"
@@ -130,11 +131,11 @@ export default function RegisterPage() {
                 value={form.apellidos}
                 onChange={handleChange}
                 required
-                aria-label="Apellidos"
+                aria-label={t('register_lastname')}
               />
             </div>
           </div>
-          <label className={styles.label}>Correo Electrónico *</label>
+          <label className={styles.label}>{t('register_email')} *</label>
           <input
             className={styles.input}
             type="email"
@@ -143,11 +144,11 @@ export default function RegisterPage() {
             value={form.email}
             onChange={handleChange}
             required
-            aria-label="Correo Electrónico"
+            aria-label={t('register_email')}
           />
           <div className={styles.doubleInput}>
             <div>
-              <label className={styles.label}>Teléfono *</label>
+              <label className={styles.label}>{t('register_phone')} *</label>
               <div className={styles.inputIcon}>
                 <span className={styles.icon}>
                   <svg width="17" height="17" fill="none"><rect x="2" y="2" width="13" height="13" rx="3" stroke="#888" strokeWidth="1.3"/><circle cx="8.5" cy="12" r="1.2" fill="#888"/></svg>
@@ -159,12 +160,12 @@ export default function RegisterPage() {
                   value={form.telefono}
                   onChange={handleChange}
                   required
-                  aria-label="Teléfono"
+                  aria-label={t('register_phone')}
                 />
               </div>
             </div>
           </div>
-          <label className={styles.label}>Contraseña *</label>
+          <label className={styles.label}>{t('register_password')} *</label>
           <div className={styles.inputIcon}>
             <span className={styles.icon}>
               <svg width="18" height="18" fill="none"><circle cx="9" cy="9" r="7" stroke="#888" strokeWidth="1.5"/><circle cx="9" cy="9" r="2" fill="#888"/></svg>
@@ -178,13 +179,13 @@ export default function RegisterPage() {
               value={form.password}
               onChange={handleChange}
               required
-              aria-label="Contraseña"
+              aria-label={t('register_password')}
             />
             <span
               className={styles.iconEye}
               onClick={() => setShowPassword(s => !s)}
               style={{ cursor: 'pointer' }}
-              title="Mostrar/Ocultar"
+              title={t('register_show_password')}
             >
               {showPassword ? (
                 <svg width="18" height="18" fill="none"><path d="M1 9c2-4 7-7 8-7s6 3 8 7c-2 4-7 7-8 7s-6-3-8-7z" stroke="#888" strokeWidth="1.5"/><circle cx="9" cy="9" r="2" fill="#888"/></svg>
@@ -201,11 +202,11 @@ export default function RegisterPage() {
           )}
           {success && (
             <div className={styles.successMsg} aria-live="polite">
-              ¡Registro exitoso! Revisa tu correo para confirmar la cuenta.
+              {t('register_success')}
             </div>
           )}
           <button type="submit" className={styles.registerBtn} disabled={loading}>
-            {loading ? 'Creando...' : 'Crear Cuenta'}
+            {loading ? 'Creando...' : t('register_submit')}
           </button>
         </form>
       </div>

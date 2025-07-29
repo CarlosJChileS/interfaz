@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styles from "../styles/DeleteConfirm.module.css";
+import { useTranslation } from 'react-i18next';
 
 export default function DeleteConfirm({ item, onCancel, onConfirm }) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   const handleConfirm = async () => {
@@ -16,9 +18,9 @@ export default function DeleteConfirm({ item, onCancel, onConfirm }) {
   return (
     <div className={styles.bg}>
       <div className={styles.card} role="dialog" aria-modal="true">
-        <h3 className={styles.title}>Confirmar Eliminación</h3>
+        <h3 className={styles.title}>{t('modal_delete_title')}</h3>
         <p className={styles.message}>
-          ¿Estás seguro de eliminar <b>{item}</b>?
+          {t('modal_delete_question')} <b>{item}</b>?
         </p>
         <div className={styles.actions}>
           <button
@@ -27,7 +29,7 @@ export default function DeleteConfirm({ item, onCancel, onConfirm }) {
             onClick={onCancel}
             disabled={loading}
           >
-            Cancelar
+            {t('common_cancel')}
           </button>
           <button
             type="button"
@@ -35,7 +37,7 @@ export default function DeleteConfirm({ item, onCancel, onConfirm }) {
             onClick={handleConfirm}
             disabled={loading}
           >
-            {loading ? "Eliminando..." : "Eliminar"}
+            {loading ? t('modal_deleting') : t('common_delete')}
           </button>
         </div>
       </div>

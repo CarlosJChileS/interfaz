@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../styles/ContactPage.css';
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ nombre: '', email: '', asunto: '', mensaje: '' });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
@@ -13,11 +15,11 @@ export default function ContactPage() {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.nombre.trim()) newErrors.nombre = 'El nombre es obligatorio';
-    if (!form.email.trim()) newErrors.email = 'El correo es obligatorio';
-    else if (!/^\S+@\S+\.\S+$/.test(form.email)) newErrors.email = 'Correo inválido';
-    if (!form.asunto.trim()) newErrors.asunto = 'El asunto es obligatorio';
-    if (!form.mensaje.trim()) newErrors.mensaje = 'El mensaje es obligatorio';
+    if (!form.nombre.trim()) newErrors.nombre = t('contact_error_name');
+    if (!form.email.trim()) newErrors.email = t('contact_error_email');
+    else if (!/^\S+@\S+\.\S+$/.test(form.email)) newErrors.email = t('contact_error_email_invalid');
+    if (!form.asunto.trim()) newErrors.asunto = t('contact_error_subject');
+    if (!form.mensaje.trim()) newErrors.mensaje = t('contact_error_message');
     return newErrors;
   };
 
@@ -36,9 +38,9 @@ export default function ContactPage() {
 
   return (
     <div className="contact-container">
-      <h2>Contáctanos</h2>
+      <h2>{t('contact_title')}</h2>
       <form onSubmit={handleSubmit} className="contact-form">
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="nombre">{t('contact_name')}</label>
         <input
           id="nombre"
           name="nombre"
@@ -49,7 +51,7 @@ export default function ContactPage() {
         />
         {errors.nombre && <span className="error">{errors.nombre}</span>}
 
-        <label htmlFor="email">Correo Electrónico</label>
+        <label htmlFor="email">{t('contact_email')}</label>
         <input
           id="email"
           name="email"
@@ -60,7 +62,7 @@ export default function ContactPage() {
         />
         {errors.email && <span className="error">{errors.email}</span>}
 
-        <label htmlFor="asunto">Asunto</label>
+        <label htmlFor="asunto">{t('contact_subject')}</label>
         <input
           id="asunto"
           name="asunto"
@@ -71,7 +73,7 @@ export default function ContactPage() {
         />
         {errors.asunto && <span className="error">{errors.asunto}</span>}
 
-        <label htmlFor="mensaje">Mensaje</label>
+        <label htmlFor="mensaje">{t('contact_message')}</label>
         <textarea
           id="mensaje"
           name="mensaje"
@@ -81,8 +83,8 @@ export default function ContactPage() {
         />
         {errors.mensaje && <span className="error">{errors.mensaje}</span>}
 
-        {success && <div className="success">¡Mensaje enviado con éxito!</div>}
-        <button type="submit">Enviar</button>
+        {success && <div className="success">{t('contact_success')}</div>}
+        <button type="submit">{t('contact_send')}</button>
       </form>
     </div>
   );

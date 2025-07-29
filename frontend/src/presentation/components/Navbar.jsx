@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FaRecycle,
@@ -55,13 +55,13 @@ export default function Navbar() {
   }, []);
 
   // Secciones con ícono y descripción para la barra de búsqueda
-  const sections = [
+  const sections = useMemo(() => [
     {
       label: 'mapa',
       name: t('dashboard_map'),
       path: '/puntos',
       keywords: ['mapa', 'map', 'puntos', 'mapa interactivo'],
-      desc: "Encuentra los puntos de reciclaje más cercanos.",
+      desc: t('navbar_search_desc_map'),
       icon: <FaRecycle />
     },
     {
@@ -69,7 +69,7 @@ export default function Navbar() {
       name: t('dashboard_register'),
       path: '/registrar',
       keywords: ['registrar', 'registro', 'reciclaje'],
-      desc: "Registra materiales reciclados y suma puntos.",
+      desc: t('navbar_search_desc_register'),
       icon: <FaRecycle />
     },
     {
@@ -77,7 +77,7 @@ export default function Navbar() {
       name: t('dashboard_rewards'),
       path: '/recompensas',
       keywords: ['recompensas', 'rewards', 'premios'],
-      desc: "Canjea tus puntos por premios y descuentos.",
+      desc: t('navbar_search_desc_rewards'),
       icon: <FaRecycle />
     },
     {
@@ -85,7 +85,7 @@ export default function Navbar() {
       name: t('dashboard_help'),
       path: '/ayuda',
       keywords: ['ayuda', 'help', 'soporte', 'contacto'],
-      desc: "Centro de ayuda y soporte de la plataforma.",
+      desc: t('navbar_search_desc_help'),
       icon: <FaRecycle />
     },
     {
@@ -93,10 +93,10 @@ export default function Navbar() {
       name: t('dashboard_reports'),
       path: '/reportes',
       keywords: ['reportes', 'reports', 'problemas'],
-      desc: "Envía o revisa reportes de problemas.",
+      desc: t('navbar_search_desc_reports'),
       icon: <FaRecycle />
     }
-  ];
+  ], [t]);
 
   useEffect(() => {
     const query = normalize(search.trim());
@@ -110,7 +110,7 @@ export default function Navbar() {
       s.keywords.some(k => normalize(k).includes(query))
     );
     setResults(filtered);
-  }, [search, lang]);
+  }, [search, lang, sections]);
 
   return (
     <>

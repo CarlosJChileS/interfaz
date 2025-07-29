@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { FaCoffee, FaBook, FaLeaf, FaPercent, FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
 import RedeemModal from "../components/RedeemModal";
 import "../styles/Recompensas.css";
 
+// Iconos por categoría
+const iconosCat = {
+  "Cafetería": FaCoffee,
+  "Papelería": FaBook,
+  "Eco-Productos": FaLeaf,
+  "Descuentos": FaPercent,
+};
+
 export default function Recompensas() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [categoria, setCategoria] = useState("Todas");
   const [puntos, setPuntos] = useState(0);
@@ -19,13 +29,6 @@ export default function Recompensas() {
     { key: "Eco-Productos", label: "Eco-Productos" },
     { key: "Descuentos", label: "Descuentos" },
   ];
-  // Iconos por categoría
-  const iconosCat = {
-    "Cafetería": FaCoffee,
-    "Papelería": FaBook,
-    "Eco-Productos": FaLeaf,
-    "Descuentos": FaPercent,
-  };
 
   useEffect(() => {
     async function fetchData() {
@@ -95,7 +98,7 @@ export default function Recompensas() {
     if (!user || !rewardSel) return;
 
     if (puntos < rewardSel.costo) {
-      alert("No tienes suficientes puntos para esta recompensa.");
+      alert(t('rewards_insufficient_points'));
       return;
     }
     if (rewardSel.stock <= 0) {
@@ -154,10 +157,10 @@ export default function Recompensas() {
   return (
     <div className="recompensas-root">
       <div className="recompensas-header">
-        <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
-        <span>Recompensas</span>
+        <button className="back-btn" onClick={() => navigate(-1)} aria-label={t('common_back')}>←</button>
+        <span>{t('rewards_title')}</span>
         <div className="recompensas-puntos">
-          <span>{puntos.toLocaleString()}</span> Puntos disponibles
+          <span>{puntos.toLocaleString()}</span> {t('rewards_available_points')}
         </div>
       </div>
       <div className="recompensas-content">
@@ -183,9 +186,9 @@ export default function Recompensas() {
                   <h4>{r.nombre}</h4>
                   <p className="pop-sub">{r.sub}</p>
                   <p>{r.desc}</p>
-                  <span className="puntos">{r.costo} puntos</span>
+                  <span className="puntos">{r.costo} {t('common_points')}</span>
                   <button className="pop-btn" onClick={() => setRewardSel(r)}>
-                    Canjear
+                    {t('rewards_redeem')}
                   </button>
                 </div>
               );

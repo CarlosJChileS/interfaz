@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "../styles/ConfirmModal.module.css";
+import { useTranslation } from 'react-i18next';
 
 export default function ConfirmModal({ points, details, total, onClose }) {
+  const { t } = useTranslation();
   return (
     <div className={styles.modalBg}>
       <div className={styles.modalCard}>
@@ -11,12 +13,12 @@ export default function ConfirmModal({ points, details, total, onClose }) {
             <path d="M16 26l7 7 11-13" stroke="#4caf50" strokeWidth="3" fill="none" />
           </svg>
         </div>
-        <h2 className={styles.title}>¡Registro Exitoso!</h2>
-        <p className={styles.subtitle}>Tu reciclaje ha sido registrado correctamente</p>
-        <div className={styles.pointsBig}>+{points} puntos</div>
-        <div className={styles.pointsLabel}>ganados</div>
+        <h2 className={styles.title}>{t('modal_success_title')}</h2>
+        <p className={styles.subtitle}>{t('modal_success_subtitle')}</p>
+        <div className={styles.pointsBig}>+{points} {t('modal_points')}</div>
+        <div className={styles.pointsLabel}>{t('modal_points_earned')}</div>
         <div className={styles.totalLabel}>
-          Nuevo total: <b>{total.toLocaleString()} puntos</b>
+          {t('modal_new_total')}: <b>{total.toLocaleString()} {t('modal_points')}</b>
         </div>
         <div className={styles.detailsList}>
           {details.map(([mat, qty], i) => (
@@ -31,8 +33,8 @@ export default function ConfirmModal({ points, details, total, onClose }) {
             </div>
           ))}
         </div>
-        <button className={styles.orangeBtn}>Ver Recompensas</button>
-        <button className={styles.continueBtn} onClick={onClose}>Continuar →</button>
+        <button className={styles.orangeBtn}>{t('modal_view_rewards')}</button>
+        <button className={styles.continueBtn} onClick={onClose}>{t('modal_continue')} →</button>
       </div>
     </div>
   );

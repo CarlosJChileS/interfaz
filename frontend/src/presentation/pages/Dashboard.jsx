@@ -80,16 +80,16 @@ export default function Dashboard() {
           ...(recycling || []).map(r => ({
             type: 'recycling',
             id: r.id,
-            title: `Reciclaste ${r.tipo_residuo}`,
-            desc: `Dirección: ${r.direccion} · Estado: ${r.estado}`,
+            title: `${t('dashboard_recycled')} ${r.tipo_residuo}`,
+            desc: `${t('dashboard_address')}: ${r.direccion} · ${t('dashboard_status')}: ${r.estado}`,
             date: r.fecha,
             points: '+50', // Personaliza según tu lógica
           })),
           ...(rewards || []).map(r => ({
             type: 'reward',
             id: r.id,
-            title: `Canjeaste: ${r.recompensa?.nombre || 'Recompensa'}`,
-            desc: `Costo: ${r.recompensa?.puntos_necesarios || ''} pts · Estado: ${r.estado}`,
+            title: `${t('dashboard_redeemed')}: ${r.recompensa?.nombre || 'Recompensa'}`,
+            desc: `${t('dashboard_cost')}: ${r.recompensa?.puntos_necesarios || ''} pts · ${t('dashboard_status')}: ${r.estado}`,
             date: r.fecha,
             points: `-${r.recompensa?.puntos_necesarios || ''}`,
           }))
@@ -108,7 +108,7 @@ export default function Dashboard() {
       name: t('dashboard_map'),
       path: '/puntos',
       keywords: ['mapa', 'map', 'puntos', 'mapa interactivo'],
-      desc: "Encuentra los puntos de reciclaje más cercanos.",
+      desc: t('navbar_search_desc_map'),
       icon: <FaMapMarkerAlt />
     },
     {
@@ -116,7 +116,7 @@ export default function Dashboard() {
       name: t('dashboard_register'),
       path: '/registrar',
       keywords: ['registrar', 'registro', 'reciclaje'],
-      desc: "Registra materiales reciclados y suma puntos.",
+      desc: t('navbar_search_desc_register'),
       icon: <FaRecycle />
     },
     {
@@ -124,7 +124,7 @@ export default function Dashboard() {
       name: t('dashboard_rewards'),
       path: '/recompensas',
       keywords: ['recompensas', 'rewards', 'premios'],
-      desc: "Canjea tus puntos por premios y descuentos.",
+      desc: t('navbar_search_desc_rewards'),
       icon: <FaGift />
     },
     {
@@ -132,7 +132,7 @@ export default function Dashboard() {
       name: t('dashboard_help'),
       path: '/ayuda',
       keywords: ['ayuda', 'help', 'soporte', 'contacto'],
-      desc: "Centro de ayuda y soporte de la plataforma.",
+      desc: t('navbar_search_desc_help'),
       icon: <FaQuestionCircle />
     },
     {
@@ -140,7 +140,7 @@ export default function Dashboard() {
       name: t('dashboard_reports'),
       path: '/reportes',
       keywords: ['reportes', 'reports', 'problemas'],
-      desc: "Envía o revisa reportes de problemas.",
+      desc: t('navbar_search_desc_reports'),
       icon: <FaExclamationTriangle />
     }
   ];
@@ -205,7 +205,7 @@ export default function Dashboard() {
             {search.trim() && (
               <ul className="search-results">
                 {results.length === 0 && (
-                  <li className="no-results">No hay resultados</li>
+                  <li className="no-results">{t('dashboard_search_no_results')}</li>
                 )}
                 {results.map(r => (
                   <li key={r.path} onMouseDown={() => navigate(r.path)}>
@@ -228,7 +228,7 @@ export default function Dashboard() {
           <span className="dashboard-points">{points} pts</span>
           <span
             className="notif-bell"
-            title="Notificaciones"
+            title={t('dashboard_notifications')}
             onClick={() => setShowNotif(true)}
           >
             <FaBell />
@@ -252,87 +252,87 @@ export default function Dashboard() {
           </span>
           {showMenu && (
             <div className="avatar-menu">
-              <Link to="/perfil">Mi Perfil</Link>
+              <Link to="/perfil">{t('dashboard_my_profile')}</Link>
             </div>
           )}
         </div>
       </nav>
       <div className="dashboard-content">
         <div className="dashboard-welcome">
-          <h2>¡Hola {userName}! <span>👋</span></h2>
+          <h2>{t('dashboard_welcome_hello')} {userName}! <span>👋</span></h2>
           <div className="dashboard-progress-bar">
-            <span>Has reciclado 8.5 kg este mes</span>
+            <span>{t('dashboard_recycled_month')} 8.5 {t('dashboard_recycled_month_kg')}</span>
             <div className="bar">
               <div className="bar-filled" style={{ width: "80%" }} />
             </div>
-            <small>¡Estás en el top 10% de estudiantes más activos!</small>
+            <small>{t('dashboard_top_students')}</small>
           </div>
         </div>
         <div className="dashboard-main-panels">
           <div className="dashboard-panel clean-points">
             <div className="panel-header">
-              <span>Puntos Limpios</span>
-              <span className="badge">12 cercanos</span>
+              <span>{t('dashboard_clean_points')}</span>
+              <span className="badge">12 {t('dashboard_clean_points_nearby')}</span>
             </div>
-            <p>Encuentra los puntos de reciclaje más cercanos a tu ubicación en el campus universitario</p>
+            <p>{t('dashboard_clean_points_desc')}</p>
             <Link className="blue-btn" to="/puntos">
-              <FaMapMarkerAlt /> Mapa Interactivo
+              <FaMapMarkerAlt /> {t('dashboard_interactive_map')}
             </Link>
           </div>
           <div className="dashboard-panel register">
             <div className="panel-header">
-              <span>Registrar Reciclaje</span>
+              <span>{t('dashboard_register_recycling')}</span>
             </div>
-            <p>Registra los materiales reciclados para sumar puntos a tu cuenta</p>
+            <p>{t('dashboard_register_desc')}</p>
             <Link className="green-btn" to="/registrar">
-              <FaRecycle /> Registrar
+              <FaRecycle /> {t('dashboard_register_btn')}
             </Link>
           </div>
           <div className="dashboard-panel rewards">
             <div className="panel-header">
-              <span>Recompensas</span>
-              <span className="badge orange">23 disponibles</span>
+              <span>{t('dashboard_rewards')}</span>
+              <span className="badge orange">23 {t('dashboard_rewards_available')}</span>
             </div>
-            <p>Canjea tus puntos por descuentos en cafeterías, papelería, libros y productos sostenibles</p>
+            <p>{t('dashboard_rewards_desc')}</p>
             <Link className="orange-btn" to="/recompensas">
-              <FaGift /> Explorar Premios
+              <FaGift /> {t('dashboard_explore_rewards')}
             </Link>
           </div>
         </div>
         <div className="dashboard-main-panels">
           <div className="dashboard-panel help">
             <div className="panel-header">
-              <span>Ayuda</span>
+              <span>{t('dashboard_help')}</span>
             </div>
-            <p>Accede al centro de ayuda para resolver dudas sobre la plataforma</p>
+            <p>{t('dashboard_help_desc')}</p>
             <Link className="blue-btn" to="/ayuda">
-              <FaQuestionCircle /> Ver Ayuda
+              <FaQuestionCircle /> {t('dashboard_help_btn')}
             </Link>
           </div>
           <div className="dashboard-panel reports">
             <div className="panel-header">
-              <span>Reportes</span>
+              <span>{t('dashboard_reports')}</span>
             </div>
-            <p>Envía reportes o revisa problemas comunicados por la comunidad</p>
+            <p>{t('dashboard_reports_desc')}</p>
             <Link className="green-btn" to="/reportes">
-              <FaExclamationTriangle /> Ir a Reportes
+              <FaExclamationTriangle /> {t('dashboard_reports_btn')}
             </Link>
           </div>
           <div className="dashboard-panel upcoming">
             <div className="panel-header">
-              <span>Próximamente</span>
+              <span>{t('dashboard_coming_soon')}</span>
             </div>
-            <p>Estamos trabajando en nuevas funcionalidades que verás pronto</p>
+            <p>{t('dashboard_coming_soon_desc')}</p>
             <div className="orange-btn" style={{ pointerEvents: 'none', opacity: 0.6 }}>
-              <FaClock /> Próximamente
+              <FaClock /> {t('dashboard_coming_soon')}
             </div>
           </div>
         </div>
         <div className="dashboard-activity">
-          <h3>Tu Actividad Reciente</h3>
+          <h3>{t('dashboard_recent_activity_title')}</h3>
           <ul>
             {recentActivities.length === 0 && (
-              <li>No hay actividad reciente</li>
+              <li>{t('dashboard_activity_empty')}</li>
             )}
             {recentActivities.map(act => (
               <li key={`${act.type}-${act.id}`}>
@@ -353,19 +353,19 @@ export default function Dashboard() {
         <div className="dashboard-stats">
           <div className="stat green">
             <span className="stat-title">#47</span>
-            <span className="stat-desc">de 2,847 estudiantes</span>
+            <span className="stat-desc">{t('dashboard_ranking')} 2,847 {t('dashboard_ranking_students')}</span>
           </div>
           <div className="stat blue">
             <span className="stat-title">Top 15%</span>
-            <span className="stat-desc">Esta semana</span>
+            <span className="stat-desc">{t('dashboard_this_week')}</span>
           </div>
           <div className="stat orange">
             <span className="stat-title">Eco Warrior</span>
-            <span className="stat-desc">Logro desbloqueado</span>
+            <span className="stat-desc">{t('dashboard_achievement_unlocked')}</span>
           </div>
           <div className="stat pink">
             <span className="stat-title">2.8 kg</span>
-            <span className="stat-desc">Para siguiente nivel</span>
+            <span className="stat-desc">{t('dashboard_next_level')}</span>
           </div>
         </div>
       </div>
