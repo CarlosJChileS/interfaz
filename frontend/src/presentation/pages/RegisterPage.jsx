@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../utils/supabase';
+import { useTheme } from '../../ThemeContext';
 import LanguageToggle from '../components/LanguageToggle';
 import styles from '../styles/RegisterPage.module.css';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     nombre: '',

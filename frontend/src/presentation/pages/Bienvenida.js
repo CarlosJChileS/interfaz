@@ -2,13 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaRecycle, FaMapMarkerAlt, FaGift } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../ThemeContext";
 import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Bienvenida.css";
 
 export default function Bienvenida() {
   const { t } = useTranslation();
+  const { dark } = useTheme();
+  
   return (
-    <div className="bienvenida-container">
+    <div className={`bienvenida-container ${dark ? 'dark' : ''}`}>
       <LanguageToggle className="lang-toggle-bottom-left" />
       <div className="bienvenida-hero">
         <FaRecycle className="bienvenida-main-icon" />

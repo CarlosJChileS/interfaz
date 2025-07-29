@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabase';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../ThemeContext';
 import LanguageToggle from '../components/LanguageToggle';
 import styles from '../styles/LoginPage.module.css';
 
 export default function LoginPage() {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetMsg, setResetMsg] = useState('');

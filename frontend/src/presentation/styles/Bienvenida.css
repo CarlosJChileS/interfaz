@@ -135,3 +135,112 @@
 .green-btn:hover {
   background: #5ccb46;
 }
+
+/* Modo Oscuro */
+.dark .bienvenida-container {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+.dark .bienvenida-hero {
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+}
+
+.dark .bienvenida-subtitle {
+  color: #a5d6a7;
+}
+
+.dark .primary-btn {
+  background: #2a2a2a;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.dark .primary-btn:hover {
+  background: #4CAF50;
+  color: #fff;
+}
+
+.dark .outline-btn {
+  background: transparent;
+  color: #a5d6a7;
+  border: 1px solid #a5d6a7;
+}
+
+.dark .outline-btn:hover {
+  background: #a5d6a7;
+  color: #1b5e20;
+}
+
+.dark .bienvenida-steps-section {
+  background: #1e1e1e;
+}
+
+.dark .bienvenida-step {
+  background: #2a2a2a;
+  border: 1px solid #404040;
+}
+
+.dark .bienvenida-step h3 {
+  color: #4CAF50;
+}
+
+.dark .bienvenida-step:nth-child(3) h3 {
+  color: #ff9800;
+}
+
+.dark .step-icon {
+  color: #4CAF50;
+}
+
+.dark .bienvenida-step:nth-child(3) .step-icon {
+  color: #ff9800;
+}
+
+.dark .bienvenida-bottom {
+  background: #2e7d32;
+}
+
+.dark .green-btn {
+  background: #4CAF50;
+  color: #fff;
+}
+
+.dark .green-btn:hover {
+  background: #45a049;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bienvenida-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bienvenida-step {
+    max-width: 90%;
+    min-width: auto;
+  }
+  
+  .bienvenida-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .primary-btn, .outline-btn {
+    padding: 12px 24px;
+    min-width: 200px;
+  }
+}
+
+/* Mejoras de contraste - ya están definidas arriba, removiendo duplicados */
+
+/* Enlace decorativo */
+.primary-btn, .outline-btn, .green-btn {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.primary-btn:hover, .outline-btn:hover, .green-btn:hover {
+  text-decoration: none;
+}
