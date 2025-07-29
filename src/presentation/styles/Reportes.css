@@ -1,0 +1,255 @@
+.reportes-root {
+  background: #ececec;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.reportes-header {
+  background: #ff6d2d;
+  color: #fff;
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 16px 16px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.incident-container {
+  background: #fff;
+  max-width: 800px;
+  margin: 30px auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  padding: 28px 26px 24px 26px;
+  color: #242424;
+  position: relative;
+}
+
+
+.urgent-btn {
+  background: #ff765b;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  padding: 4px 18px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.96rem;
+}
+
+.incident-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2e4254;
+}
+
+.section-title {
+  font-size: 1.11rem;
+  font-weight: bold;
+  margin: 22px 0 9px 0;
+  color: #2e4254;
+}
+
+.incident-types {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.incident-type-card {
+  background: #f4f4f4;
+  border: 2px solid transparent;
+  border-radius: 13px;
+  padding: 14px 12px;
+  min-width: 120px;
+  cursor: pointer;
+  flex: 1;
+  max-width: 180px;
+  text-align: center;
+  transition: border 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.incident-type-card.active {
+  border: 2.5px solid #ff6d2d;
+  background: #ffece5;
+}
+.incident-type-card .icon {
+  font-size: 2.1em;
+  margin-bottom: 7px;
+}
+.incident-type-card .desc {
+  font-size: 0.89em;
+  color: #9b999a;
+  margin-top: 4px;
+}
+
+.incident-details {
+  margin-bottom: 18px;
+}
+.location-box {
+  display: flex;
+  align-items: center;
+  background: #ffece5;
+  color: #ef4e2d;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 1em;
+  margin-bottom: 9px;
+  font-weight: 500;
+  gap: 7px;
+}
+.icon-location {
+  font-size: 1.3em;
+}
+
+label {
+  font-size: 0.98em;
+  margin: 8px 0 4px 0;
+  color: #2e4254;
+  display: block;
+}
+.input, textarea, select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.4px solid #d5dbe3;
+  border-radius: 7px;
+  margin-bottom: 9px;
+  font-size: 1em;
+  outline: none;
+  resize: none;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+}
+.col {
+  flex: 1;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  border: 1.4px dashed #d5dbe3;
+  border-radius: 7px;
+  background: #f9f9f9;
+  padding: 9px 15px;
+  cursor: pointer;
+  color: #a0a0a0;
+  margin-bottom: 12px;
+}
+.file-upload input[type="file"] {
+  display: none;
+}
+.file-upload label {
+  margin: 0;
+  cursor: pointer;
+  font-size: 1em;
+  color: #9a8a80;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-info {
+  margin-bottom: 12px;
+}
+.checkbox {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.98em;
+  color: #2e4254;
+}
+
+.summary-box {
+  background: #ffece5;
+  border-radius: 10px;
+  padding: 12px 15px;
+  color: #e66932;
+  font-size: 1.06em;
+  margin-bottom: 20px;
+  border: 1.5px solid #ffb394;
+}
+
+.incident-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.cancel-btn, .send-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 9px 23px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+}
+.cancel-btn {
+  background: #edeef2;
+  color: #7b7b7b;
+}
+.send-btn {
+  background: #ff6d2d;
+  color: #fff;
+  transition: background 0.2s;
+}
+.send-btn:hover {
+  background: #ee560d;
+}
+.send-btn.disabled,
+.send-btn:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.send-btn.disabled:hover,
+.send-btn:disabled:hover {
+  background: #d1d5db;
+}
+
+/* Campo requerido */
+.required-field {
+  border-color: #fca5a5 !important;
+  background-color: #fef2f2 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+@media (max-width: 650px) {
+  .incident-container {
+    padding: 10px 2vw;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+  .incident-types {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
