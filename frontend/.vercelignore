@@ -1,0 +1,6 @@
+# No ignorar archivos importantes para el build
+!dist
+!src
+!public
+!*.config.js
+!package.json
