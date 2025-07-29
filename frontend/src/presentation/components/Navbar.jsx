@@ -4,11 +4,14 @@ import {
   FaRecycle,
   FaSearch,
   FaBell,
+  FaSignOutAlt,
 } from 'react-icons/fa';
 import { supabase } from '../../utils/supabase';
 import { useLang } from '../../LanguageContext';
+import { useAuth } from '../../AuthContext';
 import { useTranslation } from 'react-i18next';
 import NotificationModal from './NotificationModal';
+import LogoutConfirmModal from './LogoutConfirmModal';
 
 // Función para normalizar cadenas (tildes, case, etc)
 function normalize(str) {
@@ -17,8 +20,10 @@ function normalize(str) {
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [points, setPoints] = useState(0);
   const [userName, setUserName] = useState("");
   const [alertCount, setAlertCount] = useState(0);
@@ -111,6 +116,26 @@ export default function Navbar() {
     );
     setResults(filtered);
   }, [search, lang, sections]);
+
+  const handleLogoutClick = () => {
+    setShowMenu(false);
+    setShowLogoutModal(true);
+  };
+
+  const handleLogoutConfirm = async () => {
+    try {
+      await logout();
+      setShowLogoutModal(false);
+      navigate('/');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      setShowLogoutModal(false);
+    }
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
+  };
 
   return (
     <>
@@ -205,7 +230,14 @@ export default function Navbar() {
           </span>
           {showMenu && (
             <div className="avatar-menu">
-              <Link to="/perfil">Mi Perfil</Link>
+              <Link to="/perfil">{t('account_profile')}</Link>
+              <button 
+                className="logout-btn"
+                onClick={handleLogoutClick}
+              >
+                <FaSignOutAlt />
+                {t('account_logout')}
+              </button>
             </div>
           )}
         </div>
@@ -218,6 +250,11 @@ export default function Navbar() {
           }}
         />
       )}
+      <LogoutConfirmModal
+        isOpen={showLogoutModal}
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+      />
     </>
   );
 }

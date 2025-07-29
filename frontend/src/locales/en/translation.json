@@ -332,6 +332,12 @@
   "account_logout": "Sign Out",
   "account_back": "Back",
   
+  "logout_confirm_title": "Confirm sign out",
+  "logout_confirm_message": "Are you sure you want to sign out? You'll need to sign in again to access your account.",
+  "logout": "Sign Out",
+  "cancel": "Cancel",
+  "close": "Close",
+  
   "profile_edit_title": "Edit Profile",
   "profile_edit_phone": "Phone",
   "profile_edit_faculty": "Faculty",

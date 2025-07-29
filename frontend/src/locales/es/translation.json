@@ -313,6 +313,12 @@
   "account_logout": "Cerrar Sesión",
   "account_back": "Volver",
   
+  "logout_confirm_title": "Confirmar cierre de sesión",
+  "logout_confirm_message": "¿Estás seguro de que deseas cerrar sesión? Deberás volver a iniciar sesión para acceder a tu cuenta.",
+  "logout": "Cerrar Sesión",
+  "cancel": "Cancelar",
+  "close": "Cerrar",
+  
   "profile_edit_title": "Editar Perfil",
   "profile_edit_phone": "Teléfono",
   "profile_edit_faculty": "Facultad",
