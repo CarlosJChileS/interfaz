@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase';
 import { useTranslation } from 'react-i18next';
+import { useProfileContext } from '../../ProfileContext';
 import '../styles/EditProfileForm.css';
 
 export default function EditProfileForm({ onClose }) {
   const { t } = useTranslation();
+  const { updateProfileCache } = useProfileContext();
   const [form, setForm] = useState({
     nombre: '',
     apellidos: '',
@@ -81,6 +83,14 @@ export default function EditProfileForm({ onClose }) {
       if (authError || dbError) {
         throw new Error(authError?.message || dbError?.message || 'Error al actualizar');
       }
+
+      // Actualizar el caché del perfil con los nuevos datos
+      updateProfileCache({
+        nombre: form.nombre,
+        apellidos: form.apellidos,
+        name: `${form.nombre} ${form.apellidos}`.trim(),
+        telefono: form.telefono
+      });
 
       setMsg(t('edit_profile_success'));
       setTimeout(() => onClose(), 1500);

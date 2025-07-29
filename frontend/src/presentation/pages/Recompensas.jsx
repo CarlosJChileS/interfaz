@@ -3,6 +3,7 @@ import { FaCoffee, FaBook, FaLeaf, FaPercent, FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
+import { useProfileContext } from "../../ProfileContext";
 import RedeemModal from "../components/RedeemModal";
 import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Recompensas.css";
@@ -18,11 +19,14 @@ const iconosCat = {
 export default function Recompensas() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { profile, updateProfileCache } = useProfileContext();
   const [categoria, setCategoria] = useState(t('rewards_category_all'));
-  const [puntos, setPuntos] = useState(0);
   const [rewardSel, setRewardSel] = useState(null);
   const [recompensas, setRecompensas] = useState([]);
   const [canjes, setCanjes] = useState([]);
+  
+  // Obtener puntos del perfil
+  const puntos = profile?.puntos || 0;
   
   const categorias = [
     { key: "Todas", label: t('rewards_category_all') },
@@ -41,14 +45,6 @@ export default function Recompensas() {
       // Obtener usuario actual
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-
-      // Puntos del usuario
-      const { data: perfil } = await supabase
-        .from("perfil")
-        .select("puntos")
-        .eq("auth_id", user.id)
-        .single();
-      if (perfil && typeof perfil.puntos === "number") setPuntos(perfil.puntos);
 
       // Recompensas disponibles
       const { data: recomp } = await supabase
@@ -139,10 +135,14 @@ export default function Recompensas() {
     }
 
     // Actualiza puntos del usuario
+    const newPoints = puntos - rewardSel.costo;
     const { error: puntosError } = await supabase
       .from("perfil")
-      .update({ puntos: puntos - rewardSel.costo })
+      .update({ puntos: newPoints })
       .eq("auth_id", user.id);
+
+    // Actualizar el caché del perfil con los nuevos puntos
+    updateProfileCache({ puntos: newPoints });
 
     // Actualiza stock de la recompensa
     const { error: stockError } = await supabase
@@ -166,7 +166,6 @@ export default function Recompensas() {
       return;
     }
 
-    setPuntos(p => p - rewardSel.costo);
     alert(`${t('rewards_success')} ${rewardSel.nombre}`);
     setRewardSel(null);
     // Opcional: recargar recompensas y canjes

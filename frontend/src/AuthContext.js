@@ -38,6 +38,13 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut();
     setIsLoggedIn(false);
     setUser(null);
+    
+    // Limpiar caché del perfil al hacer logout
+    try {
+      localStorage.removeItem('user_profile_cache');
+    } catch (error) {
+      console.error('Error clearing profile cache on logout:', error);
+    }
   };
 
   return (

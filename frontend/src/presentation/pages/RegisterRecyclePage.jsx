@@ -5,6 +5,7 @@ import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "../components/ConfirmModal";
 import { supabase } from "../../utils/supabase";
 import { usePuntos } from "../../PuntosContext";
+import { useProfileContext } from "../../ProfileContext";
 import LanguageToggle from "../components/LanguageToggle";
 
 const pointsPerMaterial = {
@@ -17,6 +18,7 @@ const pointsPerMaterial = {
 export default function RegisterRecyclePage() {
   const { t } = useTranslation();
   const { puntos, refreshPuntos } = usePuntos();
+  const { profile, updateProfileCache } = useProfileContext();
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedMaterials, setSelectedMaterials] = useState({
@@ -26,7 +28,6 @@ export default function RegisterRecyclePage() {
     Vidrio: null,
   });
   const [showModal, setShowModal] = useState(false);
-  const [userPoints, setUserPoints] = useState(0);
   const [observaciones, setObservaciones] = useState("");
   const [authId, setAuthId] = useState(null);
   const navigate = useNavigate();
@@ -34,6 +35,9 @@ export default function RegisterRecyclePage() {
   const materialOptions = ["0.5 kg", "1 kg", "2+ kg"];
   const selectedPointData = selectedPoint ? puntos.find(p => p.id === selectedPoint) : null;
   const selectedEntries = Object.entries(selectedMaterials).filter(([, qty]) => qty);
+  
+  // Obtener puntos del usuario desde el perfil
+  const userPoints = profile?.puntos || 0;
 
   const totalPoints = selectedEntries.reduce(
     (acc, [material, qty]) =>
@@ -51,14 +55,6 @@ export default function RegisterRecyclePage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setAuthId(user.id);
-        const { data: perfil } = await supabase
-          .from("perfil")
-          .select("puntos")
-          .eq("auth_id", user.id)
-          .single();
-        if (perfil && typeof perfil.puntos === "number") {
-          setUserPoints(perfil.puntos);
-        }
       }
     }
     getUserInfo();
@@ -112,10 +108,15 @@ export default function RegisterRecyclePage() {
     }
     // Actualiza puntos del usuario
     if (success) {
+      const newPoints = userPoints + totalPoints;
       await supabase
         .from("perfil")
-        .update({ puntos: userPoints + totalPoints })
+        .update({ puntos: newPoints })
         .eq("auth_id", authId);
+      
+      // Actualizar el caché del perfil con los nuevos puntos
+      updateProfileCache({ puntos: newPoints });
+      
       if (refreshPuntos) refreshPuntos();
       setShowModal(true);
     } else {

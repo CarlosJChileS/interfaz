@@ -17,6 +17,7 @@ import { AuthProvider } from './AuthContext';
 import { LanguageProvider } from './LanguageContext';
 import { ThemeProvider } from './ThemeContext';
 import { PuntosProvider } from './PuntosContext';
+import { ProfileProvider } from './ProfileContext';
 import ThemeToggle from './presentation/components/ThemeToggle';
 
 function App() {
@@ -24,9 +25,10 @@ function App() {
     <AuthProvider>
       <LanguageProvider>
         <ThemeProvider>
-          <PuntosProvider>
-            <Router basename={process.env.PUBLIC_URL}>
-            <ThemeToggle />
+          <ProfileProvider>
+            <PuntosProvider>
+              <Router basename={process.env.PUBLIC_URL}>
+              <ThemeToggle />
           <Routes>
           <Route path="/" element={<Bienvenida />} />
           <Route path="/login" element={<LoginPage />} />
@@ -94,6 +96,7 @@ function App() {
           </Routes>
         </Router>
         </PuntosProvider>
+        </ProfileProvider>
         </ThemeProvider>
       </LanguageProvider>
     </AuthProvider>

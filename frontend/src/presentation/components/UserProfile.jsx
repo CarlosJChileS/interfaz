@@ -1,38 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaEdit, FaCog } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../../utils/supabase";
+import { useProfileContext } from "../../ProfileContext";
 import "../styles/UserProfile.css";
 
 const UserProfile = ({ onEdit }) => {
   const { t } = useTranslation();
-  const [profile, setProfile] = useState(null);
+  const { profile, loading } = useProfileContext();
 
-  useEffect(() => {
-    async function fetchProfile() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const meta = user.user_metadata || {};
-        const { data: perfilData } = await supabase
-          .from("perfil")
-          .select("foto_url, puntos, preferencias, datos_extra")
-          .eq("auth_id", user.id)
-          .single();
-
-        setProfile({
-          name: `${meta.nombre || ""} ${meta.apellidos || ""}`.trim(),
-          email: user.email,
-          telefono: meta.telefono,
-          foto_url: perfilData?.foto_url,
-          puntos: perfilData?.puntos ?? 0,
-          preferencias: perfilData?.preferencias,
-        });
-      }
-    }
-    fetchProfile();
-  }, []);
-
-  if (!profile) {
+  if (loading || !profile) {
     return (
       <div className="dashboard-panel" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="panel-header">
