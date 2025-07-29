@@ -1,0 +1,69 @@
+.lang-toggle-btn {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.lang-toggle-btn:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.lang-toggle-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Posicionamiento fijo en la esquina superior derecha para páginas sin navbar */
+.lang-toggle-fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Posicionamiento fijo en la esquina inferior izquierda para páginas sin navbar */
+.lang-toggle-bottom-left {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* Tema oscuro */
+.dark .lang-toggle-btn {
+  background: linear-gradient(135deg, #2d6b2f, #245426);
+  color: #e0e0e0;
+}
+
+.dark .lang-toggle-btn:hover {
+  background: linear-gradient(135deg, #245426, #1e4621);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lang-toggle-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .lang-toggle-fixed {
+    top: 15px;
+    right: 15px;
+  }
+
+  .lang-toggle-bottom-left {
+    bottom: 15px;
+    left: 15px;
+  }
+}

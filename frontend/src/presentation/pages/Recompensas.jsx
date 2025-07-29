@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
 import RedeemModal from "../components/RedeemModal";
+import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Recompensas.css";
 
 // Iconos por categoría
@@ -173,6 +174,7 @@ export default function Recompensas() {
 
   return (
     <div className="recompensas-root">
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <div className="recompensas-header">
         <button className="back-btn" onClick={() => navigate(-1)} aria-label={t('common_back')}>←</button>
         <span>{t('rewards_title')}</span>

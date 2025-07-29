@@ -10,6 +10,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "../styles/MapaPuntos.css";
 import { usePuntos } from "../../PuntosContext";
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from "../components/LanguageToggle";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -147,6 +148,7 @@ export default function MapaPuntos() {
 
   return (
     <div className="mapa-root">
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <div className="mapa-header">
         <button className="back-btn" onClick={() => navigate(-1)} aria-label="Volver">←</button>
         <strong>{t('map_title')}</strong>

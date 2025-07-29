@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabase';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '../components/LanguageToggle';
 import styles from '../styles/LoginPage.module.css';
 
 export default function LoginPage() {
@@ -59,6 +60,7 @@ export default function LoginPage() {
 
   return (
     <div className={styles.container}>
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <div className={styles.leftPanel}>
         <div className={styles.logoCircle}>
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -66,28 +68,28 @@ export default function LoginPage() {
             <circle cx="12" cy="12" r="7" stroke="#4caf50" strokeWidth="2"/>
           </svg>
         </div>
-        <h2 className={styles.welcome}>¡Bienvenido de vuelta!</h2>
+        <h2 className={styles.welcome}>{t('login_welcome_back')}</h2>
         <p className={styles.desc}>
-          Continúa tu impacto ambiental en el campus universitario
+          {t('login_welcome_desc')}
         </p>
         <div className={styles.statsRow}>
           <div>
             <span className={styles.statsNumber}>2,847</span>
-            <span className={styles.statsLabel}>Estudiantes</span>
+            <span className={styles.statsLabel}>{t('login_stats_students')}</span>
           </div>
           <div>
             <span className={styles.statsNumber}>15.2 Ton</span>
-            <span className={styles.statsLabel}>Recicladas</span>
+            <span className={styles.statsLabel}>{t('login_stats_recycled')}</span>
           </div>
           <div>
             <span className={styles.statsNumber}>45</span>
-            <span className={styles.statsLabel}>Puntos Limpios</span>
+            <span className={styles.statsLabel}>{t('login_stats_points')}</span>
           </div>
         </div>
       </div>
       <div className={styles.rightPanel}>
         <h2 className={styles.loginTitle}>{t('login_title')}</h2>
-        <p className={styles.loginDesc}>Ingresa tus credenciales para acceder</p>
+        <p className={styles.loginDesc}>{t('login_desc')}</p>
         <form onSubmit={handleSubmit}>
           <label className={styles.label}>{t('login_email')} *</label>
           <div className={styles.inputIcon}>
@@ -134,7 +136,7 @@ export default function LoginPage() {
           </div>
           <div className={styles.optionsRow}>
             <label className={styles.checkboxLabel}>
-              <input type="checkbox" /> Recordarme
+              <input type="checkbox" /> {t('login_remember')}
             </label>
             <button
               type="button"
@@ -147,7 +149,7 @@ export default function LoginPage() {
           </div>
           <div aria-live="assertive" style={{ color: 'red' }}>{error}</div>
           <button type="submit" className={styles.loginBtn} disabled={loading}>
-            {loading ? 'Ingresando...' : t('login_submit')}
+            {loading ? t('login_loading') : t('login_submit')}
           </button>
         </form>
         <div className={styles.registerRow}>
@@ -155,7 +157,7 @@ export default function LoginPage() {
           <a href="/register" className={styles.registerLink}>{t('login_register')}</a>
         </div>
         <p className={styles.terms}>
-          Al iniciar sesión aceptas nuestros Términos y Condiciones
+          {t('login_terms')}
         </p>
       </div>
       {/* --- POPUP RECUPERAR CONTRASEÑA --- */}
@@ -189,7 +191,7 @@ export default function LoginPage() {
                 disabled={resetLoading}
                 style={{ marginTop: 8, width: '100%' }}
               >
-                {resetLoading ? 'Enviando...' : t('reset_password_submit')}
+                {resetLoading ? t('login_sending') : t('reset_password_submit')}
               </button>
               <button
                 type="button"

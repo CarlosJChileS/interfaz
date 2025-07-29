@@ -3,6 +3,7 @@ import ReportConfirmModal from "../components/ReportConfirmModal";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
+import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Reportes.css";
 
 export default function Reportes() {
@@ -104,6 +105,7 @@ export default function Reportes() {
 
   return (
     <div className="reportes-root">
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <header className="reportes-header">
         <button
           className="back-btn"

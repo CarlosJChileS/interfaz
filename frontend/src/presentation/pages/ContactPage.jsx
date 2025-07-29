@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '../components/LanguageToggle';
 import '../styles/ContactPage.css';
 
 export default function ContactPage() {
@@ -38,6 +39,7 @@ export default function ContactPage() {
 
   return (
     <div className="contact-container">
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <h2>{t('contact_title')}</h2>
       <form onSubmit={handleSubmit} className="contact-form">
         <label htmlFor="nombre">{t('contact_name')}</label>

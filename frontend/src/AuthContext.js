@@ -6,17 +6,20 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Cuando la app carga, lee la sesión de Supabase
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsLoggedIn(!!session);
       setUser(session?.user ?? null);
+      setLoading(false);
     });
     // Escucha cambios de sesión
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsLoggedIn(!!session);
       setUser(session?.user ?? null);
+      setLoading(false);
     });
     return () => subscription.unsubscribe();
   }, []);
@@ -38,7 +41,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, user }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, user, loading }}>
       {children}
     </AuthContext.Provider>
   );

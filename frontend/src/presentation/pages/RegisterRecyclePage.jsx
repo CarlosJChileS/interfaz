@@ -5,6 +5,7 @@ import styles from "../styles/RegisterRecyclePage.module.css";
 import ConfirmModal from "../components/ConfirmModal";
 import { supabase } from "../../utils/supabase";
 import { usePuntos } from "../../PuntosContext";
+import LanguageToggle from "../components/LanguageToggle";
 
 const pointsPerMaterial = {
   "Papel y Cartón": 5,
@@ -124,6 +125,7 @@ export default function RegisterRecyclePage() {
 
   return (
     <div className={styles.pageBg}>
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <header className={styles.headerBar}>
         <button type="button" className={styles.backBtn} onClick={() => navigate(-1)} aria-label={t('common_back')}>←</button>
         <span className={styles.linkGreen}>{t('register_recycle_title')}</span>

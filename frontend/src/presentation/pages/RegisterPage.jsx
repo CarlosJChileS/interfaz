@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../utils/supabase';
+import LanguageToggle from '../components/LanguageToggle';
 import styles from '../styles/RegisterPage.module.css';
 
 export default function RegisterPage() {
@@ -86,6 +87,7 @@ export default function RegisterPage() {
   };
   return (
     <div className={styles.container}>
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <div className={styles.leftPanel}>
         <div className={styles.logoCircle}>
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -93,20 +95,20 @@ export default function RegisterPage() {
             <circle cx="12" cy="12" r="7" stroke="#2196f3" strokeWidth="2"/>
           </svg>
         </div>
-        <h2 className={styles.title}>Únete a EcoGestor</h2>
+        <h2 className={styles.title}>{t('register_join_title')}</h2>
         <p className={styles.desc}>
-          Forma parte de la comunidad universitaria más comprometida con el medio ambiente
+          {t('register_join_desc')}
         </p>
         <ul className={styles.benefits}>
-          <li><span>✔</span> Encuentra puntos limpios cercanos</li>
-          <li><span>✔</span> Gana puntos por reciclar</li>
-          <li><span>✔</span> Canjea recompensas exclusivas</li>
-          <li><span>✔</span> Contribuye al impacto ambiental</li>
+          <li><span>✔</span> {t('register_benefit_1')}</li>
+          <li><span>✔</span> {t('register_benefit_2')}</li>
+          <li><span>✔</span> {t('register_benefit_3')}</li>
+          <li><span>✔</span> {t('register_benefit_4')}</li>
         </ul>
       </div>
       <div className={styles.rightPanel}>
         <h2 className={styles.registerTitle}>{t('register_title')}</h2>
-        <p className={styles.registerDesc}>Completa tus datos para comenzar</p>
+        <p className={styles.registerDesc}>{t('register_desc')}</p>
         <form onSubmit={handleSubmit}>
           <div className={styles.doubleInput}>
             <div>
@@ -194,7 +196,7 @@ export default function RegisterPage() {
               )}
             </span>
           </div>
-          <small className={styles.note}>Mínimo 8 caracteres, incluye mayúsculas, minúsculas y números</small>
+          <small className={styles.note}>{t('register_note')}</small>
           {error && (
             <div className={styles.errorMsg} aria-live="assertive">
               {error}
@@ -206,7 +208,7 @@ export default function RegisterPage() {
             </div>
           )}
           <button type="submit" className={styles.registerBtn} disabled={loading}>
-            {loading ? 'Creando...' : t('register_submit')}
+            {loading ? t('register_loading') : t('register_submit')}
           </button>
         </form>
       </div>

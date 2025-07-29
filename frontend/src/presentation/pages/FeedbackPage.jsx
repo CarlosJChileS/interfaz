@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '../components/LanguageToggle';
 
 export default function FeedbackPage() {
   const { t } = useTranslation();
@@ -11,6 +12,7 @@ export default function FeedbackPage() {
   };
   return (
     <div style={{ padding: '20px' }}>
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <h2>{t('feedback_page_title')}</h2>
       <form onSubmit={handleSubmit}>
         <textarea

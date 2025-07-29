@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaRecycle, FaMapMarkerAlt, FaGift } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Bienvenida.css";
 
 export default function Bienvenida() {
   const { t } = useTranslation();
   return (
     <div className="bienvenida-container">
+      <LanguageToggle className="lang-toggle-bottom-left" />
       <div className="bienvenida-hero">
         <FaRecycle className="bienvenida-main-icon" />
         <h1>{t('welcome_title')}</h1>

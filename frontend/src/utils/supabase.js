@@ -6,5 +6,12 @@ const supabaseUrl =
 const supabaseKey =
   process.env.REACT_APP_SUPABASE_ANON_KEY || 'public-anon-key';
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storage: window.localStorage
+  }
+});
         
