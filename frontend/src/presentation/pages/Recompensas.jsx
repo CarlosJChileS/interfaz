@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../utils/supabase";
 import { useProfileContext } from "../../ProfileContext";
-import RedeemModal from "../components/RedeemModal";
+import RewardExchangeForm from "../components/RewardExchangeForm";
 import LanguageToggle from "../components/LanguageToggle";
 import "../styles/Recompensas.css";
 
@@ -106,36 +106,67 @@ export default function Recompensas() {
       ? recompensas
       : recompensas.filter((r) => r.categoria === getOriginalCategory(categoria));
 
-  const handleConfirm = async () => {
+  const handleConfirm = async (additionalData = {}) => {
     // Registrar el canje en supabase
     const { data: { user } } = await supabase.auth.getUser();
     if (!user || !rewardSel) return;
 
-    if (puntos < rewardSel.costo) {
+    // Obtener puntos actuales del usuario para validación en tiempo real
+    const { data: currentProfile } = await supabase
+      .from("perfil")
+      .select("puntos")
+      .eq("auth_id", user.id)
+      .single();
+
+    const currentPoints = currentProfile?.puntos || 0;
+
+    // Validaciones estrictas
+    if (currentPoints < rewardSel.costo) {
       alert(t('rewards_insufficient_points'));
-      return;
-    }
-    if (rewardSel.stock <= 0) {
-      alert(t('rewards_no_stock'));
-      return;
+      throw new Error('Insufficient points');
     }
 
-    // Inserta el canje con auth_id
+    // Validar stock actual
+    const { data: currentReward } = await supabase
+      .from("recompensa")
+      .select("stock")
+      .eq("id", rewardSel.id)
+      .single();
+
+    if (!currentReward || currentReward.stock <= 0) {
+      alert(t('rewards_no_stock'));
+      throw new Error('No stock available');
+    }
+
+    // Validar datos de contacto obligatorios (solo en frontend)
+    if (!additionalData.contactData || 
+        !additionalData.contactData.name?.trim() || 
+        !additionalData.contactData.email?.trim() || 
+        !additionalData.contactData.phone?.trim()) {
+      alert(t('reward_form_error_contact_required'));
+      throw new Error('Contact data required');
+    }
+
+    // Preparar datos del canje SIN los campos que no existen en la BD
+    const canjeData = {
+      auth_id: user.id,
+      recompensa_id: rewardSel.id,
+      estado: "solicitado"
+      // Removido: datos_contacto, metodo_entrega, notas_entrega, codigo
+    };
+
+    // Inserta el canje con auth_id solamente
     const { error: insertError } = await supabase
       .from("canje_recompensa")
-      .insert({
-        auth_id: user.id,
-        recompensa_id: rewardSel.id,
-        estado: "solicitado"
-      });
+      .insert(canjeData);
 
     if (insertError) {
       alert(t('rewards_exchange_error'));
-      return;
+      throw insertError;
     }
 
     // Actualiza puntos del usuario
-    const newPoints = puntos - rewardSel.costo;
+    const newPoints = currentPoints - rewardSel.costo;
     const { error: puntosError } = await supabase
       .from("perfil")
       .update({ puntos: newPoints })
@@ -147,7 +178,7 @@ export default function Recompensas() {
     // Actualiza stock de la recompensa
     const { error: stockError } = await supabase
       .from("recompensa")
-      .update({ stock: rewardSel.stock - 1 })
+      .update({ stock: currentReward.stock - 1 })
       .eq("id", rewardSel.id);
 
     // **NUEVO: Inserta registro en historial**
@@ -163,12 +194,11 @@ export default function Recompensas() {
 
     if (puntosError || stockError) {
       alert(t('rewards_update_error'));
-      return;
+      throw new Error('Error updating points or stock');
     }
 
-    alert(`${t('rewards_success')} ${rewardSel.nombre}`);
-    setRewardSel(null);
-    // Opcional: recargar recompensas y canjes
+    // Notificación de éxito se maneja en el formulario
+    return true;
   };
 
   return (
@@ -205,8 +235,12 @@ export default function Recompensas() {
                   <p className="pop-sub">{r.sub}</p>
                   <p>{r.desc}</p>
                   <span className="puntos">{r.costo} {t('common_points')}</span>
-                  <button className="pop-btn" onClick={() => setRewardSel(r)}>
-                    {t('rewards_redeem')}
+                  <button 
+                    className={`pop-btn ${puntos < r.costo ? 'disabled' : ''}`} 
+                    onClick={() => puntos >= r.costo ? setRewardSel(r) : alert(t('rewards_insufficient_points'))}
+                    disabled={puntos < r.costo}
+                  >
+                    {puntos < r.costo ? t('rewards_insufficient_points') : t('rewards_redeem')}
                   </button>
                 </div>
               );
@@ -231,7 +265,7 @@ export default function Recompensas() {
         </div>
       </div>
       {rewardSel && (
-        <RedeemModal
+        <RewardExchangeForm
           reward={rewardSel}
           onCancel={() => setRewardSel(null)}
           onConfirm={handleConfirm}
