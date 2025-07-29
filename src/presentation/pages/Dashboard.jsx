@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   FaRecycle,
   FaGift,
@@ -7,17 +7,23 @@ import {
   FaQuestionCircle,
   FaExclamationTriangle,
   FaClock,
+  FaPlus,
+  FaEye,
 } from "react-icons/fa";
 import { supabase } from "../../utils/supabase";
 import Navbar from "../components/Navbar";
+import RewardSuggestionForm from "../components/RewardSuggestionForm";
+import SuggestionsDrawer from "../components/SuggestionsDrawer";
 import { useTranslation } from "react-i18next";
 import "../styles/Dashboard.css";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const [recentActivities, setRecentActivities] = useState([]);
   const [userName, setUserName] = useState("");
+  const [showSuggestionForm, setShowSuggestionForm] = useState(false);
+  const [showSuggestionsDrawer, setShowSuggestionsDrawer] = useState(false);
+  const [suggestionsCount, setSuggestionsCount] = useState(0);
 
   useEffect(() => {
     async function loadData() {
@@ -65,7 +71,15 @@ export default function Dashboard() {
         setRecentActivities(formatted);
       }
     }
+    
+    // Cargar conteo de sugerencias
+    function loadSuggestionsCount() {
+      const suggestions = JSON.parse(localStorage.getItem('rewardSuggestions') || '[]');
+      setSuggestionsCount(suggestions.length);
+    }
+    
     loadData();
+    loadSuggestionsCount();
   }, [t]);
 
   return (
@@ -132,6 +146,31 @@ export default function Dashboard() {
               <FaExclamationTriangle /> {t('dashboard_reports_btn')}
             </Link>
           </div>
+          <div className="dashboard-panel suggestions">
+            <div className="panel-header">
+              <span>{t('dashboard_suggestions')}</span>
+              {suggestionsCount > 0 && (
+                <span className="badge purple">{suggestionsCount}</span>
+              )}
+            </div>
+            <p>¡Comparte tus ideas! Sugiere nuevas recompensas que te gustaría ver disponibles.</p>
+            <div className="suggestions-actions">
+              <button 
+                className="purple-btn suggestion-btn"
+                onClick={() => setShowSuggestionForm(true)}
+              >
+                <FaPlus /> {t('dashboard_suggest_reward')}
+              </button>
+              {suggestionsCount > 0 && (
+                <button 
+                  className="outline-btn suggestion-btn"
+                  onClick={() => setShowSuggestionsDrawer(true)}
+                >
+                  <FaEye /> {t('dashboard_view_suggestions')}
+                </button>
+              )}
+            </div>
+          </div>
           <div className="dashboard-panel upcoming">
             <div className="panel-header">
               <span>{t('dashboard_coming_soon')}</span>
@@ -183,6 +222,22 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      
+      {/* Modales y Drawers */}
+      <RewardSuggestionForm 
+        isOpen={showSuggestionForm}
+        onClose={() => {
+          setShowSuggestionForm(false);
+          // Actualizar conteo después de cerrar el formulario
+          const suggestions = JSON.parse(localStorage.getItem('rewardSuggestions') || '[]');
+          setSuggestionsCount(suggestions.length);
+        }}
+      />
+      
+      <SuggestionsDrawer 
+        isOpen={showSuggestionsDrawer}
+        onClose={() => setShowSuggestionsDrawer(false)}
+      />
     </div>
   );
 }
